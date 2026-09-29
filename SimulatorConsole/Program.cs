@@ -116,6 +116,7 @@ namespace SimulatorConsole
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 planList.AddFlightPlan(plan_a);
                 planList.AddFlightPlan(plan_b);
+                double dist;
 
 
                 int i = 0;                                                                  //  Contador con valor inicial 0
@@ -124,7 +125,9 @@ namespace SimulatorConsole
                 while(i<ciclos)                                                             //  Hacemos un bucle del tamaño de ciclos
                 {
                     planList.Mover(10);                                                     //  Movemos el avion a 10 u de tiempo
+                    dist = plan_a.Distance(plan_a);
                     planList.EscribeConsola();                                              //  Escribimos sus datos en consola
+                    Console.WriteLine(dist);
                     if (planList.GetFlightPlan(0).Conflicto(plan_b, distanciaSeguridad))    //  Si los aviones rompen la dist de seguriadad
                         Console.WriteLine("Conflicto!");                                    //  Informamos del conflicto
                     i++;                                                                    //  Actualizamos el contador

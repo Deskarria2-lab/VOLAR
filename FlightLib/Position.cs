@@ -11,16 +11,18 @@ namespace FlightLib
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public class Position
     {
-        // Atributos
+        //////////////////////////////////////////////////////////////    Atributos   /////////////////////////////////////////////////////////////////////
         double x;                                                                   //  coordenada X (2D), formato double para mas precision
         double y;                                                                   //  coordenada Y (2D), formato double para mas precision
 
+        //////////////////////////////////////////////////////////////    Constructor   ///////////////////////////////////////////////////////////////////
         public Position(double x, double y)                                         //  Creamos el constructor en funcion de variables x e y
         {
             this.x = x;                                                             //  La variable x se le asigna el input x
             this.y = y;                                                             //  La variable y se le asigna el input y
         }
 
+        ///////////////////////////////////////////////////////////     Metodos doubles   /////////////////////////////////////////////////////////////////
         public double GetX(){ return x; }                                           //  Creamos el Get de la variable x
 
         public double GetY(){ return y; }                                           //  Creamos el Get de la variable y
