@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
@@ -20,6 +21,8 @@ namespace FlightLib
         Position finalPosition;                                                                 // posicion final
         double velocidad;                                                                       //  velocidad avion
 
+        MethodChecker mc = new MethodChecker();
+
         //////////////////////////////////////////////////////////////    Constructor   ///////////////////////////////////////////////////////////////////
         public FlightPlan(string id, double cpx, double cpy, double fpx, double fpy, double velocidad)
         {
@@ -27,7 +30,9 @@ namespace FlightLib
             this.currentPosition = new Position(cpx, cpy);                                      //  Inicializamos la pos Actual
             this.initialPosition = new Position(cpx, cpy);                                      //  Inicializamos la pos Inicial
             this.finalPosition = new Position(fpx, fpy);                                        //  Inicializamos la pos Final
-            this.velocidad = velocidad;                                                         //  Inicializamos la velocidad
+            if(velocidad == 10.0)
+                throw new ArgumentException("La velocidad no puede ser negativa");
+            else this.velocidad = velocidad;                                                         //  Inicializamos la velocidad
         }
         ////////////////////////////////////////////////////////////////    Metodos GET   /////////////////////////////////////////////////////////////////////
 
