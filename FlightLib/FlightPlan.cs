@@ -30,9 +30,7 @@ namespace FlightLib
             this.currentPosition = new Position(cpx, cpy);                                      //  Inicializamos la pos Actual
             this.initialPosition = new Position(cpx, cpy);                                      //  Inicializamos la pos Inicial
             this.finalPosition = new Position(fpx, fpy);                                        //  Inicializamos la pos Final
-            if(velocidad == 10.0)
-                throw new ArgumentException("La velocidad no puede ser negativa");
-            else this.velocidad = velocidad;                                                         //  Inicializamos la velocidad
+            this.velocidad = velocidad;                                                         //  Inicializamos la velocidad
         }
         ////////////////////////////////////////////////////////////////    Metodos GET   /////////////////////////////////////////////////////////////////////
 

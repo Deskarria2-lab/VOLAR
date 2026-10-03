@@ -14,12 +14,13 @@ namespace Pruebas_GUI_Volar
     public partial class Datos_de_Vuelo : Form
     {
         int cont;
-        public Datos_de_Vuelo()
+        Options menu;
+        public Datos_de_Vuelo(Options menu)
         {
             InitializeComponent();
             cont = 0;
+            this.menu = menu;
         }
-
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
             if (e.Node.Text == "Vuelo A")
@@ -34,17 +35,9 @@ namespace Pruebas_GUI_Volar
             }
             else cont = 0;
         }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void saveButton_Click(object sender, EventArgs e)
         {
-            if (cont == 1)
-            {
-                FlightPlan vueloA = new FlightPlan
+            FlightPlan plan = new FlightPlan
                     (
                     IdBox.Text,
                     Convert.ToDouble(VelBox.Text),
@@ -53,20 +46,15 @@ namespace Pruebas_GUI_Volar
                     Convert.ToDouble(XfBox.Text),
                     Convert.ToDouble(YfBox.Text)
                     );
-                tituloVuelos.Text = vueloA.GetVelocidad().ToString();
+            if (cont == 1)
+            {
+                menu.vueloA = plan;
+                //tituloVuelos.Text = "DATOS GUARDADOS:";
             }
             else if (cont == 2)
             {
-                FlightPlan vueloB = new FlightPlan
-                    (
-                    IdBox.Text,
-                    Convert.ToDouble(VelBox.Text),
-                    Convert.ToDouble(XoBox.Text),
-                    Convert.ToDouble(YoBox.Text),
-                    Convert.ToDouble(XfBox.Text),
-                    Convert.ToDouble(YfBox.Text)
-                    );
-                tituloVuelos.Text = vueloB.Getid();
+                menu.vueloB = plan;
+                //tituloVuelos.Text = "DATOS GUARDADOS:";
             }
         }
     }

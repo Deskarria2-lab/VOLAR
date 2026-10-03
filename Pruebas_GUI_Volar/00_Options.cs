@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FlightLib;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,36 +11,39 @@ using System.Windows.Forms;
 
 namespace Pruebas_GUI_Volar
 {
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////    Clase para gestionar el menu de Opciones   ////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public partial class Options : Form
     {
+        FlightPlanList planList = new FlightPlanList();
+        public FlightPlan vueloA;
+        public FlightPlan vueloB;
+        public double dSeg;
+        public double tCicl;
+    //////////////////////////////////////////////////////////////    Constructor   ///////////////////////////////////////////////////////////////////
         public Options()
         {
             InitializeComponent();
         }
+    ////////////////////////////////////////////////////////////     Metodos voids   ////////////////////////////////////////////////////////////////////////
 
-        private void datosDeVueloToolStripMenuItem_DoubleClick(object sender, EventArgs e)
+        private void datosDeVueloToolStripMenuItem_Click(object sender, EventArgs e)                            //  Al Realizar Click en el boton Datos de vuelo
         {
-            Datos_de_Vuelo Dv = new Datos_de_Vuelo();
-            Dv.Show();
-
+            Datos_de_Vuelo Dv = new Datos_de_Vuelo(this);                                                           //  Creamos el objeto Datos de vuelo
+            Dv.Show(this);                                                                                      //  Abrimos el Formulario Datos de Vuelo
         }
 
-        private void datosDeVueloToolStripMenuItem_Click(object sender, EventArgs e)
+        private void dSegYTCicloToolStripMenuItem_Click(object sender, EventArgs e)                            //  Al Realizar Click en el boton definir ciclos
         {
-            Datos_de_Vuelo Dv = new Datos_de_Vuelo();
-            Dv.Show(this);
+            DSeg_TCiclo Dt = new DSeg_TCiclo();                                                                 //  Creamos el objeto para definir ciclos
+            Dt.Show(this);                                                                                      //  Abrimos el Formulario definir ciclos
         }
 
-        private void dSegYTCicloToolStripMenuItem_Click(object sender, EventArgs e)
+        private void espacioAereoToolStripMenuItem_Click(object sender, EventArgs e)                            //  Al Realizar Click en el boton Espacio Aereo
         {
-            DSeg_TCiclo Dt = new DSeg_TCiclo();
-            Dt.Show(this);
-        }
-
-        private void espacioAereoToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _03_Espacio_Aereo Ea = new _03_Espacio_Aereo();
-            Ea.Show(this);
+            _03_Espacio_Aereo Ea = new _03_Espacio_Aereo();                                                     //  Creamos el objeto Espacio Aereo
+            Ea.Show(this);                                                                                      //  Abrimos el Formulario Espacio Aereo
         }
     }
 }
