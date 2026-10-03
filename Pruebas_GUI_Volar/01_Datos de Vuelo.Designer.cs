@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Vuelo A");
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Vuelo B");
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Vuelo A");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Vuelo B");
             this.label1 = new System.Windows.Forms.Label();
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.XoBox = new System.Windows.Forms.TextBox();
@@ -60,7 +60,7 @@
             this.label1.Location = new System.Drawing.Point(1178, 208);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(0, 25);
+            this.label1.Size = new System.Drawing.Size(0, 20);
             this.label1.TabIndex = 0;
             // 
             // treeView1
@@ -72,14 +72,14 @@
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.treeView1.Name = "treeView1";
-            treeNode3.Name = "flight_A";
-            treeNode3.Text = "Vuelo A";
-            treeNode4.Name = "flight_B";
-            treeNode4.Text = "Vuelo B";
+            treeNode1.Name = "flight_A";
+            treeNode1.Text = "Vuelo A";
+            treeNode2.Name = "flight_B";
+            treeNode2.Text = "Vuelo B";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode3,
-            treeNode4});
-            this.treeView1.Size = new System.Drawing.Size(216, 579);
+            treeNode1,
+            treeNode2});
+            this.treeView1.Size = new System.Drawing.Size(210, 578);
             this.treeView1.TabIndex = 2;
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
             // 
@@ -157,7 +157,7 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(330, 460);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(0, 25);
+            this.label5.Size = new System.Drawing.Size(0, 20);
             this.label5.TabIndex = 12;
             // 
             // label6
@@ -165,7 +165,7 @@
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(572, 299);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(0, 25);
+            this.label6.Size = new System.Drawing.Size(0, 20);
             this.label6.TabIndex = 13;
             // 
             // label7
@@ -173,7 +173,7 @@
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(572, 460);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(0, 25);
+            this.label7.Size = new System.Drawing.Size(0, 20);
             this.label7.TabIndex = 14;
             // 
             // label8
@@ -199,7 +199,7 @@
             this.label10.AutoSize = true;
             this.label10.Location = new System.Drawing.Point(513, 35);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(0, 25);
+            this.label10.Size = new System.Drawing.Size(0, 20);
             this.label10.TabIndex = 17;
             // 
             // label11
@@ -216,7 +216,7 @@
             this.label12.AutoSize = true;
             this.label12.Location = new System.Drawing.Point(600, 299);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(30, 25);
+            this.label12.Size = new System.Drawing.Size(24, 20);
             this.label12.TabIndex = 19;
             this.label12.Text = "Y:";
             // 
@@ -225,7 +225,7 @@
             this.label13.AutoSize = true;
             this.label13.Location = new System.Drawing.Point(600, 460);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(30, 25);
+            this.label13.Size = new System.Drawing.Size(24, 20);
             this.label13.TabIndex = 20;
             this.label13.Text = "Y:";
             // 
@@ -234,7 +234,7 @@
             this.tituloVuelos.AutoSize = true;
             this.tituloVuelos.Location = new System.Drawing.Point(492, 35);
             this.tituloVuelos.Name = "tituloVuelos";
-            this.tituloVuelos.Size = new System.Drawing.Size(0, 25);
+            this.tituloVuelos.Size = new System.Drawing.Size(0, 20);
             this.tituloVuelos.TabIndex = 21;
             // 
             // saveButton
@@ -252,7 +252,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.ClientSize = new System.Drawing.Size(929, 579);
+            this.ClientSize = new System.Drawing.Size(930, 578);
             this.Controls.Add(this.saveButton);
             this.Controls.Add(this.tituloVuelos);
             this.Controls.Add(this.label13);
@@ -276,6 +276,7 @@
             this.Controls.Add(this.treeView1);
             this.Controls.Add(this.label1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.Name = "Datos_de_Vuelo";
             this.Text = "Datos_de_Vuelo";

@@ -36,7 +36,7 @@ namespace Pruebas_GUI_Volar
 
         private void dSegYTCicloToolStripMenuItem_Click(object sender, EventArgs e)                            //  Al Realizar Click en el boton definir ciclos
         {
-            DSeg_TCiclo Dt = new DSeg_TCiclo();                                                                 //  Creamos el objeto para definir ciclos
+            DSeg_TCiclo Dt = new DSeg_TCiclo(this);                                                             //  Creamos el objeto para definir ciclos
             Dt.Show(this);                                                                                      //  Abrimos el Formulario definir ciclos
         }
 
