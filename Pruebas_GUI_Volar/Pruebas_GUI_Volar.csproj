@@ -46,51 +46,51 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="01_Datos de Vuelo.cs">
+    <Compile Include="Forms\01_Datos de Vuelo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="01_Datos de Vuelo.Designer.cs">
+    <Compile Include="Forms\01_Datos de Vuelo.Designer.cs">
       <DependentUpon>01_Datos de Vuelo.cs</DependentUpon>
     </Compile>
-    <Compile Include="00_Options.cs">
+    <Compile Include="Forms\00_Options.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="00_Options.Designer.cs">
+    <Compile Include="Forms\00_Options.Designer.cs">
       <DependentUpon>00_Options.cs</DependentUpon>
     </Compile>
-    <Compile Include="02_DSeg_TCiclo.cs">
+    <Compile Include="Forms\02_DSeg_TCiclo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="02_DSeg_TCiclo.Designer.cs">
+    <Compile Include="Forms\02_DSeg_TCiclo.Designer.cs">
       <DependentUpon>02_DSeg_TCiclo.cs</DependentUpon>
     </Compile>
-    <Compile Include="03_Espacio_Aereo.cs">
+    <Compile Include="Forms\03_Espacio_Aereo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="03_Espacio_Aereo.Designer.cs">
+    <Compile Include="Forms\03_Espacio_Aereo.Designer.cs">
       <DependentUpon>03_Espacio_Aereo.cs</DependentUpon>
     </Compile>
-    <Compile Include="04_Avisos.cs">
+    <Compile Include="Forms\04_Avisos.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="04_Avisos.Designer.cs">
+    <Compile Include="Forms\04_Avisos.Designer.cs">
       <DependentUpon>04_Avisos.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="00_Options.resx">
+    <EmbeddedResource Include="Forms\00_Options.resx">
       <DependentUpon>00_Options.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="01_Datos de Vuelo.resx">
+    <EmbeddedResource Include="Forms\01_Datos de Vuelo.resx">
       <DependentUpon>01_Datos de Vuelo.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="02_DSeg_TCiclo.resx">
+    <EmbeddedResource Include="Forms\02_DSeg_TCiclo.resx">
       <DependentUpon>02_DSeg_TCiclo.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="03_Espacio_Aereo.resx">
+    <EmbeddedResource Include="Forms\03_Espacio_Aereo.resx">
       <DependentUpon>03_Espacio_Aereo.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="04_Avisos.resx">
+    <EmbeddedResource Include="Forms\04_Avisos.resx">
       <DependentUpon>04_Avisos.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">

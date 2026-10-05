@@ -13,7 +13,6 @@ namespace Pruebas_GUI_Volar
     public partial class _03_Espacio_Aereo : Form
     {
         Options menu;
-        PictureBox[] vuelos; 
         public _03_Espacio_Aereo(Options menu)
         {
             InitializeComponent();
