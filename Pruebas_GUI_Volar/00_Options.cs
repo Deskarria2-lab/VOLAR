@@ -25,6 +25,8 @@ namespace Pruebas_GUI_Volar
         public Options()
         {
             InitializeComponent();
+            planList.AddFlightPlan(vueloA);
+            planList.AddFlightPlan(vueloB);
         }
     ////////////////////////////////////////////////////////////     Metodos voids   ////////////////////////////////////////////////////////////////////////
 
@@ -42,7 +44,7 @@ namespace Pruebas_GUI_Volar
 
         private void espacioAereoToolStripMenuItem_Click(object sender, EventArgs e)                            //  Al Realizar Click en el boton Espacio Aereo
         {
-            _03_Espacio_Aereo Ea = new _03_Espacio_Aereo();                                                     //  Creamos el objeto Espacio Aereo
+            _03_Espacio_Aereo Ea = new _03_Espacio_Aereo(this);                                                 //  Creamos el objeto Espacio Aereo
             Ea.Show(this);                                                                                      //  Abrimos el Formulario Espacio Aereo
         }
     }

@@ -10,14 +10,12 @@ using System.Windows.Forms;
 
 namespace Pruebas_GUI_Volar
 {
-    public partial class _03_Espacio_Aereo : Form
+    public partial class AvisosBox : Form
     {
-        Options menu;
-        PictureBox[] vuelos; 
-        public _03_Espacio_Aereo(Options menu)
+        public AvisosBox(string mensaje)
         {
             InitializeComponent();
-            this.menu = menu;
+            av_text.Text = mensaje;
         }
     }
 }
