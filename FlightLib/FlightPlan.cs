@@ -114,7 +114,7 @@ namespace FlightLib
         }
         public void Restart()
         {
-            SetinitialPosition(currentPosition);
+            SetcurrentPosition(initialPosition);
         }
         public void EscribeConsola()                                                            //  Metodo para escribir en pantalla todos los datos
         {

@@ -83,24 +83,24 @@ namespace Pruebas_GUI_Volar
                     {                                                                   //
                         menu.vueloA = new FlightPlan                                    //  Le damos los datos pertinentes al vueloA
                             (id,                                                        //  Su ID
-                            vel,                                                        //  Su Vel
-                            xo,                                                         //  Su xo
-                            yo,                                                         //  Su yo
-                            xf,                                                         //  Su xf
-                            yf);                                                        //  Su yf
+                            xo,                                                         //  Su Vel
+                            yo,                                                         //  Su xo
+                            xf,                                                         //  Su yo
+                            yf,                                                         //  Su xf
+                            vel);                                                       //  Su yf
                         av = new AvisosBox("El Vuelo A esta creado!");                  //  Crea la ventana de avisando del vuelo creado
                         av.Show(this);                                                  //  Abre la ventana de avisos
                     }                                                                   //
                     else if (cont == 2)                                                 //  Si el contador esta en 2
                     {                                                                   //
-                        menu.vueloB = new FlightPlan                                    //  Le damos los datos pertinentes al vueloB
+                        menu.vueloB = new FlightPlan                                    //  Le damos los datos pertinentes al vueloA
                             (id,                                                        //  Su ID
-                            vel,                                                        //  Su Vel
-                            xo,                                                         //  Su xo
-                            yo,                                                         //  Su yo
-                            xf,                                                         //  Su xf
-                            yf);                                                        //  Su yf
-                        av = new AvisosBox("El Vuelo B esta creado!");                  //  Crea la ventana avisando del vuelo creado
+                            xo,                                                         //  Su Vel
+                            yo,                                                         //  Su xo
+                            xf,                                                         //  Su yo
+                            yf,                                                         //  Su xf
+                            vel);                                                       //  Su yf
+                        av = new AvisosBox("El Vuelo B esta creado!");                  //  Crea la ventana de avisando del vuelo creado
                         av.Show(this);                                                  //  Abre la ventana de avisos
                     }                                                                   //
                 }                                                                       //
