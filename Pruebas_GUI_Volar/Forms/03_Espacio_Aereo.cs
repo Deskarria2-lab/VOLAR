@@ -1,4 +1,5 @@
 ﻿using FlightLib;
+using Pruebas_GUI_Volar.Forms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -118,6 +119,21 @@ namespace Pruebas_GUI_Volar
                     }
                 }
             }
+        }
+
+        private void label11_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            FlightPlan primerAvio = menu.planList.GetFlightPlan(0);
+            FlightPlan segonAvio = menu.planList.GetFlightPlan(1);
+
+            // Obrim el formulari passant-li els dos avions reals
+            Form_TablaVuelos ventanaTabla = new Form_TablaVuelos(primerAvio, segonAvio);
+            ventanaTabla.ShowDialog();
         }
     }
 }
