@@ -203,18 +203,7 @@ namespace Pruebas_GUI_Volar
                 }
             }
         }
-
-        private void IniciarAutoSim_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label11_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button1_Click(object sender, EventArgs e)
+        private void DataGridBut_Click(object sender, EventArgs e)
         {
             FlightPlan primerAvio = menu.planList.GetFlightPlan(0);
             FlightPlan segonAvio = menu.planList.GetFlightPlan(1);
