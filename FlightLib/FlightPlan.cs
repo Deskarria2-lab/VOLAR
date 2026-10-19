@@ -95,7 +95,7 @@ namespace FlightLib
                 (finalPosition.GetX() - currentPosition.GetX())                                 //  Cordenada X
                 * (finalPosition.GetX() - currentPosition.GetX())                               //  Elevamos al cuadrado
                 + (finalPosition.GetY() - currentPosition.GetY())                               //  Cordenada Y
-                * (finalPosition.GetY() - currentPosition.GetY())                              //  Elevamos al cuadrado
+                * (finalPosition.GetY() - currentPosition.GetY())                               // Elevamos al cuadrado
                 );
 
             double coseno = (finalPosition.GetX() - currentPosition.GetX()) / hipotenusa;       //  Calculamos el Coseno
@@ -134,3 +134,4 @@ namespace FlightLib
         }
     }
 }
+
