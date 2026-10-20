@@ -113,5 +113,15 @@ namespace Pruebas_GUI_Volar
                 av.Show(this);                                                          //  Muestra esta ventana
             }                                                                           
         }
+
+        private void XoBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void YfBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
