@@ -25,6 +25,11 @@ namespace FlightLib
             this.n_planes = 0;                                                              //  El numero inicial de aviones almacenados es 0
         }
 
+        public int GetLenght() 
+        {
+            return v_lenght;
+        }
+
         //////////////////////////////////////////////////////////     Metodos Integers   ////////////////////////////////////////////////////////////////////////
         public int AddFlightPlan(FlightPlan p)                                              //  Creamos la funcion añadari aviones al plan de vuelo       
         {
