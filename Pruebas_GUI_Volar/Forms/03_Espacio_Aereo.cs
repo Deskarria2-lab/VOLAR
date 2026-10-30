@@ -27,7 +27,7 @@ namespace Pruebas_GUI_Volar
             this.menu = menu;
             this.avion_40 = Properties.Resources.avion_40;
 
-            // Connectem el amb el mètode automàtic.
+            // Connectem amb el mètode automàtic.
             simulacionTimer.Tick += SimulacionTimer_Tick;
 
             // Connectem els botons amb els mètodes.
@@ -135,7 +135,7 @@ namespace Pruebas_GUI_Volar
                         ((int)plane.GetcurrentPosition().GetX(),
                          (int)plane.GetcurrentPosition().GetY()
                         );
-                    float radio = (float)menu.dSeg;
+                    float radio = ((float)menu.dSeg)/2;
 
                     g.DrawEllipse(rojo, centro.X - radio, centro.Y - radio, 2 * radio, 2 * radio);
                     g.DrawLine(rojo, inicio, final);
@@ -211,6 +211,29 @@ namespace Pruebas_GUI_Volar
             // Obrim el formulari passant-li els dos avions reals
             Form_TablaVuelos ventanaTabla = new Form_TablaVuelos(primerAvio, segonAvio);
             ventanaTabla.ShowDialog();
+        }
+
+        private void detectarConflicto_Click(object sender, EventArgs e)
+        {
+            {
+                // Creem l'objecte detector passant-li la llista i la distància de seguretat
+                ConflictDetector detector = new ConflictDetector(menu.planList, menu.dSeg);
+
+                // Cridem al mètode ConflictosDetectados(), que retorna una llista de textos amb els IDs
+                List<string> llistaConfliges = detector.ConflictosDetectados();
+
+                // Comprovem si la llista té elements (si conté algun conflicte)
+                if (llistaConfliges.Count > 0)
+                {
+                    string avions = string.Join(", ", llistaConfliges);
+                    finestraConflictes finestraConflictes = new finestraConflictes();
+                    finestraConflictes.ShowDialog();
+                }
+                else
+                {
+                    MessageBox.Show("No hi ha cap conflicte entre els avions");
+                }
+            }
         }
     }
 }

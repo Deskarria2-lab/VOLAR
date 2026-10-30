@@ -52,6 +52,12 @@
     <Compile Include="AlertaConflicto.Designer.cs">
       <DependentUpon>AlertaConflicto.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormConflictes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormConflictes.Designer.cs">
+      <DependentUpon>FormConflictes.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\05_Datos_Avion.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -98,6 +104,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="AlertaConflicto.resx">
       <DependentUpon>AlertaConflicto.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormConflictes.resx">
+      <DependentUpon>FormConflictes.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\05_Datos_Avion.resx">
       <DependentUpon>05_Datos_Avion.cs</DependentUpon>
