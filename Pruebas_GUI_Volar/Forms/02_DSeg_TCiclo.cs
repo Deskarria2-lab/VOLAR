@@ -28,6 +28,8 @@ namespace Pruebas_GUI_Volar
         {                                                                               //
             InitializeComponent();                                                      //  Iniciamos los componentes, esto siempre esta;
             this.menu = menu;                                                           //  Inicializamos el menu;
+            DistBox.Text = "50";
+            TimeBox.Text = "5";
         }                                                                               //
                                                                                         //
         ////////////////////////////////////////////////////////////     Metodos voids  /////////////////////////////////////////////////////////////////////////}

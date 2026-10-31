@@ -46,17 +46,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AlertaConflicto.cs">
+    <Compile Include="07_FormConflictes.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AlertaConflicto.Designer.cs">
-      <DependentUpon>AlertaConflicto.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FormConflictes.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormConflictes.Designer.cs">
-      <DependentUpon>FormConflictes.cs</DependentUpon>
+    <Compile Include="07_FormConflictes.Designer.cs">
+      <DependentUpon>07_FormConflictes.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\05_Datos_Avion.cs">
       <SubType>Form</SubType>
@@ -94,19 +88,16 @@
     <Compile Include="Forms\04_Avisos.Designer.cs">
       <DependentUpon>04_Avisos.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Form_TablaVuelos.cs">
+    <Compile Include="Forms\06_Form_TablaVuelos.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Form_TablaVuelos.Designer.cs">
-      <DependentUpon>Form_TablaVuelos.cs</DependentUpon>
+    <Compile Include="Forms\06_Form_TablaVuelos.Designer.cs">
+      <DependentUpon>06_Form_TablaVuelos.cs</DependentUpon>
     </Compile>
     <Compile Include="Resources\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="AlertaConflicto.resx">
-      <DependentUpon>AlertaConflicto.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormConflictes.resx">
-      <DependentUpon>FormConflictes.cs</DependentUpon>
+    <EmbeddedResource Include="07_FormConflictes.resx">
+      <DependentUpon>07_FormConflictes.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\05_Datos_Avion.resx">
       <DependentUpon>05_Datos_Avion.cs</DependentUpon>
@@ -126,8 +117,8 @@
     <EmbeddedResource Include="Forms\04_Avisos.resx">
       <DependentUpon>04_Avisos.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Form_TablaVuelos.resx">
-      <DependentUpon>Form_TablaVuelos.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\06_Form_TablaVuelos.resx">
+      <DependentUpon>06_Form_TablaVuelos.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -18,14 +18,20 @@ namespace Pruebas_GUI_Volar
         private FlightPlanList llistaVols;
         private double distanciaSeguretat;
 
-        public finestraConflictes()
+        public finestraConflictes(FlightPlanList lista, double dSeg, string avions)
         {
             InitializeComponent();
+
+            // Guardem les dades als atributs
+            llistaVols = lista;
+            distanciaSeguretat = dSeg;
+
+            LabelConflicte.Text = "Hi ha conflicte entre els avions: " + avions + ". Vols solucionar-lo?";
         }
 
         private void FormConflictes_Load(object sender, EventArgs e)
         {
-            LabelConflicte.Text = "S'ha detectat conflicte entre dos avions. Dessitga arrelar-lo?";
+            
         }
 
         private void solucionarConflicte_Click(object sender, EventArgs e)

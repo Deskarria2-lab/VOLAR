@@ -36,11 +36,11 @@
             // LabelConflicte
             // 
             this.LabelConflicte.AutoSize = true;
-            this.LabelConflicte.Location = new System.Drawing.Point(140, 62);
+            this.LabelConflicte.Location = new System.Drawing.Point(81, 62);
             this.LabelConflicte.Name = "LabelConflicte";
-            this.LabelConflicte.Size = new System.Drawing.Size(114, 20);
+            this.LabelConflicte.Size = new System.Drawing.Size(327, 20);
             this.LabelConflicte.TabIndex = 0;
-            this.LabelConflicte.Text = "LabelConflicte ";
+            this.LabelConflicte.Text = "S\'ha detectat un conflicte. Vols soucionar-lo?";
             // 
             // solucionarConflicte
             // 

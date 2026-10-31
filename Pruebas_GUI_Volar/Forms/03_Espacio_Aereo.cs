@@ -70,6 +70,7 @@ namespace Pruebas_GUI_Volar
             }
             EspAereo.Invalidate();
             ComprovarConflictes();
+            ComprovarDestino();
         }
 
         // Executa automàticament cada 500 ms.
@@ -94,6 +95,7 @@ namespace Pruebas_GUI_Volar
             // Actualitzem el dibuix per mostrar les noves posicions dels avions.
             EspAereo.Invalidate();
             ComprovarConflictes();
+            ComprovarDestino();
         }
 
         //Inicia la simulació automàtica quan premem el botó
@@ -135,7 +137,7 @@ namespace Pruebas_GUI_Volar
                         ((int)plane.GetcurrentPosition().GetX(),
                          (int)plane.GetcurrentPosition().GetY()
                         );
-                    float radio = ((float)menu.dSeg)/2;
+                    float radio = ((float)menu.dSeg) / 2;
 
                     g.DrawEllipse(rojo, centro.X - radio, centro.Y - radio, 2 * radio, 2 * radio);
                     g.DrawLine(rojo, inicio, final);
@@ -163,10 +165,9 @@ namespace Pruebas_GUI_Volar
                         {
                             if (avio1.Conflicto(avio2, menu.dSeg)) // Utilitzem el metode Conflicto de la classe FlightPlan (Fase 1)
                             {
+                                conflictoDetectado = true;
                                 simulacionTimer.Stop(); // Aturem la simulació automàtica si hi ha un conflicte
-
-                                AlertaConflicto alerta = new AlertaConflicto(); 
-                                alerta.ShowDialog(this); // Mostrem el missatge d'alerta de conflicte
+                                MessageBox.Show("Conflicte detectat entre els avions " + avio1.Getid() + " i " + avio2.Getid());
 
                                 return;
                             }
@@ -215,24 +216,55 @@ namespace Pruebas_GUI_Volar
 
         private void detectarConflicto_Click(object sender, EventArgs e)
         {
+
+            // Creem l'objecte detector passant-li la llista i la distància de seguretat
+            ConflictDetector detector = new ConflictDetector(menu.planList, menu.dSeg);
+
+            // Cridem al mètode ConflictosDetectados(), que retorna una llista de textos amb els IDs
+            List<string> llistaConfliges = detector.ConflictosDetectados();
+
+            // Comprovem si la llista té elements (si conté algun conflicte)
+            if (llistaConfliges.Count > 0)
             {
-                // Creem l'objecte detector passant-li la llista i la distància de seguretat
-                ConflictDetector detector = new ConflictDetector(menu.planList, menu.dSeg);
+                string avions = string.Join(", ", llistaConfliges);
+                finestraConflictes finestraConflictes = new finestraConflictes(menu.planList, menu.dSeg, avions);
+                finestraConflictes.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("No hi ha cap conflicte entre els avions");
+            }
+        }
 
-                // Cridem al mètode ConflictosDetectados(), que retorna una llista de textos amb els IDs
-                List<string> llistaConfliges = detector.ConflictosDetectados();
+        private void ComprovarDestino()
+        {
+            int totalAvions = 0;
+            int avionsArribats = 0;
 
-                // Comprovem si la llista té elements (si conté algun conflicte)
-                if (llistaConfliges.Count > 0)
+            for (int i = 0; i < 10; i++)
+            {
+                FlightPlan avio = menu.planList.GetFlightPlan(i);
+                if (avio != null)
                 {
-                    string avions = string.Join(", ", llistaConfliges);
-                    finestraConflictes finestraConflictes = new finestraConflictes();
-                    finestraConflictes.ShowDialog();
+                    totalAvions++;
+
+                    // Obtenim les coordenades actuals i finals
+                    double xActual = avio.GetcurrentPosition().GetX();
+                    double yActual = avio.GetcurrentPosition().GetY();
+                    double xFinal = avio.GetfinalPosition().GetX();
+                    double yFinal = avio.GetfinalPosition().GetY();
+
+                    if (xActual == xFinal && yActual == yFinal)
+                    {
+                        avionsArribats++;
+                    }
                 }
-                else
-                {
-                    MessageBox.Show("No hi ha cap conflicte entre els avions");
-                }
+            }
+
+            if (avionsArribats == totalAvions)
+            {
+                simulacionTimer.Stop();
+                MessageBox.Show("Tot els avions han arrbat a la seva destincaió");
             }
         }
     }
