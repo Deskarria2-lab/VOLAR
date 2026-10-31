@@ -55,6 +55,7 @@ namespace Pruebas_GUI_Volar
                 }
             }
             EspAereo.Invalidate();
+            detectarConflicto(sender, e); // Comprovem si hi ha conflictes després de reiniciar els avions
         }
 
         private void CicloBut_Click(object sender, EventArgs e)
@@ -214,7 +215,7 @@ namespace Pruebas_GUI_Volar
             ventanaTabla.ShowDialog();
         }
 
-        private void detectarConflicto_Click(object sender, EventArgs e)
+        private void detectarConflicto(object sender, EventArgs e)
         {
 
             // Creem l'objecte detector passant-li la llista i la distància de seguretat
@@ -229,10 +230,6 @@ namespace Pruebas_GUI_Volar
                 string avions = string.Join(", ", llistaConfliges);
                 finestraConflictes finestraConflictes = new finestraConflictes(menu.planList, menu.dSeg, avions);
                 finestraConflictes.ShowDialog();
-            }
-            else
-            {
-                MessageBox.Show("No hi ha cap conflicte entre els avions");
             }
         }
 
@@ -264,7 +261,7 @@ namespace Pruebas_GUI_Volar
             if (avionsArribats == totalAvions)
             {
                 simulacionTimer.Stop();
-                MessageBox.Show("Tot els avions han arrbat a la seva destincaió");
+                MessageBox.Show("Tots els avions han arribat a la seva destinació");
             }
         }
     }

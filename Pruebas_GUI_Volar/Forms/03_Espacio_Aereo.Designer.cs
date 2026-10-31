@@ -47,7 +47,6 @@
             this.IniciarAutoSim = new System.Windows.Forms.Button();
             this.DetenerAutoSim = new System.Windows.Forms.Button();
             this.DataGridBut = new System.Windows.Forms.Button();
-            this.detectarConflicto = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // EspAereo
@@ -231,23 +230,12 @@
             this.DataGridBut.UseVisualStyleBackColor = true;
             this.DataGridBut.Click += new System.EventHandler(this.DataGridBut_Click);
             // 
-            // detectarConflicto
-            // 
-            this.detectarConflicto.Location = new System.Drawing.Point(129, 524);
-            this.detectarConflicto.Name = "detectarConflicto";
-            this.detectarConflicto.Size = new System.Drawing.Size(162, 34);
-            this.detectarConflicto.TabIndex = 18;
-            this.detectarConflicto.Text = "Detectar conflicto";
-            this.detectarConflicto.UseVisualStyleBackColor = true;
-            this.detectarConflicto.Click += new System.EventHandler(this.detectarConflicto_Click);
-            // 
             // _03_Espacio_Aereo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.ClientSize = new System.Drawing.Size(1511, 882);
-            this.Controls.Add(this.detectarConflicto);
             this.Controls.Add(this.DataGridBut);
             this.Controls.Add(this.IniciarAutoSim);
             this.Controls.Add(this.DetenerAutoSim);
@@ -297,6 +285,5 @@
         private System.Windows.Forms.Button DetenerAutoSim;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button DataGridBut;
-        private System.Windows.Forms.Button detectarConflicto;
     }
 }
