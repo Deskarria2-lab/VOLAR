@@ -44,11 +44,12 @@
             this.PosicionInicial,
             this.PosicionFinal,
             this.Velocidad});
-            this.dataGridView1.Location = new System.Drawing.Point(159, 69);
+            this.dataGridView1.Location = new System.Drawing.Point(42, 64);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 82;
             this.dataGridView1.RowTemplate.Height = 33;
-            this.dataGridView1.Size = new System.Drawing.Size(885, 487);
+            this.dataGridView1.Size = new System.Drawing.Size(820, 390);
             this.dataGridView1.TabIndex = 0;
             // 
             // ID
@@ -81,10 +82,11 @@
             // 
             // Form_TablaVuelos
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1195, 696);
+            this.ClientSize = new System.Drawing.Size(896, 557);
             this.Controls.Add(this.dataGridView1);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "Form_TablaVuelos";
             this.Text = "Form_TablaVuelos";
             this.Load += new System.EventHandler(this.Form_TablaVuelos_Load);
