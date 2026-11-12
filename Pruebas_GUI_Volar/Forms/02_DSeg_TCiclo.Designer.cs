@@ -38,9 +38,10 @@
             // 
             // Save_Dt
             // 
-            this.Save_Dt.Location = new System.Drawing.Point(65, 286);
+            this.Save_Dt.Location = new System.Drawing.Point(49, 232);
+            this.Save_Dt.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Save_Dt.Name = "Save_Dt";
-            this.Save_Dt.Size = new System.Drawing.Size(108, 39);
+            this.Save_Dt.Size = new System.Drawing.Size(81, 32);
             this.Save_Dt.TabIndex = 0;
             this.Save_Dt.Text = "Guardar";
             this.Save_Dt.UseVisualStyleBackColor = true;
@@ -48,54 +49,59 @@
             // 
             // DistBox
             // 
-            this.DistBox.Location = new System.Drawing.Point(15, 130);
+            this.DistBox.Location = new System.Drawing.Point(11, 106);
+            this.DistBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.DistBox.Name = "DistBox";
-            this.DistBox.Size = new System.Drawing.Size(108, 22);
+            this.DistBox.Size = new System.Drawing.Size(82, 20);
             this.DistBox.TabIndex = 1;
             // 
             // TimeBox
             // 
-            this.TimeBox.Location = new System.Drawing.Point(15, 216);
+            this.TimeBox.Location = new System.Drawing.Point(11, 176);
+            this.TimeBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.TimeBox.Name = "TimeBox";
-            this.TimeBox.Size = new System.Drawing.Size(108, 22);
+            this.TimeBox.Size = new System.Drawing.Size(82, 20);
             this.TimeBox.TabIndex = 2;
             // 
             // Titulo_Ajustes
             // 
             this.Titulo_Ajustes.AutoSize = true;
-            this.Titulo_Ajustes.Font = new System.Drawing.Font("Proxy 1", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Titulo_Ajustes.Location = new System.Drawing.Point(60, 32);
+            this.Titulo_Ajustes.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Titulo_Ajustes.Location = new System.Drawing.Point(45, 26);
+            this.Titulo_Ajustes.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.Titulo_Ajustes.Name = "Titulo_Ajustes";
-            this.Titulo_Ajustes.Size = new System.Drawing.Size(115, 25);
+            this.Titulo_Ajustes.Size = new System.Drawing.Size(129, 37);
             this.Titulo_Ajustes.TabIndex = 3;
             this.Titulo_Ajustes.Text = "Ajustes";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Proxy 1", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(12, 106);
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(9, 86);
+            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(206, 17);
+            this.label2.Size = new System.Drawing.Size(257, 25);
             this.label2.TabIndex = 4;
             this.label2.Text = "Distancia de Seguridad";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Proxy 1", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(12, 187);
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(9, 152);
+            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(138, 17);
+            this.label3.Size = new System.Drawing.Size(182, 25);
             this.label3.TabIndex = 5;
             this.label3.Text = "Tiempo de Ciclo";
             // 
             // DSeg_TCiclo
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.ClientSize = new System.Drawing.Size(240, 356);
+            this.ClientSize = new System.Drawing.Size(180, 289);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.Titulo_Ajustes);
@@ -103,8 +109,10 @@
             this.Controls.Add(this.DistBox);
             this.Controls.Add(this.Save_Dt);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "DSeg_TCiclo";
             this.Text = "DSeg_TCiclo";
+            this.Load += new System.EventHandler(this.DSeg_TCiclo_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

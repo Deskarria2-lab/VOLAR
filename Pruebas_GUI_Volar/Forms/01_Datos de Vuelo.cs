@@ -1,13 +1,15 @@
-﻿using System;
+﻿using FlightLib;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using FlightLib;
+using System.Xml.Serialization;
 
 namespace Pruebas_GUI_Volar
 {
@@ -146,6 +148,83 @@ namespace Pruebas_GUI_Volar
                 XfBox.Text = "0";
                 YfBox.Text = "590";
             }
+
+        }
+
+        private void VelBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            CargarVuelosDesdeFichero();
+        }
+        public void CargarVuelosDesdeFichero()
+        {
+            using (OpenFileDialog selector = new OpenFileDialog())
+            {
+                selector.Title = "Selecciona el fitxer de vols";
+                selector.Filter =
+                    "Fitxers de text (*.txt)|*.txt|" +
+                    "Fitxers CSV (*.csv)|*.csv|" +
+                    "Tots els fitxers (*.*)|*.*";
+
+                if (selector.ShowDialog() != DialogResult.OK)
+                {
+                    return;
+                }
+
+                using (StreamReader lector = new StreamReader(selector.FileName))
+                {
+
+                    string Linea = lector.ReadLine();
+                    while (Linea != null)
+                    {
+                        if (Linea == null)
+                        {
+                            MessageBox.Show("El fitxer està buit.");
+                            return;
+                        }
+                        else
+                        {
+                            string[] trozos = Linea.Split(' ');
+                            string id = trozos[0];
+                            double vel = Convert.ToDouble(trozos[1]);
+                            double Xinicial = Convert.ToDouble(trozos[2]);
+                            double Yinicial = Convert.ToDouble(trozos[3]);
+                            double Xfinal = Convert.ToDouble(trozos[4]);
+                            double Yfinal = Convert.ToDouble(trozos[5]);
+
+                            if (checker.check_id(id) == "0" && checker.check_vel(vel) == "0" && checker.check_pos(Xinicial, Yinicial, Xfinal, Yfinal) == "0")
+                            {
+                                FlightPlan nouVol = new FlightPlan(id, Xinicial, Yinicial, Xfinal, Yfinal, vel);
+
+                                int resultat = menu.planList.AddFlightPlan(nouVol);
+
+                                if (resultat == 0)
+                                {
+                                    MessageBox.Show("El vol esta en el Flight plan list correctament");
+                                }
+                                else
+                                {
+                                    MessageBox.Show("La llista de vols està plena.");
+                                }
+                            }
+                            else
+                            {
+                                MessageBox.Show("Les dades del vol no són correctes.");
+                            }
+
+                        }
+                        Linea = lector.ReadLine();
+                    }
+                }
+            }
+        }
+
+        private void Datos_de_Vuelo_Load(object sender, EventArgs e)
+        {
 
         }
     }

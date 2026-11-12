@@ -28,7 +28,7 @@ namespace Pruebas_GUI_Volar
         {                                                                               //
             InitializeComponent();                                                      //  Iniciamos los componentes, esto siempre esta;
             this.menu = menu;                                                           //  Inicializamos el menu;
-            DistBox.Text = "50";
+            DistBox.Text = "10";
             TimeBox.Text = "5";
         }                                                                               //
                                                                                         //
@@ -64,6 +64,11 @@ namespace Pruebas_GUI_Volar
                     "No se han introducido los datos con su formato correcto!");        //  Que algun dato introducido no cumple formato
                 av.Show(this);                                                          //  Muestra en pantalla
             }                                                                           //
+        }
+
+        private void DSeg_TCiclo_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

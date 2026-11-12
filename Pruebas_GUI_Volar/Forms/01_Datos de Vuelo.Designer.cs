@@ -53,6 +53,7 @@
             this.tituloVuelos = new System.Windows.Forms.Label();
             this.saveButton = new System.Windows.Forms.Button();
             this.Autocompletar = new System.Windows.Forms.Button();
+            this.IntroFitx = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -80,13 +81,13 @@
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             treeNode1,
             treeNode2});
-            this.treeView1.Size = new System.Drawing.Size(210, 660);
+            this.treeView1.Size = new System.Drawing.Size(210, 733);
             this.treeView1.TabIndex = 2;
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
             // 
             // XoBox
             // 
-            this.XoBox.Location = new System.Drawing.Point(389, 292);
+            this.XoBox.Location = new System.Drawing.Point(474, 217);
             this.XoBox.Name = "XoBox";
             this.XoBox.Size = new System.Drawing.Size(100, 38);
             this.XoBox.TabIndex = 3;
@@ -94,21 +95,21 @@
             // 
             // YoBox
             // 
-            this.YoBox.Location = new System.Drawing.Point(631, 292);
+            this.YoBox.Location = new System.Drawing.Point(759, 217);
             this.YoBox.Name = "YoBox";
             this.YoBox.Size = new System.Drawing.Size(100, 38);
             this.YoBox.TabIndex = 4;
             // 
             // XfBox
             // 
-            this.XfBox.Location = new System.Drawing.Point(389, 453);
+            this.XfBox.Location = new System.Drawing.Point(474, 345);
             this.XfBox.Name = "XfBox";
             this.XfBox.Size = new System.Drawing.Size(100, 38);
             this.XfBox.TabIndex = 5;
             // 
             // YfBox
             // 
-            this.YfBox.Location = new System.Drawing.Point(631, 453);
+            this.YfBox.Location = new System.Drawing.Point(759, 345);
             this.YfBox.Name = "YfBox";
             this.YfBox.Size = new System.Drawing.Size(100, 38);
             this.YfBox.TabIndex = 6;
@@ -116,22 +117,23 @@
             // 
             // IdBox
             // 
-            this.IdBox.Location = new System.Drawing.Point(389, 136);
+            this.IdBox.Location = new System.Drawing.Point(474, 81);
             this.IdBox.Name = "IdBox";
             this.IdBox.Size = new System.Drawing.Size(100, 38);
             this.IdBox.TabIndex = 7;
             // 
             // VelBox
             // 
-            this.VelBox.Location = new System.Drawing.Point(631, 136);
+            this.VelBox.Location = new System.Drawing.Point(759, 81);
             this.VelBox.Name = "VelBox";
             this.VelBox.Size = new System.Drawing.Size(100, 38);
             this.VelBox.TabIndex = 8;
+            this.VelBox.TextChanged += new System.EventHandler(this.VelBox_TextChanged);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(355, 139);
+            this.label2.Location = new System.Drawing.Point(422, 81);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(37, 32);
             this.label2.TabIndex = 9;
@@ -140,7 +142,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(522, 139);
+            this.label3.Location = new System.Drawing.Point(612, 87);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(141, 32);
             this.label3.TabIndex = 10;
@@ -149,7 +151,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(352, 299);
+            this.label4.Location = new System.Drawing.Point(427, 217);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(41, 32);
             this.label4.TabIndex = 11;
@@ -158,7 +160,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(330, 460);
+            this.label5.Location = new System.Drawing.Point(459, 506);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(0, 32);
             this.label5.TabIndex = 12;
@@ -166,7 +168,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(572, 299);
+            this.label6.Location = new System.Drawing.Point(701, 345);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(0, 32);
             this.label6.TabIndex = 13;
@@ -174,7 +176,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(572, 460);
+            this.label7.Location = new System.Drawing.Point(701, 506);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(0, 32);
             this.label7.TabIndex = 14;
@@ -182,7 +184,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(232, 221);
+            this.label8.Location = new System.Drawing.Point(370, 152);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(204, 32);
             this.label8.TabIndex = 15;
@@ -191,7 +193,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(234, 409);
+            this.label9.Location = new System.Drawing.Point(381, 286);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(193, 32);
             this.label9.TabIndex = 16;
@@ -200,7 +202,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(513, 35);
+            this.label10.Location = new System.Drawing.Point(642, 81);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(0, 32);
             this.label10.TabIndex = 17;
@@ -208,7 +210,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(352, 460);
+            this.label11.Location = new System.Drawing.Point(422, 345);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(41, 32);
             this.label11.TabIndex = 18;
@@ -217,7 +219,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(600, 299);
+            this.label12.Location = new System.Drawing.Point(701, 217);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(41, 32);
             this.label12.TabIndex = 19;
@@ -226,7 +228,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(600, 460);
+            this.label13.Location = new System.Drawing.Point(701, 351);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(41, 32);
             this.label13.TabIndex = 20;
@@ -235,16 +237,16 @@
             // tituloVuelos
             // 
             this.tituloVuelos.AutoSize = true;
-            this.tituloVuelos.Location = new System.Drawing.Point(492, 35);
+            this.tituloVuelos.Location = new System.Drawing.Point(621, 81);
             this.tituloVuelos.Name = "tituloVuelos";
             this.tituloVuelos.Size = new System.Drawing.Size(0, 32);
             this.tituloVuelos.TabIndex = 21;
             // 
             // saveButton
             // 
-            this.saveButton.Location = new System.Drawing.Point(764, 505);
+            this.saveButton.Location = new System.Drawing.Point(590, 439);
             this.saveButton.Name = "saveButton";
-            this.saveButton.Size = new System.Drawing.Size(108, 44);
+            this.saveButton.Size = new System.Drawing.Size(135, 75);
             this.saveButton.TabIndex = 22;
             this.saveButton.Text = "Guardar";
             this.saveButton.UseVisualStyleBackColor = true;
@@ -252,20 +254,31 @@
             // 
             // Autocompletar
             // 
-            this.Autocompletar.Location = new System.Drawing.Point(239, 505);
+            this.Autocompletar.Location = new System.Drawing.Point(371, 440);
             this.Autocompletar.Name = "Autocompletar";
-            this.Autocompletar.Size = new System.Drawing.Size(193, 44);
+            this.Autocompletar.Size = new System.Drawing.Size(213, 74);
             this.Autocompletar.TabIndex = 23;
             this.Autocompletar.Text = "Autocompletar";
             this.Autocompletar.UseVisualStyleBackColor = true;
             this.Autocompletar.Click += new System.EventHandler(this.Autocompletar_Click);
+            // 
+            // IntroFitx
+            // 
+            this.IntroFitx.Location = new System.Drawing.Point(731, 440);
+            this.IntroFitx.Name = "IntroFitx";
+            this.IntroFitx.Size = new System.Drawing.Size(192, 74);
+            this.IntroFitx.TabIndex = 24;
+            this.IntroFitx.Text = "Introducir Fixero";
+            this.IntroFitx.UseVisualStyleBackColor = true;
+            this.IntroFitx.Click += new System.EventHandler(this.button1_Click);
             // 
             // Datos_de_Vuelo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.ClientSize = new System.Drawing.Size(1017, 660);
+            this.ClientSize = new System.Drawing.Size(1072, 733);
+            this.Controls.Add(this.IntroFitx);
             this.Controls.Add(this.Autocompletar);
             this.Controls.Add(this.saveButton);
             this.Controls.Add(this.tituloVuelos);
@@ -294,6 +307,7 @@
             this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.Name = "Datos_de_Vuelo";
             this.Text = "Datos_de_Vuelo";
+            this.Load += new System.EventHandler(this.Datos_de_Vuelo_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -324,5 +338,6 @@
         private System.Windows.Forms.Label tituloVuelos;
         private System.Windows.Forms.Button saveButton;
         private System.Windows.Forms.Button Autocompletar;
+        private System.Windows.Forms.Button IntroFitx;
     }
 }
