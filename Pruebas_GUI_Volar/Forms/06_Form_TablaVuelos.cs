@@ -148,12 +148,12 @@ namespace Pruebas_GUI_Volar.Forms
                     if (v1 != null && v1.Getid() == idSeleccionat)
                     {
                         v1.SetVelocidad(novaVelocitat);
-                        v1.Restart(); 
+                        
                     }
                     else if (v2 != null && v2.Getid() == idSeleccionat)
                     {
                         v2.SetVelocidad(novaVelocitat);
-                        v2.Restart();
+                        
                     }
 
                     this.Close();

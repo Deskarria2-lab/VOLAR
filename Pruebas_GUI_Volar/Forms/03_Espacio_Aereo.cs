@@ -20,7 +20,7 @@ namespace Pruebas_GUI_Volar
         Image avion_40;
         _05_Datos_Avion da;
         bool conflictoDetectado = false;
-
+        private readonly List<FlightPlan> volsCarregats = new List<FlightPlan>();
         public _03_Espacio_Aereo(Options menu)
         {
             InitializeComponent();
@@ -34,14 +34,6 @@ namespace Pruebas_GUI_Volar
             IniciarAutoSim.Click += InicarAutoSim_Click;
             DetenerAutoSim.Click += DetenerAutoSim_Click;
 
-            for (int i = 0; i < 10; i++)
-            {
-                if (menu.planList.GetFlightPlan(i) != null)
-                {
-                    menu.planList.GetFlightPlan(i).Restart();
-                }
-            }
-
             EspAereo.Paint += new PaintEventHandler(EspAereo_Paint);
         }
 
@@ -49,28 +41,26 @@ namespace Pruebas_GUI_Volar
         {
             for (int i = 0; i < 10; i++)
             {
-                if (menu.planList.GetFlightPlan(i) != null)
+                FlightPlan plan = menu.planList.GetFlightPlan(i);
+
+                if (plan != null && !volsCarregats.Contains(plan))
                 {
-                    menu.planList.GetFlightPlan(i).Restart();
+                    plan.Restart();
+                    volsCarregats.Add(plan);
                 }
             }
+
             EspAereo.Invalidate();
-            detectarConflicto(sender, e); // Comprovem si hi ha conflictes després de reiniciar els avions
         }
 
         private void CicloBut_Click(object sender, EventArgs e)
         {
-            if (conflictoDetectado) // Si s'ha detectat un conflicte no podem continuar la simulació
-                return;
-            for (int i = 0; i < 10; i++)
+            foreach (FlightPlan plan in volsCarregats)
             {
-                if (menu.planList.GetFlightPlan(i) != null)
-                {
-                    menu.planList.GetFlightPlan(i).Mover(menu.tCicl);
-                }
+                plan.Mover(menu.tCicl);
             }
+
             EspAereo.Invalidate();
-            ComprovarConflictes();
             ComprovarDestino();
         }
 
@@ -118,13 +108,11 @@ namespace Pruebas_GUI_Volar
 
             Pen rojo = new Pen(Color.Red, 3);
 
-            for (int i = 0; i < 10; i++)
+            foreach (FlightPlan plan in volsCarregats)
             {
-                if (menu.planList.GetFlightPlan(i) != null)
-                {
-                    plane = menu.planList.GetFlightPlan(i);
+                plane = plan;
 
-                    Point inicio = new Point
+                Point inicio = new Point
                         (
                         (int)plane.GetinitialPosition().GetX(),
                         (int)plane.GetinitialPosition().GetY()
@@ -145,7 +133,7 @@ namespace Pruebas_GUI_Volar
                     g.DrawImage(avion_40,
                                 centro.X - avion_40.Width / 2,
                                 centro.Y - avion_40.Height / 2);
-                }
+                
             }
         }
 
@@ -263,6 +251,29 @@ namespace Pruebas_GUI_Volar
                 simulacionTimer.Stop();
                 MessageBox.Show("Tots els avions han arribat a la seva destinació");
             }
+        }
+
+        private void DetenerAutoSim_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Restartbut_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Restartbut_Click_1(object sender, EventArgs e)
+        {
+            simulacionTimer.Stop();
+            conflictoDetectado = false;
+
+            foreach (FlightPlan plan in volsCarregats)
+            {
+                plan.Restart();
+            }
+
+            EspAereo.Invalidate();
         }
     }
 }
