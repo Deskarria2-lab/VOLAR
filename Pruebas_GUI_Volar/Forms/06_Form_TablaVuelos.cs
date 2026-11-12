@@ -134,7 +134,7 @@ namespace Pruebas_GUI_Volar.Forms
 
         private void DataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            // Comprovem que s'ha modificat una fila vàlida i que és la columna de la velocitat (índex 3)
+            // Comprovem que s'ha modificat una fila vàlida i que és la columna de la velocitat
             if (e.RowIndex >= 0 && e.ColumnIndex == 3)
             {
                 try
@@ -144,8 +144,14 @@ namespace Pruebas_GUI_Volar.Forms
 
                     double novaVelocitat = Convert.ToDouble(dataGridView1.Rows[e.RowIndex].Cells["Velocidad"].Value);
 
+                    if (novaVelocitat <= 0)
+                    {
+                        MessageBox.Show("La velocidad debe ser un número positivo.");
+                        return;
+                    }
+
                     //Actualitzem velocitat i reiniciem
-                    if (v1 != null && v1.Getid() == idSeleccionat)
+                    if (v1 != null && v1.Getid() == idSeleccionat )
                     {
                         v1.SetVelocidad(novaVelocitat);
                         v1.Restart(); 
