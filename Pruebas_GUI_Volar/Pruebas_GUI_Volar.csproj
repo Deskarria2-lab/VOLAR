@@ -46,10 +46,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="07_FormConflictes.cs">
+    <Compile Include="Forms\07_FormConflictes.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="07_FormConflictes.Designer.cs">
+    <Compile Include="Forms\07_FormConflictes.Designer.cs">
       <DependentUpon>07_FormConflictes.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\05_Datos_Avion.cs">
@@ -96,7 +96,7 @@
     </Compile>
     <Compile Include="Resources\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="07_FormConflictes.resx">
+    <EmbeddedResource Include="Forms\07_FormConflictes.resx">
       <DependentUpon>07_FormConflictes.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\05_Datos_Avion.resx">
