@@ -123,5 +123,30 @@ namespace Pruebas_GUI_Volar
         {
 
         }
+
+        private void Autocompletar_Click(object sender, EventArgs e)
+        {
+            string textNode = treeView1.SelectedNode.Text;
+
+            if (textNode == "Vuelo A")
+            {
+                IdBox.Text = "AA1234";
+                VelBox.Text = "50";
+                XoBox.Text = "0";
+                YoBox.Text = "0";
+                XfBox.Text = "590";
+                YfBox.Text = "590";
+            }
+            else if (textNode == "Vuelo B")
+            {
+                IdBox.Text = "AA4567";
+                VelBox.Text = "50";
+                XoBox.Text = "590";
+                YoBox.Text = "0";
+                XfBox.Text = "0";
+                YfBox.Text = "590";
+            }
+
+        }
     }
 }
