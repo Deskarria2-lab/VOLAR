@@ -41,11 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="datas.cs" />
-    <Compile Include="DetectorConflicto.cs" />
     <Compile Include="FlightPlan.cs" />
     <Compile Include="FlightPlanList.cs" />
-    <Compile Include="MethodChecker.cs" />
     <Compile Include="Position.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
