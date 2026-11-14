@@ -20,8 +20,8 @@ namespace FlightLib
         Position currentPosition;                                                               // posicion actual
         Position finalPosition;                                                                 // posicion final
         double velocidad;                                                                       //  velocidad avion
-
-        MethodChecker mc = new MethodChecker();
+        double angulo;
+        
 
         //////////////////////////////////////////////////////////////    Constructor   ///////////////////////////////////////////////////////////////////
         public FlightPlan(string id, double cpx, double cpy, double fpx, double fpy, double velocidad)
@@ -31,6 +31,7 @@ namespace FlightLib
             this.initialPosition = new Position(cpx, cpy);                                      //  Inicializamos la pos Inicial
             this.finalPosition = new Position(fpx, fpy);                                        //  Inicializamos la pos Final
             this.velocidad = velocidad;                                                         //  Inicializamos la velocidad
+            angulo = Math.Atan((fpy - cpy) / (fpx - cpx));
         }
         ////////////////////////////////////////////////////////////////    Metodos GET   /////////////////////////////////////////////////////////////////////
 
@@ -44,6 +45,12 @@ namespace FlightLib
         { return this.finalPosition; }
         public double GetVelocidad()                                                            //  Metodo Get para la velocidad del avion
         { return this.velocidad; }
+        //public double GetAngulo() 
+        //{  return this.angulo; }
+        public double GetVelocidadX() 
+        { return velocidad * Math.Cos(angulo); }
+        public double GetVelocidadY() 
+        { return velocidad * Math.Sin(angulo); }
 
         ////////////////////////////////////////////////////////////////    Metodos SET   //////////////////////////////////////////////////////////////////////
         public void Setid(string id)                                                            //  Metodo Set para el Identificador del Avion 
