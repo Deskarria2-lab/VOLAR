@@ -20,27 +20,19 @@ namespace Pruebas_GUI_Volar
         Image avion_40;
         _05_Datos_Avion da;
         bool conflictoDetectado = false;
-
+        private readonly List<FlightPlan> volsCarregats = new List<FlightPlan>();
         public _03_Espacio_Aereo(Options menu)
         {
             InitializeComponent();
             this.menu = menu;
             this.avion_40 = Properties.Resources.avion_40;
 
-            // Connectem el amb el mètode automàtic.
+            // Connectem amb el mètode automàtic.
             simulacionTimer.Tick += SimulacionTimer_Tick;
 
             // Connectem els botons amb els mètodes.
             IniciarAutoSim.Click += InicarAutoSim_Click;
             DetenerAutoSim.Click += DetenerAutoSim_Click;
-
-            for (int i = 0; i < 10; i++)
-            {
-                if (menu.planList.GetFlightPlan(i) != null)
-                {
-                    menu.planList.GetFlightPlan(i).Restart();
-                }
-            }
 
             EspAereo.Paint += new PaintEventHandler(EspAereo_Paint);
         }
@@ -49,27 +41,27 @@ namespace Pruebas_GUI_Volar
         {
             for (int i = 0; i < 10; i++)
             {
-                if (menu.planList.GetFlightPlan(i) != null)
+                FlightPlan plan = menu.planList.GetFlightPlan(i);
+
+                if (plan != null && !volsCarregats.Contains(plan))
                 {
-                    menu.planList.GetFlightPlan(i).Restart();
+                    plan.Restart();
+                    volsCarregats.Add(plan);
                 }
             }
+
             EspAereo.Invalidate();
         }
 
         private void CicloBut_Click(object sender, EventArgs e)
         {
-            if (conflictoDetectado) // Si s'ha detectat un conflicte no podem continuar la simulació
-                return;
-            for (int i = 0; i < 10; i++)
+            foreach (FlightPlan plan in volsCarregats)
             {
-                if (menu.planList.GetFlightPlan(i) != null)
-                {
-                    menu.planList.GetFlightPlan(i).Mover(menu.tCicl);
-                }
+                plan.Mover(menu.tCicl);
             }
+
             EspAereo.Invalidate();
-            ComprovarConflictes();
+            ComprovarDestino();
         }
 
         // Executa automàticament cada 500 ms.
@@ -94,6 +86,7 @@ namespace Pruebas_GUI_Volar
             // Actualitzem el dibuix per mostrar les noves posicions dels avions.
             EspAereo.Invalidate();
             ComprovarConflictes();
+            ComprovarDestino();
         }
 
         //Inicia la simulació automàtica quan premem el botó
@@ -115,13 +108,11 @@ namespace Pruebas_GUI_Volar
 
             Pen rojo = new Pen(Color.Red, 3);
 
-            for (int i = 0; i < 10; i++)
+            foreach (FlightPlan plan in volsCarregats)
             {
-                if (menu.planList.GetFlightPlan(i) != null)
-                {
-                    plane = menu.planList.GetFlightPlan(i);
+                plane = plan;
 
-                    Point inicio = new Point
+                Point inicio = new Point
                         (
                         (int)plane.GetinitialPosition().GetX(),
                         (int)plane.GetinitialPosition().GetY()
@@ -135,14 +126,14 @@ namespace Pruebas_GUI_Volar
                         ((int)plane.GetcurrentPosition().GetX(),
                          (int)plane.GetcurrentPosition().GetY()
                         );
-                    float radio = (float)menu.dSeg;
+                    float radio = ((float)menu.dSeg) / 2;
 
                     g.DrawEllipse(rojo, centro.X - radio, centro.Y - radio, 2 * radio, 2 * radio);
                     g.DrawLine(rojo, inicio, final);
                     g.DrawImage(avion_40,
                                 centro.X - avion_40.Width / 2,
                                 centro.Y - avion_40.Height / 2);
-                }
+                
             }
         }
 
@@ -163,10 +154,9 @@ namespace Pruebas_GUI_Volar
                         {
                             if (avio1.Conflicto(avio2, menu.dSeg)) // Utilitzem el metode Conflicto de la classe FlightPlan (Fase 1)
                             {
+                                conflictoDetectado = true;
                                 simulacionTimer.Stop(); // Aturem la simulació automàtica si hi ha un conflicte
-
-                                AlertaConflicto alerta = new AlertaConflicto(); 
-                                alerta.ShowDialog(this); // Mostrem el missatge d'alerta de conflicte
+                                MessageBox.Show("Conflicte detectat entre els avions " + avio1.Getid() + " i " + avio2.Getid());
 
                                 return;
                             }
@@ -211,6 +201,79 @@ namespace Pruebas_GUI_Volar
             // Obrim el formulari passant-li els dos avions reals
             Form_TablaVuelos ventanaTabla = new Form_TablaVuelos(primerAvio, segonAvio);
             ventanaTabla.ShowDialog();
+        }
+
+        private void detectarConflicto(object sender, EventArgs e)
+        {
+
+            // Creem l'objecte detector passant-li la llista i la distància de seguretat
+            ConflictDetector detector = new ConflictDetector(menu.planList, menu.dSeg);
+
+            // Cridem al mètode ConflictosDetectados(), que retorna una llista de textos amb els IDs
+            List<string> llistaConfliges = detector.ConflictosDetectados();
+
+            // Comprovem si la llista té elements (si conté algun conflicte)
+            if (llistaConfliges.Count > 0)
+            {
+                string avions = string.Join(", ", llistaConfliges);
+                finestraConflictes finestraConflictes = new finestraConflictes(menu.planList, menu.dSeg, avions);
+                finestraConflictes.ShowDialog();
+            }
+        }
+
+        private void ComprovarDestino()
+        {
+            int totalAvions = 0;
+            int avionsArribats = 0;
+
+            for (int i = 0; i < 10; i++)
+            {
+                FlightPlan avio = menu.planList.GetFlightPlan(i);
+                if (avio != null)
+                {
+                    totalAvions++;
+
+                    // Obtenim les coordenades actuals i finals
+                    double xActual = avio.GetcurrentPosition().GetX();
+                    double yActual = avio.GetcurrentPosition().GetY();
+                    double xFinal = avio.GetfinalPosition().GetX();
+                    double yFinal = avio.GetfinalPosition().GetY();
+
+                    if (xActual == xFinal && yActual == yFinal)
+                    {
+                        avionsArribats++;
+                    }
+                }
+            }
+
+            if (avionsArribats == totalAvions)
+            {
+                simulacionTimer.Stop();
+                MessageBox.Show("Tots els avions han arribat a la seva destinació");
+            }
+        }
+
+        private void DetenerAutoSim_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Restartbut_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Restartbut_Click_1(object sender, EventArgs e)
+        {
+            simulacionTimer.Stop();
+            conflictoDetectado = false;
+
+            foreach (FlightPlan plan in volsCarregats)
+            {
+                plan.Restart();
+            }
+
+            EspAereo.Invalidate();
         }
     }
 }

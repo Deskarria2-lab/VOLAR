@@ -44,7 +44,7 @@
             this.Titulo_DA.AutoSize = true;
             this.Titulo_DA.Location = new System.Drawing.Point(358, 51);
             this.Titulo_DA.Name = "Titulo_DA";
-            this.Titulo_DA.Size = new System.Drawing.Size(125, 20);
+            this.Titulo_DA.Size = new System.Drawing.Size(100, 16);
             this.Titulo_DA.TabIndex = 0;
             this.Titulo_DA.Text = "Datos de Vuelo";
             // 
@@ -53,7 +53,7 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(205, 127);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(25, 20);
+            this.label2.Size = new System.Drawing.Size(20, 16);
             this.label2.TabIndex = 1;
             this.label2.Text = "ID";
             // 
@@ -62,7 +62,7 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(205, 173);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(86, 20);
+            this.label3.Size = new System.Drawing.Size(69, 16);
             this.label3.TabIndex = 2;
             this.label3.Text = "Velocidad";
             // 
@@ -71,7 +71,7 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(205, 220);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(118, 20);
+            this.label4.Size = new System.Drawing.Size(94, 16);
             this.label4.TabIndex = 3;
             this.label4.Text = "Coordenada X";
             // 
@@ -80,7 +80,7 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(205, 267);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(119, 20);
+            this.label5.Size = new System.Drawing.Size(95, 16);
             this.label5.TabIndex = 4;
             this.label5.Text = "Coordenada Y";
             // 
@@ -136,7 +136,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.Titulo_DA);
             this.Name = "_05_Datos_Avion";
-            this.Text = "_05_Datos_Avion";
+            this.Text = "832";
             this.ResumeLayout(false);
             this.PerformLayout();
 

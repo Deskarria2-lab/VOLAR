@@ -25,6 +25,7 @@ namespace Pruebas_GUI_Volar.Forms
 
             CargarDatosEnTabla();
             dataGridView1.CellClick += DataGridView1_CellClick;
+            dataGridView1.CellValueChanged += DataGridView1_CellValueChanged;
         }
 
        
@@ -80,7 +81,11 @@ namespace Pruebas_GUI_Volar.Forms
         private void DataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             // Comprovem que s'ha clicat una fila vàlida i no la capçalera
-            if (e.RowIndex >= 0 && e.RowIndex < dataGridView1.Rows.Count)
+            if (e.ColumnIndex == 3)
+            {
+                return; // Ignorem clics a la columna de Velocidad
+            }
+            if (e.RowIndex >= 0 && e.RowIndex < ( dataGridView1.Rows.Count -1 ))
             {
                 string idSeleccionat = dataGridView1.Rows[e.RowIndex].Cells["ID"].Value.ToString();
 
@@ -119,6 +124,43 @@ namespace Pruebas_GUI_Volar.Forms
                 else
                 {
                     MessageBox.Show("Se necesitan dos vuelos para calcular la distancia.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Fila no válida seleccionada");
+            }
+        }
+
+        private void DataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            // Comprovem que s'ha modificat una fila vàlida i que és la columna de la velocitat (índex 3)
+            if (e.RowIndex >= 0 && e.ColumnIndex == 3)
+            {
+                try
+                {
+                    //ID del vol de la fila modificada
+                    string idSeleccionat = dataGridView1.Rows[e.RowIndex].Cells["ID"].Value.ToString();
+
+                    double novaVelocitat = Convert.ToDouble(dataGridView1.Rows[e.RowIndex].Cells["Velocidad"].Value);
+
+                    //Actualitzem velocitat i reiniciem
+                    if (v1 != null && v1.Getid() == idSeleccionat)
+                    {
+                        v1.SetVelocidad(novaVelocitat);
+                        
+                    }
+                    else if (v2 != null && v2.Getid() == idSeleccionat)
+                    {
+                        v2.SetVelocidad(novaVelocitat);
+                        
+                    }
+
+                    this.Close();
+                }
+                catch (FormatException)
+                {
+                    MessageBox.Show("Introdueix un numero");
                 }
             }
         }
