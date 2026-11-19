@@ -39,6 +39,7 @@ namespace Pruebas_GUI_Volar
 
         private void LoadBut_Click(object sender, EventArgs e)
         {
+            
             for (int i = 0; i < 10; i++)
             {
                 FlightPlan plan = menu.planList.GetFlightPlan(i);
@@ -67,11 +68,6 @@ namespace Pruebas_GUI_Volar
         // Executa automàticament cada 500 ms.
         private void SimulacionTimer_Tick(object sender, EventArgs e)
         {
-            if (conflictoDetectado) // Si s'ha detectat un conflicte, aturem la simulació automàtica
-            {
-                simulacionTimer.Stop();
-                return;
-            }
             // Recorrem les 10 posicions possibles de la llista de plans de vol.
             for (int i = 0; i < 10; i++)
             {
@@ -137,9 +133,10 @@ namespace Pruebas_GUI_Volar
             }
         }
 
-
+        int cont = 0;
         private void ComprovarConflictes()
         {
+
             for (int i = 0; i < 10; i++) // Recorrem les 10 posicions possibles de la llista de plans de vol (anirem comparant cada avió amb els seguents de la llista)
             {
                 FlightPlan avio1 = menu.planList.GetFlightPlan(i);
@@ -152,13 +149,14 @@ namespace Pruebas_GUI_Volar
 
                         if (avio2 != null)
                         {
-                            if (avio1.Conflicto(avio2, menu.dSeg)) // Utilitzem el metode Conflicto de la classe FlightPlan (Fase 1)
+                            if (cont == 0 && avio1.Conflicto(avio2, menu.dSeg)) // Utilitzem el metode Conflicto de la classe FlightPlan (Fase 1)
                             {
-                                conflictoDetectado = true;
-                                simulacionTimer.Stop(); // Aturem la simulació automàtica si hi ha un conflicte
-                                MessageBox.Show("Conflicte detectat entre els avions " + avio1.Getid() + " i " + avio2.Getid());
-
-                                return;
+                               
+                                    conflictoDetectado = true;
+                                    simulacionTimer.Stop(); // Aturem la simulació automàtica si hi ha un conflicte
+                                    MessageBox.Show("Conflicte detectat entre els avions " + avio1.Getid() + " i " + avio2.Getid());
+                                    cont = 1;
+                                    return;
                             }
                         }
                     }
