@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 //  Clase para definir los elementos del usuario
 namespace FlightLib.Base_de_Datos
 {
-    internal class User
+    public class User
     {
         public string Email { get; set; }
         public string Username { get; set; }

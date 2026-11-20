@@ -10,5 +10,15 @@ namespace FlightLib.Base_de_Datos
 {
     internal class AuthService
     {
+        private readonly UserRepository repository;
+
+        public AuthService(UserRepository repository) 
+        {
+            this.repository = repository; 
+        }
+        public bool EmailExists(string email)
+        { 
+            return repository.GetByEmail(email) != null;
+        }
     }
 }
