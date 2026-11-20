@@ -11,68 +11,56 @@ namespace Pruebas_GUI_Volar.Forms
         // 1. ATRIBUTS (Variables de la classe)
         // =========================================================================
         private FlightPlan v1; 
-        private FlightPlan v2; 
+        private FlightPlan v2;
+        private FlightPlanList listaVuelos;
 
         // =========================================================================
         // 2. CONSTRUCTOR
         // =========================================================================
-        public Form_TablaVuelos(FlightPlan vuelo1, FlightPlan vuelo2)
+        public Form_TablaVuelos(FlightPlanList listaVuelos)
         {
-            InitializeComponent(); 
+            InitializeComponent();
 
-            this.v1 = vuelo1;
-            this.v2 = vuelo2;
+            this.listaVuelos = listaVuelos;
+            this.v1 = listaVuelos.GetFlightPlan(0);
+            this.v2 = listaVuelos.GetFlightPlan(1);
 
             CargarDatosEnTabla();
+
             dataGridView1.CellClick += DataGridView1_CellClick;
             dataGridView1.CellValueChanged += DataGridView1_CellValueChanged;
         }
 
-       
+
         private void Form_TablaVuelos_Load(object sender, EventArgs e)
         {
         }
-        
+
 
         // =========================================================================
         // 3. MÈTODE PER CARREGAR LES DADES A LA TAULA
         // =========================================================================
         private void CargarDatosEnTabla()
         {
-            //Configurem la taula 
-            dataGridView1.Columns.Clear();
             dataGridView1.Rows.Clear();
 
-      
-            dataGridView1.Columns.Add("ID", "Identificador");
-            dataGridView1.Columns.Add("PosActual", "Posición Actual");
-            dataGridView1.Columns.Add("PosFinal", "Posición Final");
-            dataGridView1.Columns.Add("Velocidad", "Velocidad");
-
-           
-            if (v1 != null)
+            for (int i = 0; i < 10; i++)
             {
-                Position posAct1 = v1.GetcurrentPosition();
-                Position posFin1 = v1.GetfinalPosition();
+                FlightPlan vuelo =
+                    listaVuelos.GetFlightPlan(i);
 
-                string textoPosActual1 = "(" + posAct1.GetX().ToString("F2") + ", " + posAct1.GetY().ToString("F2") + ")";
-                string textoPosFinal1 = "(" + posFin1.GetX().ToString("F2") + ", " + posFin1.GetY().ToString("F2") + ")";
+                if (vuelo != null)
+                {
+                    Position actual =
+                        vuelo.GetcurrentPosition();
 
-                // Afegim la fila del Vol 1
-                dataGridView1.Rows.Add(v1.Getid(), textoPosActual1, textoPosFinal1, v1.GetVelocidad().ToString("F2"));
-            }
+                    Position final =
+                        vuelo.GetfinalPosition();
 
-            
-            if (v2 != null)
-            {
-                Position posAct2 = v2.GetcurrentPosition();
-                Position posFin2 = v2.GetfinalPosition();
-
-                string textoPosActual2 = "(" + posAct2.GetX().ToString("F2") + ", " + posAct2.GetY().ToString("F2") + ")";
-                string textoPosFinal2 = "(" + posFin2.GetX().ToString("F2") + ", " + posFin2.GetY().ToString("F2") + ")";
-
-                // Afegim la fila del Vol 2
-                dataGridView1.Rows.Add(v2.Getid(), textoPosActual2, textoPosFinal2, v2.GetVelocidad().ToString("F2"));
+                    dataGridView1.Rows.Add(
+                        vuelo.Getid(),"(" + actual.GetX().ToString("F2") +", " + actual.GetY().ToString("F2") + ")","(" + final.GetX().ToString("F2") +", " + final.GetY().ToString("F2") + ")",
+                        vuelo.GetVelocidad().ToString("F2"));
+                }
             }
         }
         // =========================================================================
@@ -166,9 +154,15 @@ namespace Pruebas_GUI_Volar.Forms
                 }
                 catch (FormatException)
                 {
-                    MessageBox.Show("Introdueix un numero");
+                    vuelo.SetVelocidad(novaVelocitat);
+                    break;
                 }
             }
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }
