@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Vuelo A");
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Vuelo B");
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Vuelo A");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Vuelo B");
             this.label1 = new System.Windows.Forms.Label();
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.XoBox = new System.Windows.Forms.TextBox();
@@ -53,7 +53,7 @@
             this.tituloVuelos = new System.Windows.Forms.Label();
             this.saveButton = new System.Windows.Forms.Button();
             this.Autocompletar = new System.Windows.Forms.Button();
-            this.fileButton = new System.Windows.Forms.Button();
+            this.IntroFitx = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -62,7 +62,7 @@
             this.label1.Location = new System.Drawing.Point(1178, 208);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(0, 20);
+            this.label1.Size = new System.Drawing.Size(0, 32);
             this.label1.TabIndex = 0;
             // 
             // treeView1
@@ -74,14 +74,14 @@
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.treeView1.Name = "treeView1";
-            treeNode3.Name = "flight_A";
-            treeNode3.Text = "Vuelo A";
-            treeNode4.Name = "flight_B";
-            treeNode4.Text = "Vuelo B";
+            treeNode1.Name = "flight_A";
+            treeNode1.Text = "Vuelo A";
+            treeNode2.Name = "flight_B";
+            treeNode2.Text = "Vuelo B";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode3,
-            treeNode4});
-            this.treeView1.Size = new System.Drawing.Size(210, 660);
+            treeNode1,
+            treeNode2});
+            this.treeView1.Size = new System.Drawing.Size(210, 733);
             this.treeView1.TabIndex = 2;
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
             // 
@@ -89,42 +89,44 @@
             // 
             this.XoBox.Location = new System.Drawing.Point(474, 217);
             this.XoBox.Name = "XoBox";
-            this.XoBox.Size = new System.Drawing.Size(100, 27);
+            this.XoBox.Size = new System.Drawing.Size(100, 38);
             this.XoBox.TabIndex = 3;
+            this.XoBox.TextChanged += new System.EventHandler(this.XoBox_TextChanged);
             // 
             // YoBox
             // 
             this.YoBox.Location = new System.Drawing.Point(759, 217);
             this.YoBox.Name = "YoBox";
-            this.YoBox.Size = new System.Drawing.Size(100, 27);
+            this.YoBox.Size = new System.Drawing.Size(100, 38);
             this.YoBox.TabIndex = 4;
             // 
             // XfBox
             // 
             this.XfBox.Location = new System.Drawing.Point(474, 345);
             this.XfBox.Name = "XfBox";
-            this.XfBox.Size = new System.Drawing.Size(100, 27);
+            this.XfBox.Size = new System.Drawing.Size(100, 38);
             this.XfBox.TabIndex = 5;
             // 
             // YfBox
             // 
             this.YfBox.Location = new System.Drawing.Point(759, 345);
             this.YfBox.Name = "YfBox";
-            this.YfBox.Size = new System.Drawing.Size(100, 27);
+            this.YfBox.Size = new System.Drawing.Size(100, 38);
             this.YfBox.TabIndex = 6;
+            this.YfBox.TextChanged += new System.EventHandler(this.YfBox_TextChanged);
             // 
             // IdBox
             // 
             this.IdBox.Location = new System.Drawing.Point(474, 81);
             this.IdBox.Name = "IdBox";
-            this.IdBox.Size = new System.Drawing.Size(100, 27);
+            this.IdBox.Size = new System.Drawing.Size(100, 38);
             this.IdBox.TabIndex = 7;
             // 
             // VelBox
             // 
             this.VelBox.Location = new System.Drawing.Point(759, 81);
             this.VelBox.Name = "VelBox";
-            this.VelBox.Size = new System.Drawing.Size(100, 27);
+            this.VelBox.Size = new System.Drawing.Size(100, 38);
             this.VelBox.TabIndex = 8;
             this.VelBox.TextChanged += new System.EventHandler(this.VelBox_TextChanged);
             // 
@@ -133,7 +135,7 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(422, 81);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(22, 20);
+            this.label2.Size = new System.Drawing.Size(37, 32);
             this.label2.TabIndex = 9;
             this.label2.Text = "Id";
             // 
@@ -142,7 +144,7 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(612, 87);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(82, 20);
+            this.label3.Size = new System.Drawing.Size(141, 32);
             this.label3.TabIndex = 10;
             this.label3.Text = "Velocidad";
             // 
@@ -151,7 +153,7 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(427, 217);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(25, 20);
+            this.label4.Size = new System.Drawing.Size(41, 32);
             this.label4.TabIndex = 11;
             this.label4.Text = "X:";
             // 
@@ -160,7 +162,7 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(459, 506);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(0, 20);
+            this.label5.Size = new System.Drawing.Size(0, 32);
             this.label5.TabIndex = 12;
             // 
             // label6
@@ -168,7 +170,7 @@
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(701, 345);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(0, 20);
+            this.label6.Size = new System.Drawing.Size(0, 32);
             this.label6.TabIndex = 13;
             // 
             // label7
@@ -176,7 +178,7 @@
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(701, 506);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(0, 20);
+            this.label7.Size = new System.Drawing.Size(0, 32);
             this.label7.TabIndex = 14;
             // 
             // label8
@@ -184,7 +186,7 @@
             this.label8.AutoSize = true;
             this.label8.Location = new System.Drawing.Point(370, 152);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(121, 20);
+            this.label8.Size = new System.Drawing.Size(204, 32);
             this.label8.TabIndex = 15;
             this.label8.Text = "Posicion Inicial";
             // 
@@ -193,7 +195,7 @@
             this.label9.AutoSize = true;
             this.label9.Location = new System.Drawing.Point(381, 286);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(114, 20);
+            this.label9.Size = new System.Drawing.Size(193, 32);
             this.label9.TabIndex = 16;
             this.label9.Text = "Posicion Final";
             // 
@@ -202,7 +204,7 @@
             this.label10.AutoSize = true;
             this.label10.Location = new System.Drawing.Point(642, 81);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(0, 20);
+            this.label10.Size = new System.Drawing.Size(0, 32);
             this.label10.TabIndex = 17;
             // 
             // label11
@@ -210,7 +212,7 @@
             this.label11.AutoSize = true;
             this.label11.Location = new System.Drawing.Point(422, 345);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(25, 20);
+            this.label11.Size = new System.Drawing.Size(41, 32);
             this.label11.TabIndex = 18;
             this.label11.Text = "X:";
             // 
@@ -219,7 +221,7 @@
             this.label12.AutoSize = true;
             this.label12.Location = new System.Drawing.Point(701, 217);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(24, 20);
+            this.label12.Size = new System.Drawing.Size(41, 32);
             this.label12.TabIndex = 19;
             this.label12.Text = "Y:";
             // 
@@ -228,7 +230,7 @@
             this.label13.AutoSize = true;
             this.label13.Location = new System.Drawing.Point(701, 351);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(24, 20);
+            this.label13.Size = new System.Drawing.Size(41, 32);
             this.label13.TabIndex = 20;
             this.label13.Text = "Y:";
             // 
@@ -237,7 +239,7 @@
             this.tituloVuelos.AutoSize = true;
             this.tituloVuelos.Location = new System.Drawing.Point(621, 81);
             this.tituloVuelos.Name = "tituloVuelos";
-            this.tituloVuelos.Size = new System.Drawing.Size(0, 20);
+            this.tituloVuelos.Size = new System.Drawing.Size(0, 32);
             this.tituloVuelos.TabIndex = 21;
             // 
             // saveButton
@@ -260,23 +262,23 @@
             this.Autocompletar.UseVisualStyleBackColor = true;
             this.Autocompletar.Click += new System.EventHandler(this.Autocompletar_Click);
             // 
-            // fileButton
+            // IntroFitx
             // 
-            this.fileButton.Location = new System.Drawing.Point(496, 505);
-            this.fileButton.Name = "fileButton";
-            this.fileButton.Size = new System.Drawing.Size(173, 44);
-            this.fileButton.TabIndex = 24;
-            this.fileButton.Text = "Introducir Fichero";
-            this.fileButton.UseVisualStyleBackColor = true;
-            this.fileButton.Click += new System.EventHandler(this.fileButton_Click);
+            this.IntroFitx.Location = new System.Drawing.Point(731, 440);
+            this.IntroFitx.Name = "IntroFitx";
+            this.IntroFitx.Size = new System.Drawing.Size(192, 74);
+            this.IntroFitx.TabIndex = 24;
+            this.IntroFitx.Text = "Introducir Fixero";
+            this.IntroFitx.UseVisualStyleBackColor = true;
+            this.IntroFitx.Click += new System.EventHandler(this.button1_Click);
             // 
             // Datos_de_Vuelo
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.ClientSize = new System.Drawing.Size(1017, 660);
-            this.Controls.Add(this.fileButton);
+            this.ClientSize = new System.Drawing.Size(1072, 733);
+            this.Controls.Add(this.IntroFitx);
             this.Controls.Add(this.Autocompletar);
             this.Controls.Add(this.saveButton);
             this.Controls.Add(this.tituloVuelos);
@@ -336,6 +338,6 @@
         private System.Windows.Forms.Label tituloVuelos;
         private System.Windows.Forms.Button saveButton;
         private System.Windows.Forms.Button Autocompletar;
-        private System.Windows.Forms.Button fileButton;
+        private System.Windows.Forms.Button IntroFitx;
     }
 }

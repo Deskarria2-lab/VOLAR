@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data;
 using FlightLib; 
 
 namespace SimulatorConsole
@@ -16,14 +15,6 @@ namespace SimulatorConsole
             FlightPlanList planList = new FlightPlanList();
             try                                                                             //  Comprobar que va todo bien
             {
-                DataBase db = new DataBase();
-                db.Iniciar();
-                DataTable res = db.GetUsers();
-                for (int j = 0; j < res.Rows.Count; j++) 
-                {
-                    Console.WriteLine(res.Rows[j][0]);
-                }
-                db.Cerrar();
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////    DATOS AVION A   //////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
