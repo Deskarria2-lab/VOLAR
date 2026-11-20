@@ -23,6 +23,7 @@ namespace Pruebas_GUI_Volar
         Options menu;                                                                   //  Creamos el objeto Options con nombre menu
         MethodChecker checker = new MethodChecker();                                    //  Creamos un objeto MethodChecker
         AvisosBox av;                                                                   //  Creamos el objeto AvisoBox con nombre av
+        GesitonFicheros reader;
         string id;                                                                      //  Creamos el string ID
         double vel;                                                                     //  Creamos el double velocidad
         double xo;                                                                      //  Creamos el double xo
@@ -36,6 +37,7 @@ namespace Pruebas_GUI_Volar
             InitializeComponent();                                                      //  Iniciamos los componentes, esto siempre esta
             cont = 0;                                                                   //  Ponemos el contador a 0
             this.menu = menu;                                                           //  Inicializamos el menu
+            this.reader = new GesitonFicheros();
         }                                                                               
                                                                                         //
         ////////////////////////////////////////////////////////////     Metodos voids  /////////////////////////////////////////////////////////////////////////
@@ -115,17 +117,6 @@ namespace Pruebas_GUI_Volar
                 av.Show(this);                                                          //  Muestra esta ventana
             }                                                                           
         }
-
-        private void XoBox_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void YfBox_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void Autocompletar_Click(object sender, EventArgs e)
         {
             string textNode = treeView1.SelectedNode.Text;
@@ -151,16 +142,7 @@ namespace Pruebas_GUI_Volar
 
         }
 
-        private void VelBox_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            CargarVuelosDesdeFichero();
-        }
-        public void CargarVuelosDesdeFichero()
+        private void fileButton_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog selector = new OpenFileDialog())
             {
@@ -174,58 +156,11 @@ namespace Pruebas_GUI_Volar
                 {
                     return;
                 }
-
-                using (StreamReader lector = new StreamReader(selector.FileName))
-                {
-
-                    string Linea = lector.ReadLine();
-                    while (Linea != null)
-                    {
-                        if (Linea == null)
-                        {
-                            MessageBox.Show("El fitxer està buit.");
-                            return;
-                        }
-                        else
-                        {
-                            string[] trozos = Linea.Split(' ');
-                            string id = trozos[0];
-                            double vel = Convert.ToDouble(trozos[1]);
-                            double Xinicial = Convert.ToDouble(trozos[2]);
-                            double Yinicial = Convert.ToDouble(trozos[3]);
-                            double Xfinal = Convert.ToDouble(trozos[4]);
-                            double Yfinal = Convert.ToDouble(trozos[5]);
-
-                            if (checker.check_id(id) == "0" && checker.check_vel(vel) == "0" && checker.check_pos(Xinicial, Yinicial, Xfinal, Yfinal) == "0")
-                            {
-                                FlightPlan nouVol = new FlightPlan(id, Xinicial, Yinicial, Xfinal, Yfinal, vel);
-
-                                int resultat = menu.planList.AddFlightPlan(nouVol);
-
-                                if (resultat == 0)
-                                {
-                                    MessageBox.Show("El vol esta en el Flight plan list correctament");
-                                }
-                                else
-                                {
-                                    MessageBox.Show("La llista de vols està plena.");
-                                }
-                            }
-                            else
-                            {
-                                MessageBox.Show("Les dades del vol no són correctes.");
-                            }
-
-                        }
-                        Linea = lector.ReadLine();
-                    }
-                }
+                reader.GestionarFicheros(selector.FileName);
+                reader.CargarVuelosDesdeFichero();
+                av = new AvisosBox(reader.EstadoFichero());
+                av.Show(this);
             }
-        }
-
-        private void Datos_de_Vuelo_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }

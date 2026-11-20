@@ -8,23 +8,42 @@ namespace FlightLib
 {
     public class FlightPlan
     {
-        // Atributos
-
-        string id; // identificador
-        Position currentPosition; // posicion actual
-        Position finalPosition; // posicion final
-        double velocidad;
+        //////////////////////////////////////////////////////////////    Atributos   ////////////////////////////////////////////////////////////////////
+        string id;                                                                            
+        Position initialPosition;                                                              
+        Position currentPosition;                                                              
+        Position finalPosition;                                                                
+        double velocidad;                                                                       
+        double angulo;
+        
 
         // Constructures
         public FlightPlan(string id, double cpx, double cpy, double fpx, double fpy, double velocidad)
         {
-            this.id = id;
-            this.currentPosition = new Position(cpx, cpy);
-            this.finalPosition = new Position(fpx, fpy);
-            this.velocidad = velocidad;
+            this.id = id;                                                                       //  Inicializamos el Identificador
+            this.currentPosition = new Position(cpx, cpy);                                      //  Inicializamos la pos Actual
+            this.initialPosition = new Position(cpx, cpy);                                      //  Inicializamos la pos Inicial
+            this.finalPosition = new Position(fpx, fpy);                                        //  Inicializamos la pos Final
+            this.velocidad = velocidad;                                                         //  Inicializamos la velocidad
+            angulo = Math.Atan((fpy - cpy) / (fpx - cpx));
         }
 
-        // Metodos
+        public string Getid()                                                                   
+        { return this.id; }
+        public Position GetinitialPosition()                                                    
+        { return this.initialPosition; }
+        public Position GetcurrentPosition()                                                   
+        { return this.currentPosition; }
+        public Position GetfinalPosition()                                                      
+        { return this.finalPosition; }
+        public double GetVelocidad()                                                            
+        { return this.velocidad; }
+        //public double GetAngulo() 
+        //{  return this.angulo; }
+        public double GetVelocidadX() 
+        { return velocidad * Math.Cos(angulo); }
+        public double GetVelocidadY() 
+        { return velocidad * Math.Sin(angulo); }
 
         public void SetVelocidad(double velocidad)
         // setter del atributo velocidad

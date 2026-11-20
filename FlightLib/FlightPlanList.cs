@@ -16,7 +16,14 @@ namespace FlightLib
             this.vector = new FlightPlan[10];
             this.number = 0;
         }
-        public int AddFlightPlan(FlightPlan p) 
+
+        public int GetLenght() 
+        {
+            return v_lenght;
+        }
+
+        //////////////////////////////////////////////////////////     Metodos Integers   ////////////////////////////////////////////////////////////////////////
+        public int AddFlightPlan(FlightPlan p)                                              //  Creamos la funcion añadari aviones al plan de vuelo       
         {
             if (number >= 10) return -1;
             else 

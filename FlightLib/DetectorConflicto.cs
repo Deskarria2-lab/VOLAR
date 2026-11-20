@@ -6,72 +6,48 @@ namespace FlightLib
     public class ConflictDetector
     {
         FlightPlanList lista; //llista de vuelos 
-        double distanciaSeguridad;  //distancia minima
+
+        double distanciaSeguridad2;  //distancia minima
+
+        int lenght;
          
         public ConflictDetector(FlightPlanList lista, double distanciaSeguridad)
         {
             this.lista = lista;
-            this.distanciaSeguridad = distanciaSeguridad;
-        }
-
-        private int NumVuelos() //conta els avions que hi ha a la llista de vols
-        {
-            int n = 0;
-            while (lista.GetFlightPlan(n) != null)
-            { 
-                n++;
-            }
-            return n;
+            this.distanciaSeguridad2 = distanciaSeguridad * distanciaSeguridad;
+            lenght = lista.GetLenght();
         }
         public bool HayConflicto(FlightPlan a, FlightPlan b)
         {
-            double ax = a.GetcurrentPosition().GetX();
-            double ay = a.GetcurrentPosition().GetY();
-            double adx = a.GetfinalPosition().GetX() - ax;
-            double ady = a.GetfinalPosition().GetY() - ay;
-            double adist = Math.Sqrt(adx * adx + ady * ady);
-            double av = a.GetVelocidad() / 60.0;
-            double avx = adx / adist * av;
-            double avy = ady / adist * av;
-            double ta = adist / av;
-                
-            double bx = b.GetcurrentPosition().GetX();
-            double by = b.GetcurrentPosition().GetY();
-            double bdx = b.GetfinalPosition().GetX() - bx;
-            double bdy = b.GetfinalPosition().GetY() - by;
-            double bdist = Math.Sqrt(bdx * bdx + bdy * bdy);
-            double bv = b.GetVelocidad() / 60.0;
-            double bvx = bdx / bdist * bv;
-            double bvy = bdy / bdist * bv;
-            double tb = bdist / bv;
+            double ta = 60 * (a.Distance(a) / a.GetVelocidad());
+            double tb = 60 * (b.Distance(b) / b.GetVelocidad());
 
             double dt = Math.Min(ta, tb); //el temps en el que analitzem
 
-            double rx = bx - ax;      //posicio relativa de b respecte á a
-            double ry = by - ay;
-            double wx = bvx - avx;    //velocitat relativa
-            double wy = bvy - avy;
+            Position pa = a.GetcurrentPosition();
+            Position pb = b.GetcurrentPosition();
+
+            double rx = pb.GetX() - pa.GetX();      //posicio relativa de b respecte á a
+            double ry = pb.GetY() - pa.GetY();
+
+            double wx = b.GetVelocidadX() - a.GetVelocidadX();    //velocitat relativa
+            double wy = b.GetVelocidadY() - a.GetVelocidadY();
 
             double ww = wx * wx + wy * wy; //v relativa al quadrat
             double tm = Math.Max(0, Math.Min(dt, -(rx * wx + ry * wy) / ww)); //el temps en el que es tallen les trajectories 
 
             double mx = rx + wx * tm; //quan es tallen trobes la posició
             double my = ry + wy * tm;
-             
-            if (Math.Sqrt(mx * mx + my * my) < distanciaSeguridad)
-            {
-                return true;
-            }
-            return false;
+            
+            return (mx*mx + my*my) < distanciaSeguridad2;
         }
 
         //llista de parells de avions en conflicte, id's
         public List<string> ConflictosDetectados()
         {
             List<string> res = new List<string>();
-            int n = NumVuelos();
-            for (int i = 0; i < n; i++)
-                for (int j = i + 1; j < n; j++)
+            for (int i = 0; i < lenght; i++)
+                for (int j = i + 1; j < lenght; j++)
                 {
                     FlightPlan a = lista.GetFlightPlan(i);
                     FlightPlan b = lista.GetFlightPlan(j);
@@ -84,8 +60,7 @@ namespace FlightLib
         //comprova si un vol esta en conflict amb alguno de los demas
         private bool ConflictoConAlguno(FlightPlan p)
         {
-            int n = NumVuelos();
-            for (int i = 0; i < n; i++)
+            for (int i = 0; i < lenght; i++)
             {
                 FlightPlan otro = lista.GetFlightPlan(i);
                 if (otro != p && HayConflicto(p, otro)) return true;
@@ -115,9 +90,8 @@ namespace FlightLib
         //  Resuelve todos los conflictos cambiando la velocidad de un vuelo de cada par. Devuelve true si no queda ninguno
         public bool ResolverConflictos()
         {
-            int n = NumVuelos();
-            for (int i = 0; i < n; i++)
-                for (int j = i + 1; j < n; j++)
+            for (int i = 0; i < lenght; i++)
+                for (int j = i + 1; j < lenght; j++)
                 {
                     FlightPlan a = lista.GetFlightPlan(i);
                     FlightPlan b = lista.GetFlightPlan(j);

@@ -122,55 +122,37 @@ namespace Pruebas_GUI_Volar.Forms
 
         private void DataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex < 0 || e.ColumnIndex != 3)
+            // Comprovem que s'ha modificat una fila vàlida i que és la columna de la velocitat
+            if (e.RowIndex >= 0 && e.ColumnIndex == 3)
             {
-                return;
-            }
+                try
+                {
+                    //ID del vol de la fila modificada
+                    string idSeleccionat = dataGridView1.Rows[e.RowIndex].Cells["ID"].Value.ToString();
 
-            object valorId =
-                dataGridView1.Rows[e.RowIndex]
-                .Cells["ID"]
-                .Value;
+                    double novaVelocitat = Convert.ToDouble(dataGridView1.Rows[e.RowIndex].Cells["Velocidad"].Value);
 
-            object valorVelocitat =
-                dataGridView1.Rows[e.RowIndex]
-                .Cells["Velocidad"]
-                .Value;
+                    if (novaVelocitat <= 0)
+                    {
+                        MessageBox.Show("La velocidad debe ser un número positivo.");
+                        return;
+                    }
 
-            if (valorId == null || valorVelocitat == null)
-            {
-                return;
-            }
+                    //Actualitzem velocitat i reiniciem
+                    if (v1 != null && v1.Getid() == idSeleccionat )
+                    {
+                        v1.SetVelocidad(novaVelocitat);
+                        
+                    }
+                    else if (v2 != null && v2.Getid() == idSeleccionat)
+                    {
+                        v2.SetVelocidad(novaVelocitat);
+                        
+                    }
 
-            string idSeleccionat = valorId.ToString();
-
-            double novaVelocitat;
-
-            if (!double.TryParse(
-                valorVelocitat.ToString(),
-                out novaVelocitat))
-            {
-                MessageBox.Show(
-                    "La velocitat no és vàlida.");
-
-                return;
-            }
-
-            if (novaVelocitat <= 0)
-            {
-                MessageBox.Show(
-                    "La velocitat ha de ser més gran que zero.");
-
-                return;
-            }
-
-            for (int i = 0; i < 10; i++)
-            {
-                FlightPlan vuelo =
-                    listaVuelos.GetFlightPlan(i);
-
-                if (vuelo != null &&
-                    vuelo.Getid() == idSeleccionat)
+                    this.Close();
+                }
+                catch (FormatException)
                 {
                     vuelo.SetVelocidad(novaVelocitat);
                     break;
