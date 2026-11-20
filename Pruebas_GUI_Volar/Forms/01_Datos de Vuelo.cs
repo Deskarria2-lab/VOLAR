@@ -21,6 +21,7 @@ namespace Pruebas_GUI_Volar
         Options menu;                                                                   //  Creamos el objeto Options con nombre menu
         MethodChecker checker = new MethodChecker();                                    //  Creamos un objeto MethodChecker
         AvisosBox av;                                                                   //  Creamos el objeto AvisoBox con nombre av
+        GesitonFicheros reader;
         string id;                                                                      //  Creamos el string ID
         double vel;                                                                     //  Creamos el double velocidad
         double xo;                                                                      //  Creamos el double xo
@@ -34,6 +35,7 @@ namespace Pruebas_GUI_Volar
             InitializeComponent();                                                      //  Iniciamos los componentes, esto siempre esta
             cont = 0;                                                                   //  Ponemos el contador a 0
             this.menu = menu;                                                           //  Inicializamos el menu
+            this.reader = new GesitonFicheros();
         }                                                                               
                                                                                         //
         ////////////////////////////////////////////////////////////     Metodos voids  /////////////////////////////////////////////////////////////////////////
@@ -113,17 +115,6 @@ namespace Pruebas_GUI_Volar
                 av.Show(this);                                                          //  Muestra esta ventana
             }                                                                           
         }
-
-        private void XoBox_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void YfBox_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void Autocompletar_Click(object sender, EventArgs e)
         {
             string textNode = treeView1.SelectedNode.Text;
@@ -147,6 +138,27 @@ namespace Pruebas_GUI_Volar
                 YfBox.Text = "590";
             }
 
+        }
+
+        private void fileButton_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog selector = new OpenFileDialog())
+            {
+                selector.Title = "Selecciona el fitxer de vols";
+                selector.Filter =
+                    "Fitxers de text (*.txt)|*.txt|" +
+                    "Fitxers CSV (*.csv)|*.csv|" +
+                    "Tots els fitxers (*.*)|*.*";
+
+                if (selector.ShowDialog() != DialogResult.OK)
+                {
+                    return;
+                }
+                reader.GestionarFicheros(selector.FileName);
+                reader.CargarVuelosDesdeFichero();
+                av = new AvisosBox(reader.EstadoFichero());
+                av.Show(this);
+            }
         }
     }
 }

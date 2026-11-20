@@ -49,6 +49,7 @@
     <Compile Include="DetectorConflicto.cs" />
     <Compile Include="FlightPlan.cs" />
     <Compile Include="FlightPlanList.cs" />
+    <Compile Include="GesitonFicheros.cs" />
     <Compile Include="MethodChecker.cs" />
     <Compile Include="Position.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

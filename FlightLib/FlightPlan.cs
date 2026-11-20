@@ -15,11 +15,11 @@ namespace FlightLib
     public class FlightPlan
     {
         //////////////////////////////////////////////////////////////    Atributos   ////////////////////////////////////////////////////////////////////
-        string id;                                                                              // identificador
-        Position initialPosition;                                                               //  Posicion Inicial
-        Position currentPosition;                                                               // posicion actual
-        Position finalPosition;                                                                 // posicion final
-        double velocidad;                                                                       //  velocidad avion
+        string id;                                                                            
+        Position initialPosition;                                                              
+        Position currentPosition;                                                              
+        Position finalPosition;                                                                
+        double velocidad;                                                                       
         double angulo;
         
 
@@ -35,15 +35,15 @@ namespace FlightLib
         }
         ////////////////////////////////////////////////////////////////    Metodos GET   /////////////////////////////////////////////////////////////////////
 
-        public string Getid()                                                                   //  Metodo Get para el Identificador
+        public string Getid()                                                                   
         { return this.id; }
-        public Position GetinitialPosition()                                                    //  Metodo Get para la posicion Final
+        public Position GetinitialPosition()                                                    
         { return this.initialPosition; }
-        public Position GetcurrentPosition()                                                    //  Metodo Get para la posicion Actual
+        public Position GetcurrentPosition()                                                   
         { return this.currentPosition; }
-        public Position GetfinalPosition()                                                      //  Metodo Get para la posicion Final
+        public Position GetfinalPosition()                                                      
         { return this.finalPosition; }
-        public double GetVelocidad()                                                            //  Metodo Get para la velocidad del avion
+        public double GetVelocidad()                                                            
         { return this.velocidad; }
         //public double GetAngulo() 
         //{  return this.angulo; }
