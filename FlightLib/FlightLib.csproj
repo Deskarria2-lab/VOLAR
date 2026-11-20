@@ -44,7 +44,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Base de Datos\AuthService.cs" />
     <Compile Include="Base de Datos\DataBase.cs" />
+    <Compile Include="Base de Datos\User.cs" />
+    <Compile Include="Base de Datos\UserRepository.cs" />
     <Compile Include="miscellaneous\datas.cs" />
     <Compile Include="Gestion de Aviones\DetectorConflicto.cs" />
     <Compile Include="Gestion de Aviones\FlightPlan.cs" />
