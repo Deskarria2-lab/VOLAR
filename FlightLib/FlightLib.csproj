@@ -44,14 +44,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataBase.cs" />
-    <Compile Include="datas.cs" />
-    <Compile Include="DetectorConflicto.cs" />
-    <Compile Include="FlightPlan.cs" />
-    <Compile Include="FlightPlanList.cs" />
-    <Compile Include="GesitonFicheros.cs" />
-    <Compile Include="MethodChecker.cs" />
-    <Compile Include="Position.cs" />
+    <Compile Include="Base de Datos\DataBase.cs" />
+    <Compile Include="miscellaneous\datas.cs" />
+    <Compile Include="Gestion de Aviones\DetectorConflicto.cs" />
+    <Compile Include="Gestion de Aviones\FlightPlan.cs" />
+    <Compile Include="Gestion de Aviones\FlightPlanList.cs" />
+    <Compile Include="miscellaneous\GesitonFicheros.cs" />
+    <Compile Include="miscellaneous\MethodChecker.cs" />
+    <Compile Include="Gestion de Aviones\Position.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
