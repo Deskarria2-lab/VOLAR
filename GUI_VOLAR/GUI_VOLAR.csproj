@@ -63,6 +63,9 @@
     <EmbeddedResource Include="Form\00_Login.resx">
       <DependentUpon>00_Login.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Form\01_Dashboard.resx">
+      <DependentUpon>01_Dashboard.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -71,6 +74,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -84,6 +88,24 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\logo_94x103%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\logo_94x103.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icono_salir.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icono_salir_pantalla_completa.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icono_pantalla_completa.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

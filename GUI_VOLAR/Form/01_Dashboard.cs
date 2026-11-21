@@ -10,10 +10,11 @@ using System.Windows.Forms;
 
 namespace GUI_VOLAR
 {
-    public partial class Dashboard : Form
+    public partial class FrmDashboard : Form
     {
-        public Dashboard()
+        public FrmDashboard()
         {
+            this.BackColor = Color.FromArgb(10, 20, 34);
             InitializeComponent();
         }
     }
