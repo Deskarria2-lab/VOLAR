@@ -70,7 +70,7 @@
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.Frm_S_Cargar_Button = new System.Windows.Forms.Button();
             this.Frm_S_Start_Button = new System.Windows.Forms.Button();
-            this.button9 = new System.Windows.Forms.Button();
+            this.Frm_S_UnCiclo = new System.Windows.Forms.Button();
             this.Frm_S_Restart_Button = new System.Windows.Forms.Button();
             this.Frm_S_Stop_Button = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -514,7 +514,7 @@
             // 
             this.flowLayoutPanel2.Controls.Add(this.Frm_S_Cargar_Button);
             this.flowLayoutPanel2.Controls.Add(this.Frm_S_Start_Button);
-            this.flowLayoutPanel2.Controls.Add(this.button9);
+            this.flowLayoutPanel2.Controls.Add(this.Frm_S_UnCiclo);
             this.flowLayoutPanel2.Controls.Add(this.Frm_S_Restart_Button);
             this.flowLayoutPanel2.Controls.Add(this.Frm_S_Stop_Button);
             this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -545,16 +545,18 @@
             this.Frm_S_Start_Button.TabIndex = 1;
             this.Frm_S_Start_Button.Text = "Iniciar Simulacion";
             this.Frm_S_Start_Button.UseVisualStyleBackColor = true;
+            this.Frm_S_Start_Button.Click += new System.EventHandler(this.Frm_S_Start_Button_Click);
             // 
-            // button9
+            // Frm_S_UnCiclo
             // 
-            this.button9.Location = new System.Drawing.Point(309, 7);
-            this.button9.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(157, 55);
-            this.button9.TabIndex = 2;
-            this.button9.Text = "button9";
-            this.button9.UseVisualStyleBackColor = true;
+            this.Frm_S_UnCiclo.Location = new System.Drawing.Point(309, 7);
+            this.Frm_S_UnCiclo.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.Frm_S_UnCiclo.Name = "Frm_S_UnCiclo";
+            this.Frm_S_UnCiclo.Size = new System.Drawing.Size(157, 55);
+            this.Frm_S_UnCiclo.TabIndex = 2;
+            this.Frm_S_UnCiclo.Text = "Un Ciclo de simulacion";
+            this.Frm_S_UnCiclo.UseVisualStyleBackColor = true;
+            this.Frm_S_UnCiclo.Click += new System.EventHandler(this.Frm_S_UnCiclo_Click);
             // 
             // Frm_S_Restart_Button
             // 
@@ -565,6 +567,7 @@
             this.Frm_S_Restart_Button.TabIndex = 3;
             this.Frm_S_Restart_Button.Text = "Restaurar Simulacion";
             this.Frm_S_Restart_Button.UseVisualStyleBackColor = true;
+            this.Frm_S_Restart_Button.Click += new System.EventHandler(this.Frm_S_Restart_Button_Click);
             // 
             // Frm_S_Stop_Button
             // 
@@ -575,6 +578,7 @@
             this.Frm_S_Stop_Button.TabIndex = 4;
             this.Frm_S_Stop_Button.Text = "Detener Simulacion";
             this.Frm_S_Stop_Button.UseVisualStyleBackColor = true;
+            this.Frm_S_Stop_Button.Click += new System.EventHandler(this.Frm_S_Stop_Button_Click);
             // 
             // groupBox2
             // 
@@ -907,7 +911,7 @@
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
         private System.Windows.Forms.Button Frm_S_Cargar_Button;
         private System.Windows.Forms.Button Frm_S_Start_Button;
-        private System.Windows.Forms.Button button9;
+        private System.Windows.Forms.Button Frm_S_UnCiclo;
         private System.Windows.Forms.Button Frm_S_Restart_Button;
         private System.Windows.Forms.Button Frm_S_Stop_Button;
         private RadarPanel Frm_Radar_Panel;

@@ -23,7 +23,7 @@ namespace FlightLib
             i = 0;
         }
         
-        public void CargarVuelosDesdeFichero()
+        public FlightPlanList CargarVuelosDesdeFichero()
         {
             using (StreamReader lector = new StreamReader(file))
             {
@@ -31,12 +31,13 @@ namespace FlightLib
                 string Linea = lector.ReadLine();
                 try 
                 {
+                    FlightPlanList plan = new FlightPlanList();
                     while (Linea != null)
                     {
                         if (Linea == null)
                         {
                             i = -1;
-                            return;
+                            return null;
                         }
                         else
                         {
@@ -52,11 +53,11 @@ namespace FlightLib
                             {
                                 FlightPlan nouVol = new FlightPlan(id, Xinicial, Yinicial, Xfinal, Yfinal, vel);
 
-                                int resultat = planList.AddFlightPlan(nouVol);
+                                int resultat = 0;
 
                                 if (resultat == 0)
                                 {
-                                    i = 1;
+                                    plan.AddFlightPlan(nouVol);
                                 }
                                 else
                                 {
@@ -71,7 +72,9 @@ namespace FlightLib
                         }
                         Linea = lector.ReadLine();
                     }
-                }catch{ i = 4; }
+
+                    return plan;
+                }catch{ i = 4; return null; }
             }
         }
 

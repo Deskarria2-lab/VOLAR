@@ -44,12 +44,12 @@
             this.PosicionInicial,
             this.PosicionFinal,
             this.Velocidad});
-            this.dataGridView1.Location = new System.Drawing.Point(37, 51);
+            this.dataGridView1.Location = new System.Drawing.Point(46, 49);
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(2);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 82;
             this.dataGridView1.RowTemplate.Height = 33;
-            this.dataGridView1.Size = new System.Drawing.Size(729, 312);
+            this.dataGridView1.Size = new System.Drawing.Size(719, 312);
             this.dataGridView1.TabIndex = 0;
             // 
             // ID

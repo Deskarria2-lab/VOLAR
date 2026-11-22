@@ -37,9 +37,12 @@ namespace GUI_VOLAR
         double yf;
         ////////////////////////////////////////////////////// Atributos Simulacion /////////////////////////////////////////////////////////
         private readonly List<FlightPlan> volsCerregats;
+        Timer reloj = new Timer { Interval = 33 };
         public FrmDashboard(FrmLogin login)
         {
             InitializeComponent();
+            ConfigurarGrid();
+            reader = new GesitonFicheros();
             this.planList = new FlightPlanList();
             this.checker = new MethodChecker();
             this.login = login;
@@ -48,6 +51,7 @@ namespace GUI_VOLAR
             Frm_Editor_Aviones.Visible = true;
             Frm_Dist_Text.Text = "50";
             Frm_Time_Text.Text = "5";
+            reloj.Tick += Reloj_Tick;
         }
 
         private void FrmExit_Click(object sender, EventArgs e)
@@ -232,12 +236,26 @@ namespace GUI_VOLAR
                     return;
                 }
                 reader.GestionarFicheros(selector.FileName);
-                reader.CargarVuelosDesdeFichero();
+                planList = reader.CargarVuelosDesdeFichero();
                 av = new _03_Avisos(reader.EstadoFichero());
                 av.Show(this);
             }
         }
         ///////////////////////////////////////////// Simulation Control, funciones para dibujar aviones /////////////////////////////////////
+        
+        public void AvanzarCiclo() 
+        {
+            foreach (FlightPlan plan in volsCerregats)
+            {
+                plan.Mover(tCicl);
+            }
+            Frm_Radar_Panel.Invalidate();
+            ActualizarGrid();
+        }
+        private void Reloj_Tick(object sender, EventArgs e) 
+        {
+            AvanzarCiclo();
+        }
         private void Frm_S_Cargar_Button_Click(object sender, EventArgs e)
         {
             Frm_Radar_Panel.Vuelos.Clear();
@@ -253,6 +271,88 @@ namespace GUI_VOLAR
                 }
             }
             Frm_Radar_Panel.Invalidate();
+            CargarGrid();
+        }
+
+        private void Frm_S_UnCiclo_Click(object sender, EventArgs e)
+        {
+            AvanzarCiclo();
+        }
+
+        private void Frm_S_Start_Button_Click(object sender, EventArgs e)
+        {
+            reloj.Start();
+        }
+
+        private void Frm_S_Stop_Button_Click(object sender, EventArgs e)
+        {
+            reloj.Stop();
+        }
+
+        private void Frm_S_Restart_Button_Click(object sender, EventArgs e)
+        {
+            reloj.Stop();
+
+            foreach (FlightPlan plan in volsCerregats)
+            {
+                plan.Restart();
+                plan.SetVelocidad(plan.GetVelocidadInicial());
+
+            }
+
+            Frm_Radar_Panel.Invalidate();
+            ActualizarGrid();
+        }
+
+
+        ///////////////////////////////////////////// DATA GRID ////////////////////////////////////
+        public void ConfigurarGrid() 
+        {
+            Frm_DataGrid.Columns.Clear();
+            Frm_DataGrid.Columns.Add("ColId", "ID");
+            Frm_DataGrid.Columns.Add("ColIni", "Pos. Inicial");
+            Frm_DataGrid.Columns.Add("ColFin", "Pos. Final");
+            Frm_DataGrid.Columns.Add("ColAct", "Pos. Actual");
+            Frm_DataGrid.Columns.Add("colVel", "Velocidad");
+
+            Frm_DataGrid.ReadOnly = true;
+            Frm_DataGrid.AllowUserToAddRows = false;
+
+            typeof(DataGridView).GetProperty("DoubleBuffered",
+                System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)
+                .SetValue(Frm_DataGrid, true, null);
+        }
+
+        public void CargarGrid() 
+        {
+            Frm_DataGrid.Columns.Clear();
+            if(Frm_DataGrid.Columns.Count == 0 ) ConfigurarGrid();
+            foreach (FlightPlan plan in volsCerregats) 
+            {
+                int n = Frm_DataGrid.Rows.Add();
+                DataGridViewRow fila = Frm_DataGrid.Rows[n];
+                fila.Tag = plan;                                   // la fila recuerda de qué avión es
+
+                Position ini = plan.GetinitialPosition(), fin = plan.GetfinalPosition();
+                fila.Cells["colId"].Value = plan.Getid();
+                fila.Cells["colIni"].Value = $"({ini.GetX():0}, {ini.GetY():0})";
+                fila.Cells["colFin"].Value = $"({fin.GetX():0}, {fin.GetY():0})";
+                fila.Cells["colVel"].Value =plan.GetVelocidad().ToString("0");
+            }
+            ActualizarGrid();
+        }
+
+        public void ActualizarGrid() 
+        {
+            foreach (DataGridViewRow fila in Frm_DataGrid.Rows)
+            {
+                FlightPlan plan = fila.Tag as FlightPlan;
+                if (plan == null) continue;
+
+                Position act = plan.GetcurrentPosition();
+                fila.Cells["colAct"].Value = $"({act.GetX():0.0}, {act.GetY():0.0})";
+                //fila.Cells["colEst"].Value = plan.HasArrived() ? "Llegado" : "En vuelo";
+            }
         }
     }
 }
