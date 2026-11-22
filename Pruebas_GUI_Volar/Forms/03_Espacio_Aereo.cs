@@ -25,12 +25,21 @@ namespace Pruebas_GUI_Volar
         DataBase database;
         FlightPlanRepository repository;
         string emailUsuarioActual;
+        FlightPlanHistory historial;
+        bool historialIniciado = false;
 
         public _03_Espacio_Aereo(Options menu)
         {
             InitializeComponent();
             this.menu = menu;
             this.avion_40 = Properties.Resources.avion_40;
+
+            // Inicialitzem la connexió amb la base de dades i el repositori.
+            database = new DataBase();
+            repository = new FlightPlanRepository(database);
+
+            // Creem l'objecte que gestionarà l'historial de la simulació.
+            historial = new FlightPlanHistory();
 
             // Connectem amb el mètode automàtic.
             simulacionTimer.Tick += SimulacionTimer_Tick;
@@ -56,6 +65,10 @@ namespace Pruebas_GUI_Volar
                 }
             }
 
+            // Inicialitzem l'historial amb les posicions inicials dels avions.
+            historial.Iniciar(menu.planList);
+            historialIniciado = true;
+
             EspAereo.Invalidate();
             detectarConflicto(sender, e);
         }
@@ -67,6 +80,7 @@ namespace Pruebas_GUI_Volar
                 plan.Mover(menu.tCicl);
             }
 
+            historial.RegistrarPas(menu.planList);     // Guardem el nou estat després del moviment.
             EspAereo.Invalidate();
             ComprovarDestino();
             ComprovarConflictes();
@@ -86,6 +100,7 @@ namespace Pruebas_GUI_Volar
                 }
             }
 
+            historial.RegistrarPas(menu.planList);     // Guardem el nou estat després del moviment.
             // Actualitzem el dibuix per mostrar les noves posicions dels avions.
             EspAereo.Invalidate();
             ComprovarConflictes();
@@ -301,6 +316,10 @@ namespace Pruebas_GUI_Volar
 
             }
 
+            // Reiniciem també l'historial
+            historial.Iniciar(menu.planList);
+            historialIniciado = true;
+
             EspAereo.Invalidate();
             detectarConflicto(sender, e);
         }
@@ -313,27 +332,37 @@ namespace Pruebas_GUI_Volar
 
         private void GuardarSimulación_Click(object sender, EventArgs e)
         {
-            database.Iniciar();
-
             try
             {
-                repository.GuardarPlanes(emailUsuarioActual, menu.planList);
+                if (string.IsNullOrWhiteSpace(emailUsuarioActual))
+                {
+                    MessageBox.Show("No s'ha identificat l'usuari actual.");
+                    return;
+                }
 
-                MessageBox.Show(
-                    "La simulació s'ha guardat correctament.",
-                    "Guardar simulació",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information
-                );
+                if (!historialIniciado || historial.Count == 0)
+                {
+                    MessageBox.Show("No hi ha cap historial de simulació per guardar.");
+                    return;
+                }
+
+                database.Iniciar();
+
+                // Ens assegurem que la taula existeix.
+                repository.CrearTabla();
+
+                // Obtenim tots els estats de l'Stack en ordre cronològic.
+                List<List<FlightPlanData>> estados =
+                    historial.ObtenerEstadosPerGuardar();
+
+                // Guardem l'historial complet de l'usuari.
+                repository.GuardarHistorial(emailUsuarioActual, estados);
+
+                MessageBox.Show("La simulació s'ha guardat correctament.");
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    "Error en guardar la simulació: " + ex.Message,
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                MessageBox.Show("Error en guardar la simulació: ");
             }
             finally
             {

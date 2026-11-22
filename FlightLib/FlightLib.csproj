@@ -48,6 +48,7 @@
     <Compile Include="Base de Datos\AuthService.cs" />
     <Compile Include="Base de Datos\DataBase.cs" />
     <Compile Include="Base de Datos\FlightPlanData.cs" />
+    <Compile Include="Base de Datos\FlightPlanHistory.cs" />
     <Compile Include="Base de Datos\FlightPlanRepository.cs" />
     <Compile Include="Base de Datos\User.cs" />
     <Compile Include="Base de Datos\UserRepository.cs" />

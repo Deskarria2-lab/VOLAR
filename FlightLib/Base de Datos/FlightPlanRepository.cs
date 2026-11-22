@@ -1,9 +1,10 @@
 ﻿
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.SQLite;
-using FlightLib;
+
+//Aquesta classe només gestiona les operacions SQL (guarda i recupera de l'historial de la simulació)
+//No crea ni modifica l'Stack: rep els estats que li passa FlightPlanHistory i els guarda a la base de dades
 
 namespace FlightLib.Base_de_Datos
 {
@@ -16,14 +17,15 @@ namespace FlightLib.Base_de_Datos
             this.database = database;
         }
 
-        // CREATE TABLE
+        // Crea la taula on es guardarà l'historial de la simulació.
         public void CrearTabla()
         {
-            string query = @"
-                CREATE TABLE IF NOT EXISTS FlightPlans
+            string consulta = @"
+                CREATE TABLE IF NOT EXISTS FlightPlanHistory
                 (
                     UserEmail TEXT NOT NULL,
                     FlightId TEXT NOT NULL,
+                    StepNumber INTEGER NOT NULL,
                     Speed REAL NOT NULL,
                     InitialSpeed REAL NOT NULL,
                     InitialX REAL NOT NULL,
@@ -31,217 +33,251 @@ namespace FlightLib.Base_de_Datos
                     FinalX REAL NOT NULL,
                     FinalY REAL NOT NULL,
                     CurrentX REAL NOT NULL,
-                    CurrentY REAL NOT NULL,
-                    PRIMARY KEY (UserEmail, FlightId)
-                )";
+                    CurrentY REAL NOT NULL
+                );";
 
-            SQLiteCommand command =
-                new SQLiteCommand(query, database.Connection);
-
-            command.ExecuteNonQuery();
+            using (SQLiteCommand comando =
+                new SQLiteCommand(consulta, database.Connection))
+            {
+                comando.ExecuteNonQuery();
+            }
         }
 
-        // DELETE + INSERT
-        // Guarda els plans i substitueix els anteriors de l'usuari
-        public void GuardarPlanes(string email, FlightPlanList lista)
+        // Guarda tot l'historial d'un usuari.
+        // Els estats han d'arribar ordenats del més antic al més recent.
+        public void GuardarHistorial(
+            string email,
+            List<List<FlightPlanData>> estados)
         {
             if (string.IsNullOrWhiteSpace(email))
-                throw new ArgumentException("El correu no és vàlid.");
-
-            if (lista == null)
-                throw new ArgumentNullException("lista");
-
-            SQLiteConnection cnx = database.Connection;
-
-            SQLiteTransaction transaction = cnx.BeginTransaction();
-
-            try
             {
-                // DELETE: elimina els plans anteriors de l'usuari
-                string queryDelete =
-                    "DELETE FROM FlightPlans WHERE UserEmail = @Email";
+                throw new ArgumentException(
+                    "El correu de l'usuari no és vàlid."
+                );
+            }
 
-                SQLiteCommand commandDelete =
-                    new SQLiteCommand(queryDelete, cnx, transaction);
+            if (estados == null || estados.Count == 0)
+            {
+                throw new ArgumentException(
+                    "No hi ha cap estat per guardar."
+                );
+            }
 
-                commandDelete.Parameters.AddWithValue("@Email", email);
-
-                commandDelete.ExecuteNonQuery();
-
-                // INSERT: introdueix els plans actuals
-                string queryInsert = @"
-                    INSERT INTO FlightPlans
-                    (
-                        UserEmail, FlightId,
-                        Speed, InitialSpeed,
-                        InitialX, InitialY,
-                        FinalX, FinalY,
-                        CurrentX, CurrentY
-                    )
-                    VALUES
-                    (
-                        @Email, @Id,
-                        @Speed, @InitialSpeed,
-                        @InitialX, @InitialY,
-                        @FinalX, @FinalY,
-                        @CurrentX, @CurrentY
-                    )";
-
-                SQLiteCommand commandInsert =
-                    new SQLiteCommand(queryInsert, cnx, transaction);
-
-                for (int i = 0; i < lista.GetNPlanes(); i++)
+            using (SQLiteTransaction transaccion =
+                database.Connection.BeginTransaction())
+            {
+                try
                 {
-                    FlightPlan plan = lista.GetFlightPlan(i);
+                    // Eliminem l'historial anterior d'aquest usuari.
+                    string eliminar = @"
+                        DELETE FROM FlightPlanHistory
+                        WHERE UserEmail = @email;";
 
-                    if (plan != null)
+                    using (SQLiteCommand comandoEliminar =
+                        new SQLiteCommand(
+                            eliminar,
+                            database.Connection,
+                            transaccion))
                     {
-                        commandInsert.Parameters.Clear();
+                        comandoEliminar.Parameters.AddWithValue(
+                            "@email", email
+                        );
 
-                        commandInsert.Parameters.AddWithValue(
-                            "@Email", email);
+                        comandoEliminar.ExecuteNonQuery();
+                    }
 
-                        commandInsert.Parameters.AddWithValue(
-                            "@Id", plan.Getid());
+                    // Inserim tots els estats de la simulació.
+                    string insertar = @"
+                        INSERT INTO FlightPlanHistory
+                        (
+                            UserEmail,
+                            FlightId,
+                            StepNumber,
+                            Speed,
+                            InitialSpeed,
+                            InitialX,
+                            InitialY,
+                            FinalX,
+                            FinalY,
+                            CurrentX,
+                            CurrentY
+                        )
+                        VALUES
+                        (
+                            @email,
+                            @flightId,
+                            @stepNumber,
+                            @speed,
+                            @initialSpeed,
+                            @initialX,
+                            @initialY,
+                            @finalX,
+                            @finalY,
+                            @currentX,
+                            @currentY
+                        );";
 
-                        commandInsert.Parameters.AddWithValue(
-                            "@Speed", plan.GetVelocidad());
+                    for (int i = 0; i < estados.Count; i++)
+                    {
+                        List<FlightPlanData> estado = estados[i];
 
-                        commandInsert.Parameters.AddWithValue(
-                            "@InitialSpeed", plan.GetVelocidadInicial());
+                        foreach (FlightPlanData dades in estado)
+                        {
+                            using (SQLiteCommand comandoInsertar =
+                                new SQLiteCommand(
+                                    insertar,
+                                    database.Connection,
+                                    transaccion))
+                            {
+                                comandoInsertar.Parameters.AddWithValue(
+                                    "@email", email
+                                );
 
-                        commandInsert.Parameters.AddWithValue(
-                            "@InitialX",
-                            plan.GetinitialPosition().GetX());
+                                comandoInsertar.Parameters.AddWithValue(
+                                    "@flightId", dades.FlightId
+                                );
 
-                        commandInsert.Parameters.AddWithValue(
-                            "@InitialY",
-                            plan.GetinitialPosition().GetY());
+                                comandoInsertar.Parameters.AddWithValue(
+                                    "@stepNumber", i
+                                );
 
-                        commandInsert.Parameters.AddWithValue(
-                            "@FinalX",
-                            plan.GetfinalPosition().GetX());
+                                comandoInsertar.Parameters.AddWithValue(
+                                    "@speed", dades.Speed
+                                );
 
-                        commandInsert.Parameters.AddWithValue(
-                            "@FinalY",
-                            plan.GetfinalPosition().GetY());
+                                comandoInsertar.Parameters.AddWithValue(
+                                    "@initialSpeed", dades.InitialSpeed
+                                );
 
-                        commandInsert.Parameters.AddWithValue(
-                            "@CurrentX",
-                            plan.GetcurrentPosition().GetX());
+                                comandoInsertar.Parameters.AddWithValue(
+                                    "@initialX", dades.InitialX
+                                );
 
-                        commandInsert.Parameters.AddWithValue(
-                            "@CurrentY",
-                            plan.GetcurrentPosition().GetY());
+                                comandoInsertar.Parameters.AddWithValue(
+                                    "@initialY", dades.InitialY
+                                );
 
-                        commandInsert.ExecuteNonQuery();
+                                comandoInsertar.Parameters.AddWithValue(
+                                    "@finalX", dades.FinalX
+                                );
+
+                                comandoInsertar.Parameters.AddWithValue(
+                                    "@finalY", dades.FinalY
+                                );
+
+                                comandoInsertar.Parameters.AddWithValue(
+                                    "@currentX", dades.CurrentX
+                                );
+
+                                comandoInsertar.Parameters.AddWithValue(
+                                    "@currentY", dades.CurrentY
+                                );
+
+                                comandoInsertar.ExecuteNonQuery();
+                            }
+                        }
+                    }
+
+                    transaccion.Commit();
+                }
+                catch
+                {
+                    transaccion.Rollback();
+                    throw;
+                }
+            }
+        }
+
+        // Recupera tots els estats d'un usuari en ordre cronològic.
+        public List<List<FlightPlanData>> CargarHistorial(string email)
+        {
+            List<List<FlightPlanData>> estados =
+                new List<List<FlightPlanData>>();
+
+            string consulta = @"
+                SELECT
+                    FlightId,
+                    StepNumber,
+                    Speed,
+                    InitialSpeed,
+                    InitialX,
+                    InitialY,
+                    FinalX,
+                    FinalY,
+                    CurrentX,
+                    CurrentY
+                FROM FlightPlanHistory
+                WHERE UserEmail = @email
+                ORDER BY StepNumber ASC, FlightId ASC;";
+
+            using (SQLiteCommand comando =
+                new SQLiteCommand(consulta, database.Connection))
+            {
+                comando.Parameters.AddWithValue("@email", email);
+
+                using (SQLiteDataReader lector = comando.ExecuteReader())
+                {
+                    int pasoActual = -1;
+                    List<FlightPlanData> estadoActual = null;
+
+                    while (lector.Read())
+                    {
+                        int numeroPaso = Convert.ToInt32(
+                            lector["StepNumber"]
+                        );
+
+                        // Quan canviem de pas, comencem un estat nou.
+                        if (numeroPaso != pasoActual)
+                        {
+                            estadoActual = new List<FlightPlanData>();
+                            estados.Add(estadoActual);
+                            pasoActual = numeroPaso;
+                        }
+
+                        FlightPlanData dades = new FlightPlanData();
+
+                        dades.FlightId = Convert.ToString(
+                            lector["FlightId"]
+                        );
+
+                        dades.Speed = Convert.ToDouble(
+                            lector["Speed"]
+                        );
+
+                        dades.InitialSpeed = Convert.ToDouble(
+                            lector["InitialSpeed"]
+                        );
+
+                        dades.InitialX = Convert.ToDouble(
+                            lector["InitialX"]
+                        );
+
+                        dades.InitialY = Convert.ToDouble(
+                            lector["InitialY"]
+                        );
+
+                        dades.FinalX = Convert.ToDouble(
+                            lector["FinalX"]
+                        );
+
+                        dades.FinalY = Convert.ToDouble(
+                            lector["FinalY"]
+                        );
+
+                        dades.CurrentX = Convert.ToDouble(
+                            lector["CurrentX"]
+                        );
+
+                        dades.CurrentY = Convert.ToDouble(
+                            lector["CurrentY"]
+                        );
+
+                        estadoActual.Add(dades);
                     }
                 }
-
-                transaction.Commit();
-            }
-            catch
-            {
-                transaction.Rollback();
-                throw;
-            }
-        }
-
-        // SELECT
-        // Recupera les dades dels plans d'un usuari
-        public List<FlightPlanData> CargarPlanes(string email)
-        {
-            if (string.IsNullOrWhiteSpace(email))
-                throw new ArgumentException("El correu no és vàlid.");
-
-            List<FlightPlanData> planes =
-                new List<FlightPlanData>();
-
-            DataTable dt = new DataTable();
-
-            string query =
-                "SELECT * FROM FlightPlans WHERE UserEmail = @Email";
-
-            SQLiteDataAdapter adp =
-                new SQLiteDataAdapter(query, database.Connection);
-
-            adp.SelectCommand.Parameters.AddWithValue("@Email", email);
-
-            int rows = adp.Fill(dt);
-
-            int i = 0;
-
-            while (i < dt.Rows.Count)
-            {
-                FlightPlanData data = new FlightPlanData();
-
-                data.UserEmail =
-                    Convert.ToString(dt.Rows[i]["UserEmail"]);
-
-                data.FlightId =
-                    Convert.ToString(dt.Rows[i]["FlightId"]);
-
-                data.Speed =
-                    Convert.ToDouble(dt.Rows[i]["Speed"]);
-
-                data.InitialSpeed =
-                    Convert.ToDouble(dt.Rows[i]["InitialSpeed"]);
-
-                data.InitialX =
-                    Convert.ToDouble(dt.Rows[i]["InitialX"]);
-
-                data.InitialY =
-                    Convert.ToDouble(dt.Rows[i]["InitialY"]);
-
-                data.FinalX =
-                    Convert.ToDouble(dt.Rows[i]["FinalX"]);
-
-                data.FinalY =
-                    Convert.ToDouble(dt.Rows[i]["FinalY"]);
-
-                data.CurrentX =
-                    Convert.ToDouble(dt.Rows[i]["CurrentX"]);
-
-                data.CurrentY =
-                    Convert.ToDouble(dt.Rows[i]["CurrentY"]);
-
-                planes.Add(data);
-
-                i = i + 1;
             }
 
-            return planes;
-        }
-
-        // Reconstrueix la llista de plans de vol
-        public FlightPlanList CarregarFlightPlanList(string email)
-        {
-            List<FlightPlanData> dades = CargarPlanes(email);
-
-            FlightPlanList lista = new FlightPlanList();
-
-            foreach (FlightPlanData data in dades)
-            {
-                FlightPlan plan = new FlightPlan(
-                    data.FlightId,
-                    data.InitialX,
-                    data.InitialY,
-                    data.FinalX,
-                    data.FinalY,
-                    data.InitialSpeed
-                );
-
-                // Recupera la posició actual
-                plan.SetcurrentPosition(
-                    new Position(data.CurrentX, data.CurrentY));
-
-                // Recupera la velocitat actual
-                plan.SetVelocidad(data.Speed);
-
-                lista.AddFlightPlan(plan);
-            }
-
-            return lista;
+            return estados;
         }
     }
 }
