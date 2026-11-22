@@ -20,6 +20,7 @@ namespace FlightLib
         Position currentPosition;                                                               // posicion actual
         Position finalPosition;                                                                 // posicion final
         double velocidad;                                                                       //  velocidad avion
+        double velocidadInicial;                                                                //  velocidad inicial
 
         MethodChecker mc = new MethodChecker();
 
@@ -31,6 +32,7 @@ namespace FlightLib
             this.initialPosition = new Position(cpx, cpy);                                      //  Inicializamos la pos Inicial
             this.finalPosition = new Position(fpx, fpy);                                        //  Inicializamos la pos Final
             this.velocidad = velocidad;                                                         //  Inicializamos la velocidad
+            this.velocidadInicial = velocidad;                                                  //  Inicializamos la velocidad inicial
         }
         ////////////////////////////////////////////////////////////////    Metodos GET   /////////////////////////////////////////////////////////////////////
 
@@ -44,6 +46,8 @@ namespace FlightLib
         { return this.finalPosition; }
         public double GetVelocidad()                                                            //  Metodo Get para la velocidad del avion
         { return this.velocidad; }
+        public double GetVelocidadInicial()                                                       //  Metodo Get para la velocidad inicial del avion
+        { return this.velocidadInicial; }
 
         ////////////////////////////////////////////////////////////////    Metodos SET   //////////////////////////////////////////////////////////////////////
         public void Setid(string id)                                                            //  Metodo Set para el Identificador del Avion 
@@ -56,6 +60,8 @@ namespace FlightLib
         { this.finalPosition = fP; }
         public void SetVelocidad(double velocidad)                                              //  Metodo Set para la variable velocidad
         { this.velocidad = velocidad; }
+        public void SetVelocidadInicial(double velocidad)                                       //  Metodo Set para la variable velocidad inicial
+        { this.velocidadInicial = velocidad; }
 
         ////////////////////////////////////////////////////////////    Metodos booleanos   /////////////////////////////////////////////////////////////////////
         public bool EstaDestino()                                                               //  Metodo para comporbar si el avion esta en Destion

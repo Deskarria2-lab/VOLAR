@@ -36,6 +36,15 @@ namespace Pruebas_GUI_Volar
 
         private void solucionarConflicte_Click(object sender, EventArgs e)
         {
+            for (int i = 0; i < 10; i++)
+            {
+                FlightPlan plan = llistaVols.GetFlightPlan(i);
+                if (plan != null)
+                {
+                    plan.SetcurrentPosition(plan.GetinitialPosition());
+                }
+            }
+
             // Creem el detector amb les dades que tenim guardades als atributs
             ConflictDetector detector = new ConflictDetector(llistaVols, distanciaSeguretat);
 

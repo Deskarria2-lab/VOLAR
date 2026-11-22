@@ -48,6 +48,13 @@ namespace Pruebas_GUI_Volar
             {                                                                           //
                 tituloVuelos.Text = "DATOS VUELO B:";                                   //  El titulo del menu pasa a ser DATOS VUELO B
                 cont = 2;                                                               //  Indicamos el contador vale 2
+                IdBox.Text = null;
+                VelBox.Text = null;
+                XoBox.Text = null;
+                YoBox.Text = null;
+                XfBox.Text = null;
+                YfBox.Text = null;
+
             }                                                                           //
             else cont = 0;                                                              //  Sino por si acaso ponemos siempre el contador a 0
         }                                                                               //
