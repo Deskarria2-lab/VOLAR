@@ -48,6 +48,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Form\03_Avisos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\03_Avisos.Designer.cs">
+      <DependentUpon>03_Avisos.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form\01_Dashboard.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -70,6 +76,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form\01_Dashboard.resx">
       <DependentUpon>01_Dashboard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\03_Avisos.resx">
+      <DependentUpon>03_Avisos.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -111,6 +120,21 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\icono_pantalla_completa.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\logo_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FlightLib\FlightLib.csproj">
+      <Project>{3b53fcd9-7a68-42ef-a9da-b0628f94a07e}</Project>
+      <Name>FlightLib</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\avion_naranja.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\avion_verde.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

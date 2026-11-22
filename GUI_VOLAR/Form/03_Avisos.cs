@@ -1,0 +1,21 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace GUI_VOLAR
+{
+    public partial class _03_Avisos : Form
+    {
+        public _03_Avisos(string mensaje)
+        {
+            InitializeComponent();
+            av_text.Text = mensaje;
+        }
+    }
+}

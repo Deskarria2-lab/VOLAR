@@ -1,16 +1,51 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Windows.Forms;
+using FlightLib;
 
 namespace GUI_VOLAR
 {
     public class RadarPanel : Panel
     {
+        // ---------- Cuadrícula ----------
         public int Celdas { get; set; } = 12;
-        public Color ColorLineas { get; set; } = Color.FromArgb(0, 200, 0);
+
+        Color _colorLineas = Color.FromArgb(0, 200, 0);
+        public Color ColorLineas
+        {
+            get { return _colorLineas; }
+            set { _colorLineas = value; Invalidate(); }
+        }
+
+        // ---------- Aviones ----------
+        // Los atributos evitan que el diseñador intente guardar la lista (daría error)
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public List<FlightPlan> Vuelos { get; } = new List<FlightPlan>();
+
+        public double RangoUnidades { get; set; } = 120;    // lo que abarca todo el lado del radar
+        public float EscalaAvion { get; set; } = 1.0f;      // 1 = unos 22 x 24 px
+
+        // Se crea una sola vez, no en cada repintado
+        readonly Brush _pincelAvion = new SolidBrush(Color.FromArgb(0, 255, 0));
+
+        // Silueta del avión mirando al norte, centrada en (0,0)
+        static readonly PointF[] Silueta =
+        {
+            new PointF(0, -12),
+            new PointF(1.6f, -8),  new PointF(1.8f, -3),
+            new PointF(11, 4),     new PointF(11, 6.5f),
+            new PointF(1.8f, 3),   new PointF(1.6f, 7.5f),
+            new PointF(5, 10),     new PointF(5, 11.5f),
+            new PointF(0, 10.5f),
+            new PointF(-5, 11.5f), new PointF(-5, 10),
+            new PointF(-1.6f, 7.5f), new PointF(-1.8f, 3),
+            new PointF(-11, 6.5f), new PointF(-11, 4),
+            new PointF(-1.8f, -3), new PointF(-1.6f, -8)
+        };
 
         public RadarPanel()
         {
@@ -20,11 +55,35 @@ namespace GUI_VOLAR
             Size = new Size(600, 600);
         }
 
+        // Posición del mapa -> píxel (origen en el centro, X al este, Y al norte)
+        PointF APantalla(Position p)
+        {
+            return new PointF((float)((p.GetX() / RangoUnidades + 0.5) * Width),
+                              (float)((0.5 - p.GetY() / RangoUnidades) * Height));
+        }
+
+        // Rumbo en grados (0 = norte, sentido horario)
+        static double Rumbo(FlightPlan v)
+        {
+            Position a = v.GetinitialPosition(), b = v.GetfinalPosition();
+            return Math.Atan2(b.GetX() - a.GetX(), b.GetY() - a.GetY()) * 180.0 / Math.PI;
+        }
+
+        // ---------- Dibujo ----------
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
             Graphics g = e.Graphics;
+            g.SmoothingMode = SmoothingMode.AntiAlias;
 
+            DibujarCuadricula(g);
+
+            foreach (FlightPlan v in Vuelos)
+                DibujarAvion(g, APantalla(v.GetcurrentPosition()), Rumbo(v));
+        }
+
+        void DibujarCuadricula(Graphics g)
+        {
             float ancho = Width - 1;
             float alto = Height - 1;
 
@@ -40,9 +99,18 @@ namespace GUI_VOLAR
                     g.DrawLine(lapiz, x, 0, x, alto);
                     g.DrawLine(lapiz, 0, y, ancho, y);
                 }
-
                 g.DrawRectangle(borde, 1, 1, ancho - 2, alto - 2);
             }
+        }
+
+        void DibujarAvion(Graphics g, PointF centro, double rumboGrados)
+        {
+            GraphicsState estado = g.Save();               // guarda cómo está el lienzo
+            g.TranslateTransform(centro.X, centro.Y);      // 1. el (0,0) pasa a ser el avión
+            g.RotateTransform((float)rumboGrados);         // 2. gira al rumbo
+            g.ScaleTransform(EscalaAvion, EscalaAvion);    // 3. escala
+            g.FillPolygon(_pincelAvion, Silueta);          // 4. pinta el avión
+            g.Restore(estado);                             // deja el lienzo como estaba
         }
     }
 }
