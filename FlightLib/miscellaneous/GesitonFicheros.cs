@@ -78,6 +78,17 @@ namespace FlightLib
             }
         }
 
+        public void GuardarVuelosEnFicher(FlightPlanList plan) 
+        {
+            try 
+            {
+                using (StreamReader escritor = new StreamReader(file)) { }
+            }
+            catch
+            {
+            }
+        }
+
         public string EstadoFichero() 
         {
             if (i == -1) return "El fitxer està buit.";

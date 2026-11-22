@@ -20,6 +20,7 @@ namespace GUI_VOLAR
         public FlightPlanList planList;
         public FlightPlan vueloA;
         public FlightPlan vueloB;
+        public FlightPlan vueloSelecionado;
         _03_Avisos av;
 
         ////////////////////////////////////////////////////// Atributos de Configuracion /////////////////////////////////////////////////////
@@ -36,22 +37,35 @@ namespace GUI_VOLAR
         double xf;
         double yf;
         ////////////////////////////////////////////////////// Atributos Simulacion /////////////////////////////////////////////////////////
-        private readonly List<FlightPlan> volsCerregats;
+        private readonly List<FlightPlan> volsCarregats;
         Timer reloj = new Timer { Interval = 33 };
+        readonly Stack<Position[]> positions;
+        bool aviones_cargados;
+        bool conf_cargada;
         public FrmDashboard(FrmLogin login)
         {
             InitializeComponent();
             ConfigurarGrid();
+            positions = new Stack<Position[]>();
             reader = new GesitonFicheros();
             this.planList = new FlightPlanList();
             this.checker = new MethodChecker();
             this.login = login;
-            this.volsCerregats = new List<FlightPlan>();
+            this.volsCarregats = new List<FlightPlan>();
             cont = 1;
             Frm_Editor_Aviones.Visible = true;
+            Frm_Radar_Panel.VueloSeleccionado += Radar_VueloSeleccionado;
             Frm_Dist_Text.Text = "50";
             Frm_Time_Text.Text = "5";
             reloj.Tick += Reloj_Tick;
+
+            Frm_S_Cargar_Button.Enabled = false;
+            Frm_S_Start_Button.Enabled = false;
+            Frm_S_UnCiclo.Enabled = false;
+            Frm_S_Restart_Button.Enabled = false;
+            Frm_S_Stop_Button.Enabled = false;
+            Frm_S_PasoAnterior.Enabled = false;
+            Frm_S_Download_Button.Enabled = false;
         }
 
         private void FrmExit_Click(object sender, EventArgs e)
@@ -103,24 +117,6 @@ namespace GUI_VOLAR
         {
             try                                                                         //  En caso que no haya ningun error de formato
             {
-                dSeg = Convert.ToDouble(Frm_Dist_Text.Text);                                  //  Guardamos los datos introducidos en DistBox
-                tCicl = Convert.ToDouble(Frm_Time_Text.Text);                                 //  Guardamos los datos introducidos en TimeBox
-                                                                                        //
-                if (checker.check_dseg(dSeg) != "0")                                    //  En caso que no tengamos un okey con el checker dist seguridad
-                {                                                                       //
-                    av = new _03_Avisos(checker.check_dseg(dSeg));                       //  Crea la ventana de avisos con los datos del checker
-                    av.Show(this);                                                      //  Abre la ventana de avisos
-                }                                                                       //
-                else if (checker.check_tcicl(tCicl) != "0")                             //  En caso que no tengamos un okey con el checker tiempo de ciclo
-                {                                                                       //
-                    av = new _03_Avisos(checker.check_tcicl(tCicl));                     //  Crea la ventana de avisos con los datos del checker
-                    av.Show(this);                                                      //  Abre la ventana de avisos
-                }                                                                       //
-                else                                                                    //  Si todo esta bien
-                {                                                                       //
-                    av = new _03_Avisos("Datos de simulacion Guardados!");              //  Crea la ventana de avisos indicando que los datos para la simulacion estan bien guardados
-                    av.Show(this);                                                      //  Abre la ventana de avisos
-                }   //
                 id = Frm_ID_Text.Text;                                                        //  La variable ID tiene los datos introducidos en IdBox
                 vel = Convert.ToDouble(Frm_Vel_Text.Text);                                    //  La variable vel tiene los datos introducidos en VelBox
                 xo = Convert.ToDouble(Frm_X0_Text.Text);                                      //  La variable xo tiene los datos introducidos en XoBox
@@ -166,6 +162,7 @@ namespace GUI_VOLAR
                         planList.AddFlightPlan(vueloA);
                         av = new _03_Avisos("El Vuelo A esta creado!");                  //  Crea la ventana de avisando del vuelo creado
                         av.Show(this);                                                  //  Abre la ventana de avisos
+                        aviones_cargados = true;
                     }                                                                   //
                     else if (cont == 2)                                                 //  Si el contador esta en 2
                     {
@@ -188,7 +185,18 @@ namespace GUI_VOLAR
                         planList.AddFlightPlan(vueloB);
                         av = new _03_Avisos("El Vuelo B esta creado!");                  //  Crea la ventana de avisando del vuelo creado
                         av.Show(this);                                                  //  Abre la ventana de avisos
-                    }                                                                   //
+                        aviones_cargados = true;
+                    }
+                    if (conf_cargada && aviones_cargados)
+                    {
+                        Frm_S_Cargar_Button.Enabled = true;
+                        Frm_S_Start_Button.Enabled = true;
+                        Frm_S_UnCiclo.Enabled = true;
+                        Frm_S_Restart_Button.Enabled = true;
+                        Frm_S_Stop_Button.Enabled = true;
+                        Frm_S_PasoAnterior.Enabled = true;
+                        Frm_S_Download_Button.Enabled = true;
+                    }
                 }                                                                       //
             }
             catch (FormatException)                                                    //  En Caso de error de formato
@@ -197,6 +205,50 @@ namespace GUI_VOLAR
                     "No se han introducido los datos con su formato correcto!");        //  Que los datos introducidos no son correctos
                 av.Show(this);                                                          //  Muestra esta ventana//
             }
+        }
+
+        private void Frm_Conf_Save_DS_Button_Click(object sender, EventArgs e)
+        {
+            try 
+            {
+                dSeg = Convert.ToDouble(Frm_Dist_Text.Text);                                  //  Guardamos los datos introducidos en DistBox
+                tCicl = Convert.ToDouble(Frm_Time_Text.Text);                                 //  Guardamos los datos introducidos en TimeBox
+                                                                                              //
+                if (checker.check_dseg(dSeg) != "0")                                    //  En caso que no tengamos un okey con el checker dist seguridad
+                {                                                                       //
+                    av = new _03_Avisos(checker.check_dseg(dSeg));                       //  Crea la ventana de avisos con los datos del checker
+                    av.Show(this);                                                      //  Abre la ventana de avisos
+                }                                                                       //
+                else if (checker.check_tcicl(tCicl) != "0")                             //  En caso que no tengamos un okey con el checker tiempo de ciclo
+                {                                                                       //
+                    av = new _03_Avisos(checker.check_tcicl(tCicl));                     //  Crea la ventana de avisos con los datos del checker
+                    av.Show(this);                                                      //  Abre la ventana de avisos
+                }                                                                       //
+                else                                                                    //  Si todo esta bien
+                {                                                                       //
+                    av = new _03_Avisos("Datos de simulacion Guardados!");              //  Crea la ventana de avisos indicando que los datos para la simulacion estan bien guardados
+                    av.Show(this);                                                      //  Abre la ventana de avisos
+                    conf_cargada = true;
+                    Frm_Radar_Panel.DistanciaSeguridad = dSeg;
+                }
+                if(conf_cargada && aviones_cargados) 
+                {
+                    Frm_S_Cargar_Button.Enabled = true;
+                    Frm_S_Start_Button.Enabled = true;
+                    Frm_S_UnCiclo.Enabled = true;
+                    Frm_S_Restart_Button.Enabled = true;
+                    Frm_S_Stop_Button.Enabled = true;
+                    Frm_S_PasoAnterior.Enabled = true;
+                    Frm_S_Download_Button.Enabled = true;
+                }
+            }
+            catch 
+            {
+                av = new _03_Avisos(                                                    //  Crea la ventana avisando
+                    "No se han introducido los datos con su formato correcto!");        //  Que los datos introducidos no son correctos
+                av.Show(this);
+            }
+
         }
 
         private void Frm_Conf_Auto_Button_Click(object sender, EventArgs e)
@@ -238,14 +290,56 @@ namespace GUI_VOLAR
                 reader.GestionarFicheros(selector.FileName);
                 planList = reader.CargarVuelosDesdeFichero();
                 av = new _03_Avisos(reader.EstadoFichero());
+                aviones_cargados = true;
+                if (conf_cargada && aviones_cargados)
+                {
+                    Frm_S_Cargar_Button.Enabled = true;
+                    Frm_S_Start_Button.Enabled = true;
+                    Frm_S_UnCiclo.Enabled = true;
+                    Frm_S_Restart_Button.Enabled = true;
+                    Frm_S_Stop_Button.Enabled = true;
+                    Frm_S_PasoAnterior.Enabled = true;
+                    Frm_S_Download_Button.Enabled = true;
+                }
                 av.Show(this);
             }
         }
         ///////////////////////////////////////////// Simulation Control, funciones para dibujar aviones /////////////////////////////////////
         
+        public void GuardarPosiciones() 
+        {
+            Position[] foto = new Position[volsCarregats.Count];
+            for (int i = 0; i < foto.Length; i++) 
+            {
+                foto[i] = volsCarregats[i].GetcurrentPosition();
+            }
+            positions.Push(foto);
+        }
+
+        public void DeshacerPaso() 
+        {
+            if (positions.Count == 0) return;
+
+            reloj.Stop();
+            Position[] foto = positions.Pop();
+            for (int i = 0; i < foto.Length && i < volsCarregats.Count; i++) 
+            {
+                volsCarregats[i].SetcurrentPosition(foto[i]);
+            }
+            Frm_Radar_Panel.Invalidate();
+            ActualizarGrid();
+        }
         public void AvanzarCiclo() 
         {
-            foreach (FlightPlan plan in volsCerregats)
+            bool mov = false;
+            foreach (FlightPlan plan in volsCarregats) 
+            {
+                if (!plan.HasArrived()){ mov = true; break; }
+            }
+
+            if (!mov) return;
+            GuardarPosiciones();
+            foreach (FlightPlan plan in volsCarregats)
             {
                 plan.Mover(tCicl);
             }
@@ -259,18 +353,20 @@ namespace GUI_VOLAR
         private void Frm_S_Cargar_Button_Click(object sender, EventArgs e)
         {
             Frm_Radar_Panel.Vuelos.Clear();
-            volsCerregats.Clear();
-            for (int i = 0; i < 10; i++) 
+            volsCarregats.Clear();
+            positions.Clear();
+            for (int i = 0; i < 300; i++) 
             {
                 FlightPlan plan = planList.GetFlightPlan(i);
                 if (planList.GetFlightPlan(i) != null) 
                 {
                     plan.Restart();
-                    volsCerregats.Add(plan);
+                    volsCarregats.Add(plan);
                     Frm_Radar_Panel.Vuelos.Add(plan);
                 }
             }
             Frm_Radar_Panel.Invalidate();
+            GuardarPosiciones();
             CargarGrid();
         }
 
@@ -292,8 +388,9 @@ namespace GUI_VOLAR
         private void Frm_S_Restart_Button_Click(object sender, EventArgs e)
         {
             reloj.Stop();
+            positions.Clear();
 
-            foreach (FlightPlan plan in volsCerregats)
+            foreach (FlightPlan plan in volsCarregats)
             {
                 plan.Restart();
                 plan.SetVelocidad(plan.GetVelocidadInicial());
@@ -302,6 +399,16 @@ namespace GUI_VOLAR
 
             Frm_Radar_Panel.Invalidate();
             ActualizarGrid();
+        }
+
+        private void Frm_S_PasoAnterior_Click(object sender, EventArgs e)
+        {
+            DeshacerPaso();
+        }
+
+        private void Radar_VueloSeleccionado(object sender, FlightPlan plan) 
+        {
+            vueloSelecionado = plan;   
         }
 
 
@@ -317,6 +424,8 @@ namespace GUI_VOLAR
 
             Frm_DataGrid.ReadOnly = true;
             Frm_DataGrid.AllowUserToAddRows = false;
+            Frm_DataGrid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            Frm_DataGrid.MultiSelect = false;
 
             typeof(DataGridView).GetProperty("DoubleBuffered",
                 System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)
@@ -327,7 +436,7 @@ namespace GUI_VOLAR
         {
             Frm_DataGrid.Columns.Clear();
             if(Frm_DataGrid.Columns.Count == 0 ) ConfigurarGrid();
-            foreach (FlightPlan plan in volsCerregats) 
+            foreach (FlightPlan plan in volsCarregats) 
             {
                 int n = Frm_DataGrid.Rows.Add();
                 DataGridViewRow fila = Frm_DataGrid.Rows[n];
@@ -352,6 +461,22 @@ namespace GUI_VOLAR
                 Position act = plan.GetcurrentPosition();
                 fila.Cells["colAct"].Value = $"({act.GetX():0.0}, {act.GetY():0.0})";
                 //fila.Cells["colEst"].Value = plan.HasArrived() ? "Llegado" : "En vuelo";
+            }
+        }
+
+        public void SeleccionarEnGrid(FlightPlan plan) 
+        {
+            Frm_DataGrid.ClearSelection();
+            if(plan == null) return;
+
+            foreach (DataGridViewRow fila in Frm_DataGrid.Rows) 
+            {
+                if(ReferenceEquals(fila.Tag, plan)) 
+                {
+                    Frm_DataGrid.CurrentCell = fila.Cells[0];
+                    fila.Selected = true;
+                    return;
+                }
             }
         }
     }

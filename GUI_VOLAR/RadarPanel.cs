@@ -12,7 +12,7 @@ namespace GUI_VOLAR
     {
         // ---------- Cuadrícula ----------
         public const int Lado = 600;          // coordenadas válidas: de 0 a 599
-        public int Celdas { get; set; } = 12; // 12 celdas = 50 unidades cada una
+        public int Celdas { get; set; } = 12;
 
         Color _colorLineas = Color.FromArgb(0, 200, 0);
         public Color ColorLineas
@@ -22,15 +22,45 @@ namespace GUI_VOLAR
         }
 
         // ---------- Aviones ----------
-        // Los atributos evitan que el diseñador intente guardar la lista (daría error)
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public List<FlightPlan> Vuelos { get; } = new List<FlightPlan>();
 
-        public float EscalaAvion { get; set; } = 1.0f;     // 1 = unos 22 x 24 px
+        FlightPlan _seleccionado;
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public FlightPlan Seleccionado
+        {
+            get { return _seleccionado; }
+            set { _seleccionado = value; Invalidate(); }
+        }
 
-        // Se crea una sola vez, no en cada repintado
+        // Se lanza al pulsar el radar. El vuelo es null si no se ha pulsado ningún avión.
+        public event EventHandler<FlightPlan> VueloSeleccionado;
+
+        public float EscalaAvion { get; set; } = 1.0f;
+        public int RadioClic { get; set; } = 14;               // píxeles de margen para acertar un avión
+        public bool TrayectoriasTodas { get; set; } = true;    // false = solo la del seleccionado
+        public bool MostrarSeguridad { get; set; } = true;
+
+        double _distanciaSeguridad = 20;                       // en unidades del mapa
+        public double DistanciaSeguridad
+        {
+            get { return _distanciaSeguridad; }
+            set { _distanciaSeguridad = value; Invalidate(); }
+        }
+
+        // ---------- Pinceles y lápices (se crean una sola vez) ----------
         readonly Brush _pincelAvion = new SolidBrush(Color.FromArgb(0, 255, 0));
+        readonly Brush _pincelSel = new SolidBrush(Color.FromArgb(255, 138, 31));
+        readonly Font _fuente = new Font("Consolas", 9f, FontStyle.Bold);
+
+        readonly Pen _penRecorrido = new Pen(Color.FromArgb(90, 0, 255, 0), 1) { DashStyle = DashStyle.Dash };
+        readonly Pen _penPendiente = new Pen(Color.FromArgb(140, 0, 255, 0), 1);
+        readonly Pen _penRecorridoSel = new Pen(Color.FromArgb(220, 255, 138, 31), 1.5f) { DashStyle = DashStyle.Dash };
+        readonly Pen _penPendienteSel = new Pen(Color.FromArgb(255, 255, 138, 31), 1.5f);
+        readonly Pen _penAnillo = new Pen(Color.FromArgb(255, 138, 31), 1.5f);
+        readonly Pen _penSeguridad = new Pen(Color.FromArgb(120, 255, 220, 0), 1) { DashStyle = DashStyle.Dash };
 
         // Silueta del avión mirando al norte, centrada en (0,0)
         static readonly PointF[] Silueta =
@@ -56,26 +86,43 @@ namespace GUI_VOLAR
         }
 
         // ---------- Utilidades ----------
-        // Comprueba que una coordenada cabe en el radar
         public bool PosicionValida(double x, double y)
         {
             return x >= 0 && x < Lado && y >= 0 && y < Lado;
         }
 
-        // Coordenada (0..599) -> píxel del panel. Origen arriba a la izquierda, Y hacia abajo.
-        // Al multiplicar por Width / Lado sigue funcionando si Windows escala el programa.
+        // Coordenada (0..599) -> píxel del panel. Origen arriba a la izquierda.
         PointF APantalla(Position p)
         {
             return new PointF((float)(p.GetX() * Width / Lado),
                               (float)(p.GetY() * Height / Lado));
         }
 
-        // Rumbo en grados (0 = norte/arriba, sentido horario).
-        // Se invierte dy porque en pantalla el norte es "Y menor".
-        static double Rumbo(FlightPlan v)
+        // Rumbo en grados (0 = arriba, sentido horario). Público para usarlo desde el dashboard.
+        public static double Rumbo(FlightPlan v)
         {
             Position a = v.GetinitialPosition(), b = v.GetfinalPosition();
             return Math.Atan2(b.GetX() - a.GetX(), -(b.GetY() - a.GetY())) * 180.0 / Math.PI;
+        }
+
+        // ---------- Clic: elegir avión ----------
+        protected override void OnMouseClick(MouseEventArgs e)
+        {
+            base.OnMouseClick(e);
+
+            FlightPlan elegido = null;
+            float mejor = (float)RadioClic * RadioClic;          // distancia² máxima en píxeles
+
+            foreach (FlightPlan v in Vuelos)
+            {
+                PointF c = APantalla(v.GetcurrentPosition());
+                float dx = c.X - e.X, dy = c.Y - e.Y;
+                float d2 = dx * dx + dy * dy;
+                if (d2 <= mejor) { mejor = d2; elegido = v; }    // se queda con el más cercano
+            }
+
+            Seleccionado = elegido;                              // (repinta solo)
+            VueloSeleccionado?.Invoke(this, elegido);
         }
 
         // ---------- Dibujo ----------
@@ -87,8 +134,31 @@ namespace GUI_VOLAR
 
             DibujarCuadricula(g);
 
+            // 1. Trayectorias (el seleccionado se dibuja el último, encima)
+            if (TrayectoriasTodas)
+                foreach (FlightPlan v in Vuelos)
+                    if (v != Seleccionado) DibujarTrayectoria(g, v, false);
+            if (Seleccionado != null) DibujarTrayectoria(g, Seleccionado, true);
+
+            // 2. Elipses de seguridad
+            if (MostrarSeguridad)
+                foreach (FlightPlan v in Vuelos)
+                    DibujarSeguridad(g, APantalla(v.GetcurrentPosition()));
+
+            // 3. Aviones
             foreach (FlightPlan v in Vuelos)
-                DibujarAvion(g, APantalla(v.GetcurrentPosition()), Rumbo(v));
+                if (v != Seleccionado)
+                    DibujarAvion(g, APantalla(v.GetcurrentPosition()), Rumbo(v), _pincelAvion);
+
+            // 4. El seleccionado, encima de todo, con anillo y su ID
+            if (Seleccionado != null)
+            {
+                PointF c = APantalla(Seleccionado.GetcurrentPosition());
+                DibujarAvion(g, c, Rumbo(Seleccionado), _pincelSel);
+                g.DrawEllipse(_penAnillo, c.X - 17, c.Y - 17, 34, 34);
+                g.DrawString("ID: " + Seleccionado.Getid(), _fuente, _pincelSel, c.X + 19, c.Y - 20);
+                g.DrawString("Speed: " + Convert.ToString(Seleccionado.GetVelocidad()), _fuente, _pincelSel, c.X + 19, c.Y);
+            }
         }
 
         void DibujarCuadricula(Graphics g)
@@ -112,14 +182,32 @@ namespace GUI_VOLAR
             }
         }
 
-        void DibujarAvion(Graphics g, PointF centro, double rumboGrados)
+        // Guiones: lo ya recorrido. Línea continua: lo que le falta.
+        void DibujarTrayectoria(Graphics g, FlightPlan v, bool seleccionado)
         {
-            GraphicsState estado = g.Save();               // guarda cómo está el lienzo
-            g.TranslateTransform(centro.X, centro.Y);      // 1. el (0,0) pasa a ser el avión
-            g.RotateTransform((float)rumboGrados);         // 2. gira al rumbo
-            g.ScaleTransform(EscalaAvion, EscalaAvion);    // 3. escala
-            g.FillPolygon(_pincelAvion, Silueta);          // 4. pinta el avión
-            g.Restore(estado);                             // deja el lienzo como estaba
+            PointF ini = APantalla(v.GetinitialPosition());
+            PointF act = APantalla(v.GetcurrentPosition());
+            PointF fin = APantalla(v.GetfinalPosition());
+
+            g.DrawLine(seleccionado ? _penRecorridoSel : _penRecorrido, ini, act);
+            g.DrawLine(seleccionado ? _penPendienteSel : _penPendiente, act, fin);
+        }
+
+        void DibujarSeguridad(Graphics g, PointF centro)
+        {
+            float rx = (float)(DistanciaSeguridad * Width / Lado);
+            float ry = (float)(DistanciaSeguridad * Height / Lado);
+            g.DrawEllipse(_penSeguridad, centro.X - rx, centro.Y - ry, rx * 2, ry * 2);
+        }
+
+        void DibujarAvion(Graphics g, PointF centro, double rumboGrados, Brush relleno)
+        {
+            GraphicsState estado = g.Save();
+            g.TranslateTransform(centro.X, centro.Y);
+            g.RotateTransform((float)rumboGrados);
+            g.ScaleTransform(EscalaAvion, EscalaAvion);
+            g.FillPolygon(relleno, Silueta);
+            g.Restore(estado);
         }
     }
 }
