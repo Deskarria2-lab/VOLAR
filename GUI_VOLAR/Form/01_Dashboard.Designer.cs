@@ -741,7 +741,6 @@
             this.Frm_Radar_Panel.Location = new System.Drawing.Point(44, 43);
             this.Frm_Radar_Panel.Margin = new System.Windows.Forms.Padding(4);
             this.Frm_Radar_Panel.Name = "Frm_Radar_Panel";
-            this.Frm_Radar_Panel.RangoUnidades = 120D;
             this.Frm_Radar_Panel.Size = new System.Drawing.Size(600, 600);
             this.Frm_Radar_Panel.TabIndex = 4;
             // 

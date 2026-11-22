@@ -143,6 +143,14 @@ namespace FlightLib
             }            
             Console.WriteLine("******************************");
         }
+        public void ActualizarVuelo(FlightPlan plan, string id, double vel, double xo, double yo, double xf, double yf) 
+        {
+            plan.Setid(id);
+            plan.SetinitialPosition(new Position(xo, yo));
+            plan.SetcurrentPosition(new Position(xo, yo));
+            plan.SetfinalPosition(new Position(xf, yf));
+            plan.SetVelocidad(vel);
+        }
     }
 }
 

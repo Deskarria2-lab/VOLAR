@@ -11,7 +11,8 @@ namespace GUI_VOLAR
     public class RadarPanel : Panel
     {
         // ---------- Cuadrícula ----------
-        public int Celdas { get; set; } = 12;
+        public const int Lado = 600;          // coordenadas válidas: de 0 a 599
+        public int Celdas { get; set; } = 12; // 12 celdas = 50 unidades cada una
 
         Color _colorLineas = Color.FromArgb(0, 200, 0);
         public Color ColorLineas
@@ -26,8 +27,7 @@ namespace GUI_VOLAR
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public List<FlightPlan> Vuelos { get; } = new List<FlightPlan>();
 
-        public double RangoUnidades { get; set; } = 120;    // lo que abarca todo el lado del radar
-        public float EscalaAvion { get; set; } = 1.0f;      // 1 = unos 22 x 24 px
+        public float EscalaAvion { get; set; } = 1.0f;     // 1 = unos 22 x 24 px
 
         // Se crea una sola vez, no en cada repintado
         readonly Brush _pincelAvion = new SolidBrush(Color.FromArgb(0, 255, 0));
@@ -52,21 +52,30 @@ namespace GUI_VOLAR
             DoubleBuffered = true;
             ResizeRedraw = true;
             BackColor = Color.Black;
-            Size = new Size(600, 600);
+            Size = new Size(Lado, Lado);
         }
 
-        // Posición del mapa -> píxel (origen en el centro, X al este, Y al norte)
+        // ---------- Utilidades ----------
+        // Comprueba que una coordenada cabe en el radar
+        public bool PosicionValida(double x, double y)
+        {
+            return x >= 0 && x < Lado && y >= 0 && y < Lado;
+        }
+
+        // Coordenada (0..599) -> píxel del panel. Origen arriba a la izquierda, Y hacia abajo.
+        // Al multiplicar por Width / Lado sigue funcionando si Windows escala el programa.
         PointF APantalla(Position p)
         {
-            return new PointF((float)((p.GetX() / RangoUnidades + 0.5) * Width),
-                              (float)((0.5 - p.GetY() / RangoUnidades) * Height));
+            return new PointF((float)(p.GetX() * Width / Lado),
+                              (float)(p.GetY() * Height / Lado));
         }
 
-        // Rumbo en grados (0 = norte, sentido horario)
+        // Rumbo en grados (0 = norte/arriba, sentido horario).
+        // Se invierte dy porque en pantalla el norte es "Y menor".
         static double Rumbo(FlightPlan v)
         {
             Position a = v.GetinitialPosition(), b = v.GetfinalPosition();
-            return Math.Atan2(b.GetX() - a.GetX(), b.GetY() - a.GetY()) * 180.0 / Math.PI;
+            return Math.Atan2(b.GetX() - a.GetX(), -(b.GetY() - a.GetY())) * 180.0 / Math.PI;
         }
 
         // ---------- Dibujo ----------

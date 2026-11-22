@@ -36,12 +36,10 @@ namespace GUI_VOLAR
         double yf;
         ////////////////////////////////////////////////////// Atributos Simulacion /////////////////////////////////////////////////////////
         private readonly List<FlightPlan> volsCerregats;
-        Image plane;
         public FrmDashboard(FrmLogin login)
         {
             InitializeComponent();
             this.planList = new FlightPlanList();
-            this.plane = Properties.Resources.avion_verde;
             this.checker = new MethodChecker();
             this.login = login;
             this.volsCerregats = new List<FlightPlan>();
@@ -89,7 +87,7 @@ namespace GUI_VOLAR
                 xo = Convert.ToDouble(Frm_X0_Text.Text);                                      //  La variable xo tiene los datos introducidos en XoBox
                 yo = Convert.ToDouble(Frm_Y0_Text.Text);                                      //  La variable yo tiene los datos introducidos en YoBox;
                 xf = Convert.ToDouble(Frm_Xf_Text.Text);                                      //  La variable xf tiene los datos introducidos en XfBox;
-                yf = Convert.ToDouble(Frm_Y0_Text.Text);                                      //  La variable yf tiene los datos introducidos en YfBox;
+                yf = Convert.ToDouble(Frm_Yf_Text.Text);                                      //  La variable yf tiene los datos introducidos en YfBox;
 
                 if (checker.check_id(id) != "0")                                        //  Si el checker del Id no devuelve un okey
                 {                                                                       //
@@ -110,6 +108,15 @@ namespace GUI_VOLAR
                 {                                                                       //  
                     if (cont == 1)                                                      //  Si el contador esta en 1
                     {                                                                   //
+                        if (vueloA != null)
+                        {
+                            vueloA.ActualizarVuelo(vueloA, id,
+                            vel,
+                            xo,
+                            yo,
+                            xf,
+                            yf);
+                        }
                         vueloA = new FlightPlan                                    //  Le damos los datos pertinentes al vueloA
                             (id,                                                        //  Su ID
                             xo,                                                         //  Su Vel
@@ -122,7 +129,16 @@ namespace GUI_VOLAR
                         av.Show(this);                                                  //  Abre la ventana de avisos
                     }                                                                   //
                     else if (cont == 2)                                                 //  Si el contador esta en 2
-                    {                                                                   //
+                    {
+                        if (vueloB != null)
+                        {
+                            vueloB.ActualizarVuelo(vueloB, id,
+                            vel,
+                            xo,
+                            yo,
+                            xf,
+                            yf);
+                        }
                         vueloB = new FlightPlan                                    //  Le damos los datos pertinentes al vueloA
                             (id,                                                        //  Su ID
                             xo,                                                         //  Su Vel
@@ -189,6 +205,8 @@ namespace GUI_VOLAR
 
         private void Frm_S_Cargar_Button_Click(object sender, EventArgs e)
         {
+            Frm_Radar_Panel.Vuelos.Clear();
+            volsCerregats.Clear();
             for (int i = 0; i < 10; i++) 
             {
                 FlightPlan plan = planList.GetFlightPlan(i);
@@ -196,9 +214,10 @@ namespace GUI_VOLAR
                 {
                     plan.Restart();
                     volsCerregats.Add(plan);
-                    RadarPanel.
+                    Frm_Radar_Panel.Vuelos.Add(plan);
                 }
             }
+            Frm_Radar_Panel.Invalidate();
         }
     }
 }
