@@ -47,6 +47,7 @@
             this.Restartbut = new System.Windows.Forms.Button();
             this.CanviVelocitat = new System.Windows.Forms.Button();
             this.GuardarSimulación = new System.Windows.Forms.Button();
+            this.Retrocedir = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // EspAereo
@@ -232,12 +233,23 @@
             this.GuardarSimulación.UseVisualStyleBackColor = true;
             this.GuardarSimulación.Click += new System.EventHandler(this.GuardarSimulación_Click);
             // 
+            // Retrocedir
+            // 
+            this.Retrocedir.Location = new System.Drawing.Point(56, 592);
+            this.Retrocedir.Name = "Retrocedir";
+            this.Retrocedir.Size = new System.Drawing.Size(184, 49);
+            this.Retrocedir.TabIndex = 21;
+            this.Retrocedir.Text = "Retroceder";
+            this.Retrocedir.UseVisualStyleBackColor = true;
+            this.Retrocedir.Click += new System.EventHandler(this.Retrocedir_Click);
+            // 
             // _03_Espacio_Aereo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.ClientSize = new System.Drawing.Size(1820, 1050);
+            this.Controls.Add(this.Retrocedir);
             this.Controls.Add(this.GuardarSimulación);
             this.Controls.Add(this.CanviVelocitat);
             this.Controls.Add(this.Restartbut);
@@ -287,5 +299,6 @@
         private System.Windows.Forms.Button Restartbut;
         private System.Windows.Forms.Button CanviVelocitat;
         private System.Windows.Forms.Button GuardarSimulación;
+        private System.Windows.Forms.Button Retrocedir;
     }
 }

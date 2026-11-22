@@ -369,5 +369,47 @@ namespace Pruebas_GUI_Volar
                 database.Cerrar();
             }
         }
+
+        private void Retrocedir_Click(object sender, EventArgs e)
+        {
+            // Aturem la simulació automàtica
+            simulacionTimer.Stop();
+
+            // Comprovem que hi hagi historial
+            if (!historialIniciado || historial.Count <= 1)
+            {
+                MessageBox.Show("No hi ha cap pas anterior.");
+                return;
+            }
+
+            // Recuperem l'estat anterior
+            FlightPlanList estatAnterior = historial.DesferPas();
+
+            if (estatAnterior == null)
+            {
+                MessageBox.Show("No s'ha pogut recuperar l'estat anterior.");
+                return;
+            }
+
+            // Actualitzem la llista principal de plans
+            menu.planList = estatAnterior;
+
+            // Actualitzem la llista d'avions que es dibuixen
+            volsCarregats.Clear();
+
+            for (int i = 0; i < menu.planList.GetNPlanes(); i++)
+            {
+                FlightPlan avio = menu.planList.GetFlightPlan(i);
+
+                if (avio != null)
+                {
+                    volsCarregats.Add(avio);
+                }
+            }
+
+            // Actualitzem la representació gràfica
+            EspAereo.Invalidate();
+
+        }
     }
 }

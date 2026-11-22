@@ -111,8 +111,7 @@ namespace FlightLib.Base_de_Datos
         }
 
         // Reconstrueix la llista d'avions a partir d'un estat.
-        public FlightPlanList ReconstruirPlanes(
-            List<FlightPlanData> estado)
+        public FlightPlanList ReconstruirPlanes(List<FlightPlanData> estado)
         {
             FlightPlanList lista = new FlightPlanList();
 
@@ -144,5 +143,24 @@ namespace FlightLib.Base_de_Datos
 
             return lista;
         }
+
+
+        public FlightPlanList DesferPas()
+        {
+            if (historial.Count <= 1)
+            {
+                return null;
+            }
+
+            // Eliminem l'estat actual
+            historial.Pop();
+
+            // Recuperem l'estat anterior
+            List<FlightPlanData> estatAnterior = historial.Peek();
+
+            // Reconstruïm els avions
+            return ReconstruirPlanes(estatAnterior);
+        }
     }
+
 }
