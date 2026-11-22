@@ -14,7 +14,6 @@ namespace GUI_VOLAR
     public partial class FrmLogin : Form
     {
         bool _pantallaCompleta;
-        Rectangle _boundsNormales;
         int cont;
         public FrmLogin()
         {
@@ -40,8 +39,6 @@ namespace GUI_VOLAR
         {
             if (!_pantallaCompleta) 
             {
-                _boundsNormales = WindowState == FormWindowState.Normal ? Bounds : RestoreBounds;
-
                 WindowState = FormWindowState.Normal;
                 FormBorderStyle = FormBorderStyle.None;
                 Bounds = Screen.FromControl(this).Bounds;
@@ -64,7 +61,15 @@ namespace GUI_VOLAR
         {
             if(cont == 0) 
             {
+                // Aqui mandamos los datos introducidos a la base de datos
+                // Si todo guay abrimos la bandeja de trabajo
+                // Si hay algun problema avisamos, vuelve a logear o bloqueo
 
+                //Por ahora para realizar pruebas se salta login
+
+                FrmDashboard dashboard = new FrmDashboard(this);
+                dashboard.Show();
+                Hide();
             }
             if (cont == 1) 
             {

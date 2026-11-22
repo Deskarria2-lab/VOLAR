@@ -12,10 +12,11 @@ namespace GUI_VOLAR
 {
     public partial class FrmDashboard : Form
     {
-        public FrmDashboard()
+        FrmLogin login;
+        public FrmDashboard(FrmLogin login)
         {
-            this.BackColor = Color.FromArgb(10, 20, 34);
             InitializeComponent();
+            this.login = login;
         }
     }
 }
