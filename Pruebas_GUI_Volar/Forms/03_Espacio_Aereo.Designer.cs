@@ -46,6 +46,7 @@
             this.DataGridBut = new System.Windows.Forms.Button();
             this.Restartbut = new System.Windows.Forms.Button();
             this.CanviVelocitat = new System.Windows.Forms.Button();
+            this.GuardarSimulación = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // EspAereo
@@ -221,12 +222,23 @@
             this.CanviVelocitat.UseVisualStyleBackColor = true;
             this.CanviVelocitat.Click += new System.EventHandler(this.CanviVelocitat_Click);
             // 
+            // GuardarSimulación
+            // 
+            this.GuardarSimulación.Location = new System.Drawing.Point(56, 537);
+            this.GuardarSimulación.Name = "GuardarSimulación";
+            this.GuardarSimulación.Size = new System.Drawing.Size(184, 49);
+            this.GuardarSimulación.TabIndex = 20;
+            this.GuardarSimulación.Text = "Guardar Simulación";
+            this.GuardarSimulación.UseVisualStyleBackColor = true;
+            this.GuardarSimulación.Click += new System.EventHandler(this.GuardarSimulación_Click);
+            // 
             // _03_Espacio_Aereo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.ClientSize = new System.Drawing.Size(1820, 1050);
+            this.Controls.Add(this.GuardarSimulación);
             this.Controls.Add(this.CanviVelocitat);
             this.Controls.Add(this.Restartbut);
             this.Controls.Add(this.DataGridBut);
@@ -274,5 +286,6 @@
         private System.Windows.Forms.Button DataGridBut;
         private System.Windows.Forms.Button Restartbut;
         private System.Windows.Forms.Button CanviVelocitat;
+        private System.Windows.Forms.Button GuardarSimulación;
     }
 }

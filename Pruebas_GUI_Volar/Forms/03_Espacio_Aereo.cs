@@ -1,4 +1,5 @@
 ﻿using FlightLib;
+using FlightLib.Base_de_Datos;
 using Pruebas_GUI_Volar.Forms;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,10 @@ namespace Pruebas_GUI_Volar
         _05_Datos_Avion da;
         bool conflictoDetectado = false;
         private readonly List<FlightPlan> volsCarregats = new List<FlightPlan>();
+        DataBase database;
+        FlightPlanRepository repository;
+        string emailUsuarioActual;
+
         public _03_Espacio_Aereo(Options menu)
         {
             InitializeComponent();
@@ -304,6 +309,36 @@ namespace Pruebas_GUI_Volar
         {
             MessageBox.Show("Canvia la velocitat de l'avió clicant i introduint un nou valor a la casella de velocitat");
             DataGridBut_Click(sender, e);
+        }
+
+        private void GuardarSimulación_Click(object sender, EventArgs e)
+        {
+            database.Iniciar();
+
+            try
+            {
+                repository.GuardarPlanes(emailUsuarioActual, menu.planList);
+
+                MessageBox.Show(
+                    "La simulació s'ha guardat correctament.",
+                    "Guardar simulació",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Error en guardar la simulació: " + ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+            }
+            finally
+            {
+                database.Cerrar();
+            }
         }
     }
 }

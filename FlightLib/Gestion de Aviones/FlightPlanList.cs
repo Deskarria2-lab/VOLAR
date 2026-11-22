@@ -57,5 +57,10 @@ namespace FlightLib
         {
             for (int i = 0; i < this.n_planes; i++) PlaneList[i].EscribeConsola();          //  Escribimos los datos de todos los aviones
         }
+
+        public int GetNPlanes()
+        {
+            return n_planes;
+        }
     }
 }
