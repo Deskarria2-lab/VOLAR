@@ -83,6 +83,26 @@ namespace GUI_VOLAR.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icono_datos_avion {
+            get {
+                object obj = ResourceManager.GetObject("icono_datos_avion", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icono_guia {
+            get {
+                object obj = ResourceManager.GetObject("icono_guia", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icono_pantalla_completa {
             get {
                 object obj = ResourceManager.GetObject("icono_pantalla_completa", resourceCulture);
@@ -106,6 +126,16 @@ namespace GUI_VOLAR.Properties {
         internal static System.Drawing.Bitmap icono_salir_pantalla_completa {
             get {
                 object obj = ResourceManager.GetObject("icono_salir_pantalla_completa", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icono_simulacion {
+            get {
+                object obj = ResourceManager.GetObject("icono_simulacion", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ScrollBar;
 
 namespace GUI_VOLAR
 {
@@ -44,13 +45,29 @@ namespace GUI_VOLAR
             this.login = login;
             this.volsCerregats = new List<FlightPlan>();
             cont = 1;
+            Frm_Editor_Aviones.Visible = true;
+            Frm_Dist_Text.Text = "50";
+            Frm_Time_Text.Text = "5";
         }
 
         private void FrmExit_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
+        private void Frm_Editor_Button_Click(object sender, EventArgs e)
+        {
+            Frm_Editor_Aviones.Visible = true;
+        }
 
+        private void Frm_Config_Button_Click(object sender, EventArgs e)
+        {
+            //AQUI SE MOSTRARAN DATOS DEL USUARIO EN UN FUTURO Y SE PERMITIRA CONFIGURAR EN PROFUNDIDAD EL PROGRAMA
+        }
+
+        private void Frm_Help_Click(object sender, EventArgs e)
+        {
+            //AQUI SE MOSTRARA UNA GUIA AL USUARIO EN DOCUMENTO PDF
+        }
         private void Frm_Conf_AvionA_Button_Click(object sender, EventArgs e)
         {
             cont = 1;
@@ -81,7 +98,25 @@ namespace GUI_VOLAR
         private void Frm_Conf_Save_Button_Click(object sender, EventArgs e)
         {
             try                                                                         //  En caso que no haya ningun error de formato
-            {                                                                           //
+            {
+                dSeg = Convert.ToDouble(Frm_Dist_Text.Text);                                  //  Guardamos los datos introducidos en DistBox
+                tCicl = Convert.ToDouble(Frm_Time_Text.Text);                                 //  Guardamos los datos introducidos en TimeBox
+                                                                                        //
+                if (checker.check_dseg(dSeg) != "0")                                    //  En caso que no tengamos un okey con el checker dist seguridad
+                {                                                                       //
+                    av = new _03_Avisos(checker.check_dseg(dSeg));                       //  Crea la ventana de avisos con los datos del checker
+                    av.Show(this);                                                      //  Abre la ventana de avisos
+                }                                                                       //
+                else if (checker.check_tcicl(tCicl) != "0")                             //  En caso que no tengamos un okey con el checker tiempo de ciclo
+                {                                                                       //
+                    av = new _03_Avisos(checker.check_tcicl(tCicl));                     //  Crea la ventana de avisos con los datos del checker
+                    av.Show(this);                                                      //  Abre la ventana de avisos
+                }                                                                       //
+                else                                                                    //  Si todo esta bien
+                {                                                                       //
+                    av = new _03_Avisos("Datos de simulacion Guardados!");              //  Crea la ventana de avisos indicando que los datos para la simulacion estan bien guardados
+                    av.Show(this);                                                      //  Abre la ventana de avisos
+                }   //
                 id = Frm_ID_Text.Text;                                                        //  La variable ID tiene los datos introducidos en IdBox
                 vel = Convert.ToDouble(Frm_Vel_Text.Text);                                    //  La variable vel tiene los datos introducidos en VelBox
                 xo = Convert.ToDouble(Frm_X0_Text.Text);                                      //  La variable xo tiene los datos introducidos en XoBox
@@ -202,7 +237,7 @@ namespace GUI_VOLAR
                 av.Show(this);
             }
         }
-
+        ///////////////////////////////////////////// Simulation Control, funciones para dibujar aviones /////////////////////////////////////
         private void Frm_S_Cargar_Button_Click(object sender, EventArgs e)
         {
             Frm_Radar_Panel.Vuelos.Clear();

@@ -39,6 +39,10 @@
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.Frm_Editor_Aviones = new System.Windows.Forms.GroupBox();
+            this.Frm_Time_Text = new System.Windows.Forms.TextBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.Frm_Dist_Text = new System.Windows.Forms.TextBox();
+            this.label17 = new System.Windows.Forms.Label();
             this.Frm_Avion_Label = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
@@ -76,8 +80,13 @@
             this.Frm_Conf_Save_Button = new System.Windows.Forms.Button();
             this.Frm_Conf_AvionA_Button = new System.Windows.Forms.Button();
             this.Frm_Conf_AvionB_Button = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.printPreviewControl1 = new System.Windows.Forms.PrintPreviewControl();
+            this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
+            this.Frm_Editor_Button = new System.Windows.Forms.PictureBox();
+            this.Frm_Config_Button = new System.Windows.Forms.PictureBox();
+            this.Frm_Help = new System.Windows.Forms.PictureBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -102,6 +111,10 @@
             this.groupBox2.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            this.flowLayoutPanel4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Frm_Editor_Button)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Frm_Config_Button)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Frm_Help)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             this.flowLayoutPanel3.SuspendLayout();
             this.SuspendLayout();
@@ -133,12 +146,13 @@
             this.tableLayoutPanel2.Controls.Add(this.Frm_Radar_Panel, 1, 1);
             this.tableLayoutPanel2.Controls.Add(this.pictureBox2, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.printPreviewControl1, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.flowLayoutPanel4, 0, 1);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 3;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 39F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 608F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 27F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(1600, 985);
@@ -148,17 +162,21 @@
             // 
             this.panel1.Controls.Add(this.Frm_Editor_Aviones);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(651, 649);
+            this.panel1.Location = new System.Drawing.Point(651, 650);
             this.panel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(946, 334);
+            this.panel1.Size = new System.Drawing.Size(946, 333);
             this.panel1.TabIndex = 1;
             // 
             // Frm_Editor_Aviones
             // 
+            this.Frm_Editor_Aviones.Controls.Add(this.Frm_Time_Text);
             this.Frm_Editor_Aviones.Controls.Add(this.Frm_Avion_Label);
+            this.Frm_Editor_Aviones.Controls.Add(this.label16);
             this.Frm_Editor_Aviones.Controls.Add(this.label8);
+            this.Frm_Editor_Aviones.Controls.Add(this.Frm_Dist_Text);
             this.Frm_Editor_Aviones.Controls.Add(this.label7);
+            this.Frm_Editor_Aviones.Controls.Add(this.label17);
             this.Frm_Editor_Aviones.Controls.Add(this.Frm_Yf_Text);
             this.Frm_Editor_Aviones.Controls.Add(this.label5);
             this.Frm_Editor_Aviones.Controls.Add(this.Frm_Xf_Text);
@@ -178,10 +196,44 @@
             this.Frm_Editor_Aviones.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Frm_Editor_Aviones.Name = "Frm_Editor_Aviones";
             this.Frm_Editor_Aviones.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.Frm_Editor_Aviones.Size = new System.Drawing.Size(946, 334);
+            this.Frm_Editor_Aviones.Size = new System.Drawing.Size(946, 333);
             this.Frm_Editor_Aviones.TabIndex = 2;
             this.Frm_Editor_Aviones.TabStop = false;
             this.Frm_Editor_Aviones.Text = "Editor de Aviones";
+            // 
+            // Frm_Time_Text
+            // 
+            this.Frm_Time_Text.Location = new System.Drawing.Point(538, 267);
+            this.Frm_Time_Text.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.Frm_Time_Text.Name = "Frm_Time_Text";
+            this.Frm_Time_Text.Size = new System.Drawing.Size(156, 28);
+            this.Frm_Time_Text.TabIndex = 3;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(534, 246);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(171, 19);
+            this.label16.TabIndex = 2;
+            this.label16.Text = "Tiempos de Ciclos";
+            // 
+            // Frm_Dist_Text
+            // 
+            this.Frm_Dist_Text.Location = new System.Drawing.Point(29, 272);
+            this.Frm_Dist_Text.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.Frm_Dist_Text.Name = "Frm_Dist_Text";
+            this.Frm_Dist_Text.Size = new System.Drawing.Size(210, 28);
+            this.Frm_Dist_Text.TabIndex = 1;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(25, 246);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(224, 19);
+            this.label17.TabIndex = 0;
+            this.label17.Text = "Distancia de Seguridad";
             // 
             // Frm_Avion_Label
             // 
@@ -320,7 +372,7 @@
             this.FrmExit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.FrmExit.Image = global::GUI_VOLAR.Properties.Resources.icono_salir;
             this.FrmExit.Location = new System.Drawing.Point(1553, 4);
-            this.FrmExit.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.FrmExit.Margin = new System.Windows.Forms.Padding(4);
             this.FrmExit.Name = "FrmExit";
             this.FrmExit.Size = new System.Drawing.Size(43, 31);
             this.FrmExit.TabIndex = 1;
@@ -333,7 +385,7 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Font = new System.Drawing.Font("Lucida Sans", 10.2F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.groupBox1.Location = new System.Drawing.Point(651, 41);
+            this.groupBox1.Location = new System.Drawing.Point(651, 42);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -435,13 +487,13 @@
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel3.Controls.Add(this.groupBox3, 0, 0);
             this.tableLayoutPanel3.Controls.Add(this.groupBox2, 0, 1);
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(43, 649);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(43, 650);
             this.tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 2;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(602, 334);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(602, 333);
             this.tableLayoutPanel3.TabIndex = 3;
             // 
             // groupBox3
@@ -545,6 +597,7 @@
             this.flowLayoutPanel1.Controls.Add(this.Frm_Conf_Save_Button);
             this.flowLayoutPanel1.Controls.Add(this.Frm_Conf_AvionA_Button);
             this.flowLayoutPanel1.Controls.Add(this.Frm_Conf_AvionB_Button);
+            this.flowLayoutPanel1.Controls.Add(this.button4);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 23);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -582,7 +635,7 @@
             this.Frm_Conf_Save_Button.Name = "Frm_Conf_Save_Button";
             this.Frm_Conf_Save_Button.Size = new System.Drawing.Size(157, 53);
             this.Frm_Conf_Save_Button.TabIndex = 2;
-            this.Frm_Conf_Save_Button.Text = "Guardar";
+            this.Frm_Conf_Save_Button.Text = "Guardar avion";
             this.Frm_Conf_Save_Button.UseVisualStyleBackColor = true;
             this.Frm_Conf_Save_Button.Click += new System.EventHandler(this.Frm_Conf_Save_Button_Click);
             // 
@@ -608,13 +661,23 @@
             this.Frm_Conf_AvionB_Button.UseVisualStyleBackColor = true;
             this.Frm_Conf_AvionB_Button.Click += new System.EventHandler(this.Frm_Conf_AvionB_Button_Click);
             // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(309, 64);
+            this.button4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(157, 53);
+            this.button4.TabIndex = 5;
+            this.button4.Text = "Guardar datos de simulacion";
+            this.button4.UseVisualStyleBackColor = true;
+            // 
             // pictureBox2
             // 
             this.pictureBox2.Image = global::GUI_VOLAR.Properties.Resources.logo_32x32;
             this.pictureBox2.Location = new System.Drawing.Point(3, 2);
             this.pictureBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(34, 34);
+            this.pictureBox2.Size = new System.Drawing.Size(34, 36);
             this.pictureBox2.TabIndex = 5;
             this.pictureBox2.TabStop = false;
             // 
@@ -625,6 +688,46 @@
             this.printPreviewControl1.Name = "printPreviewControl1";
             this.printPreviewControl1.Size = new System.Drawing.Size(8, 7);
             this.printPreviewControl1.TabIndex = 6;
+            // 
+            // flowLayoutPanel4
+            // 
+            this.flowLayoutPanel4.Controls.Add(this.Frm_Editor_Button);
+            this.flowLayoutPanel4.Controls.Add(this.Frm_Config_Button);
+            this.flowLayoutPanel4.Controls.Add(this.Frm_Help);
+            this.flowLayoutPanel4.Location = new System.Drawing.Point(3, 43);
+            this.flowLayoutPanel4.Name = "flowLayoutPanel4";
+            this.flowLayoutPanel4.Size = new System.Drawing.Size(34, 601);
+            this.flowLayoutPanel4.TabIndex = 7;
+            // 
+            // Frm_Editor_Button
+            // 
+            this.Frm_Editor_Button.Image = global::GUI_VOLAR.Properties.Resources.icono_datos_avion;
+            this.Frm_Editor_Button.Location = new System.Drawing.Point(3, 3);
+            this.Frm_Editor_Button.Name = "Frm_Editor_Button";
+            this.Frm_Editor_Button.Size = new System.Drawing.Size(31, 32);
+            this.Frm_Editor_Button.TabIndex = 0;
+            this.Frm_Editor_Button.TabStop = false;
+            this.Frm_Editor_Button.Click += new System.EventHandler(this.Frm_Editor_Button_Click);
+            // 
+            // Frm_Config_Button
+            // 
+            this.Frm_Config_Button.Image = global::GUI_VOLAR.Properties.Resources.icono_simulacion;
+            this.Frm_Config_Button.Location = new System.Drawing.Point(3, 41);
+            this.Frm_Config_Button.Name = "Frm_Config_Button";
+            this.Frm_Config_Button.Size = new System.Drawing.Size(31, 32);
+            this.Frm_Config_Button.TabIndex = 1;
+            this.Frm_Config_Button.TabStop = false;
+            this.Frm_Config_Button.Click += new System.EventHandler(this.Frm_Config_Button_Click);
+            // 
+            // Frm_Help
+            // 
+            this.Frm_Help.Image = global::GUI_VOLAR.Properties.Resources.icono_guia;
+            this.Frm_Help.Location = new System.Drawing.Point(3, 79);
+            this.Frm_Help.Name = "Frm_Help";
+            this.Frm_Help.Size = new System.Drawing.Size(31, 32);
+            this.Frm_Help.TabIndex = 2;
+            this.Frm_Help.TabStop = false;
+            this.Frm_Help.Click += new System.EventHandler(this.Frm_Help_Click);
             // 
             // panel2
             // 
@@ -738,7 +841,7 @@
             this.Frm_Radar_Panel.Celdas = 12;
             this.Frm_Radar_Panel.ColorLineas = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(200)))), ((int)(((byte)(0)))));
             this.Frm_Radar_Panel.EscalaAvion = 1F;
-            this.Frm_Radar_Panel.Location = new System.Drawing.Point(44, 43);
+            this.Frm_Radar_Panel.Location = new System.Drawing.Point(44, 44);
             this.Frm_Radar_Panel.Margin = new System.Windows.Forms.Padding(4);
             this.Frm_Radar_Panel.Name = "Frm_Radar_Panel";
             this.Frm_Radar_Panel.Size = new System.Drawing.Size(600, 600);
@@ -768,6 +871,10 @@
             this.groupBox2.ResumeLayout(false);
             this.flowLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            this.flowLayoutPanel4.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.Frm_Editor_Button)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Frm_Config_Button)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Frm_Help)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             this.flowLayoutPanel3.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -831,5 +938,14 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel4;
+        private System.Windows.Forms.PictureBox Frm_Editor_Button;
+        private System.Windows.Forms.PictureBox Frm_Config_Button;
+        private System.Windows.Forms.PictureBox Frm_Help;
+        private System.Windows.Forms.TextBox Frm_Time_Text;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.TextBox Frm_Dist_Text;
+        private System.Windows.Forms.Label label17;
     }
 }

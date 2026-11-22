@@ -136,5 +136,14 @@
   <ItemGroup>
     <None Include="Resources\avion_verde.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icono_datos_avion.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icono_simulacion.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icono_guia.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
