@@ -1,4 +1,5 @@
 ﻿using FlightLib;
+using FlightLib.Base_de_Datos;
 using Pruebas_GUI_Volar.Forms;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,10 @@ namespace Pruebas_GUI_Volar
         _05_Datos_Avion da;
         bool conflictoDetectado = false;
         private readonly List<FlightPlan> volsCarregats = new List<FlightPlan>();
+        DataBase database;
+        FlightPlanRepository repository;
+        string emailUsuarioActual;
+
         public _03_Espacio_Aereo(Options menu)
         {
             InitializeComponent();
@@ -52,6 +57,7 @@ namespace Pruebas_GUI_Volar
             }
 
             EspAereo.Invalidate();
+            detectarConflicto(sender, e);
         }
 
         private void CicloBut_Click(object sender, EventArgs e)
@@ -63,6 +69,7 @@ namespace Pruebas_GUI_Volar
 
             EspAereo.Invalidate();
             ComprovarDestino();
+            ComprovarConflictes();
         }
 
         // Executa automàticament cada 500 ms.
@@ -108,6 +115,17 @@ namespace Pruebas_GUI_Volar
             {
                 plane = plan;
 
+                bool enConflicte = false;
+
+                foreach (FlightPlan altreAvio in volsCarregats)
+                {
+                    if (altreAvio != plan && plan.Conflicto(altreAvio, menu.dSeg))
+                    {
+                        enConflicte = true;
+                        break;
+                    }
+                }
+
                 Point inicio = new Point
                         (
                         (int)plane.GetinitialPosition().GetX(),
@@ -123,7 +141,13 @@ namespace Pruebas_GUI_Volar
                          (int)plane.GetcurrentPosition().GetY()
                         );
                     float radio = ((float)menu.dSeg) / 2;
-
+                    if (enConflicte)
+                    {
+                        using (SolidBrush vermellTranslucid = new SolidBrush(Color.FromArgb(110, Color.Red)))
+                        {
+                            g.FillEllipse(vermellTranslucid, centro.X - radio, centro.Y - radio, 2 * radio, 2 * radio);
+                        }
+                    }
                     g.DrawEllipse(rojo, centro.X - radio, centro.Y - radio, 2 * radio, 2 * radio);
                     g.DrawLine(rojo, inicio, final);
                     g.DrawImage(avion_40,
@@ -133,7 +157,8 @@ namespace Pruebas_GUI_Volar
             }
         }
 
-        int cont = 0;
+        int ComprovarConflictes_Cont = 0;
+
         private void ComprovarConflictes()
         {
 
@@ -149,14 +174,16 @@ namespace Pruebas_GUI_Volar
 
                         if (avio2 != null)
                         {
-                            if (cont == 0 && avio1.Conflicto(avio2, menu.dSeg)) // Utilitzem el metode Conflicto de la classe FlightPlan (Fase 1)
+                            if (ComprovarConflictes_Cont == 0 && avio1.Conflicto(avio2, menu.dSeg)) // Utilitzem el metode Conflicto de la classe FlightPlan (Fase 1)
                             {
-                               
-                                    conflictoDetectado = true;
-                                    simulacionTimer.Stop(); // Aturem la simulació automàtica si hi ha un conflicte
-                                    MessageBox.Show("Conflicte detectat entre els avions " + avio1.Getid() + " i " + avio2.Getid());
-                                    cont = 1;
-                                    return;
+                                simulacionTimer.Stop();
+                                conflictoDetectado = true;
+                                ComprovarConflictes_Cont = 1;
+                                string avions = avio1.Getid() + " - " + avio2.Getid();
+                                finestraConflictes finestra = new finestraConflictes(menu.planList, menu.dSeg, avions);
+                                finestra.ShowDialog();
+                                EspAereo.Invalidate();
+                                return;
                             }
                         }
                     }
@@ -265,13 +292,53 @@ namespace Pruebas_GUI_Volar
         {
             simulacionTimer.Stop();
             conflictoDetectado = false;
+            ComprovarConflictes_Cont = 0;
 
             foreach (FlightPlan plan in volsCarregats)
             {
                 plan.Restart();
+                plan.SetVelocidad(plan.GetVelocidadInicial());
+
             }
 
             EspAereo.Invalidate();
+            detectarConflicto(sender, e);
+        }
+
+        private void CanviVelocitat_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Canvia la velocitat de l'avió clicant i introduint un nou valor a la casella de velocitat");
+            DataGridBut_Click(sender, e);
+        }
+
+        private void GuardarSimulación_Click(object sender, EventArgs e)
+        {
+            database.Iniciar();
+
+            try
+            {
+                repository.GuardarPlanes(emailUsuarioActual, menu.planList);
+
+                MessageBox.Show(
+                    "La simulació s'ha guardat correctament.",
+                    "Guardar simulació",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Error en guardar la simulació: " + ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+            }
+            finally
+            {
+                database.Cerrar();
+            }
         }
     }
 }
