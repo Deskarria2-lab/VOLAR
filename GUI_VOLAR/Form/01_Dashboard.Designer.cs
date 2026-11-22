@@ -40,12 +40,12 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.Frm_Editor_Aviones = new System.Windows.Forms.GroupBox();
             this.Frm_Time_Text = new System.Windows.Forms.TextBox();
-            this.label16 = new System.Windows.Forms.Label();
-            this.Frm_Dist_Text = new System.Windows.Forms.TextBox();
-            this.label17 = new System.Windows.Forms.Label();
             this.Frm_Avion_Label = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
+            this.Frm_Dist_Text = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
             this.Frm_Yf_Text = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.Frm_Xf_Text = new System.Windows.Forms.TextBox();
@@ -73,6 +73,8 @@
             this.Frm_S_UnCiclo = new System.Windows.Forms.Button();
             this.Frm_S_Restart_Button = new System.Windows.Forms.Button();
             this.Frm_S_Stop_Button = new System.Windows.Forms.Button();
+            this.Frm_S_PasoAnterior = new System.Windows.Forms.Button();
+            this.Frm_S_Download_Button = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.Frm_Conf_Auto_Button = new System.Windows.Forms.Button();
@@ -80,7 +82,7 @@
             this.Frm_Conf_Save_Button = new System.Windows.Forms.Button();
             this.Frm_Conf_AvionA_Button = new System.Windows.Forms.Button();
             this.Frm_Conf_AvionB_Button = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
+            this.Frm_Conf_Save_DS_Button = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.printPreviewControl1 = new System.Windows.Forms.PrintPreviewControl();
             this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
@@ -209,32 +211,6 @@
             this.Frm_Time_Text.Size = new System.Drawing.Size(156, 28);
             this.Frm_Time_Text.TabIndex = 3;
             // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(534, 246);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(171, 19);
-            this.label16.TabIndex = 2;
-            this.label16.Text = "Tiempos de Ciclos";
-            // 
-            // Frm_Dist_Text
-            // 
-            this.Frm_Dist_Text.Location = new System.Drawing.Point(29, 272);
-            this.Frm_Dist_Text.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.Frm_Dist_Text.Name = "Frm_Dist_Text";
-            this.Frm_Dist_Text.Size = new System.Drawing.Size(210, 28);
-            this.Frm_Dist_Text.TabIndex = 1;
-            // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(25, 246);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(224, 19);
-            this.label17.TabIndex = 0;
-            this.label17.Text = "Distancia de Seguridad";
-            // 
             // Frm_Avion_Label
             // 
             this.Frm_Avion_Label.AutoSize = true;
@@ -244,6 +220,15 @@
             this.Frm_Avion_Label.Size = new System.Drawing.Size(157, 38);
             this.Frm_Avion_Label.TabIndex = 14;
             this.Frm_Avion_Label.Text = "Avion A:";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(534, 246);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(171, 19);
+            this.label16.TabIndex = 2;
+            this.label16.Text = "Tiempos de Ciclos";
             // 
             // label8
             // 
@@ -255,6 +240,14 @@
             this.label8.TabIndex = 13;
             this.label8.Text = "Posicion Final";
             // 
+            // Frm_Dist_Text
+            // 
+            this.Frm_Dist_Text.Location = new System.Drawing.Point(29, 272);
+            this.Frm_Dist_Text.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.Frm_Dist_Text.Name = "Frm_Dist_Text";
+            this.Frm_Dist_Text.Size = new System.Drawing.Size(210, 28);
+            this.Frm_Dist_Text.TabIndex = 1;
+            // 
             // label7
             // 
             this.label7.AutoSize = true;
@@ -264,6 +257,15 @@
             this.label7.Size = new System.Drawing.Size(262, 38);
             this.label7.TabIndex = 12;
             this.label7.Text = "Posicion Inicial";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(25, 246);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(224, 19);
+            this.label17.TabIndex = 0;
+            this.label17.Text = "Distancia de Seguridad";
             // 
             // Frm_Yf_Text
             // 
@@ -396,6 +398,7 @@
             // 
             // Frm_DataGrid
             // 
+            this.Frm_DataGrid.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
             this.Frm_DataGrid.AllowUserToAddRows = false;
             this.Frm_DataGrid.AllowUserToDeleteRows = false;
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(20)))), ((int)(((byte)(30)))));
@@ -517,6 +520,8 @@
             this.flowLayoutPanel2.Controls.Add(this.Frm_S_UnCiclo);
             this.flowLayoutPanel2.Controls.Add(this.Frm_S_Restart_Button);
             this.flowLayoutPanel2.Controls.Add(this.Frm_S_Stop_Button);
+            this.flowLayoutPanel2.Controls.Add(this.Frm_S_PasoAnterior);
+            this.flowLayoutPanel2.Controls.Add(this.Frm_S_Download_Button);
             this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel2.Location = new System.Drawing.Point(3, 23);
             this.flowLayoutPanel2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -527,58 +532,114 @@
             // 
             // Frm_S_Cargar_Button
             // 
+            this.Frm_S_Cargar_Button.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(30)))), ((int)(((byte)(80)))));
+            this.Frm_S_Cargar_Button.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.Frm_S_Cargar_Button.FlatAppearance.BorderSize = 2;
+            this.Frm_S_Cargar_Button.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(30)))), ((int)(((byte)(80)))));
+            this.Frm_S_Cargar_Button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Frm_S_Cargar_Button.Location = new System.Drawing.Point(3, 7);
             this.Frm_S_Cargar_Button.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Frm_S_Cargar_Button.Name = "Frm_S_Cargar_Button";
             this.Frm_S_Cargar_Button.Size = new System.Drawing.Size(149, 55);
             this.Frm_S_Cargar_Button.TabIndex = 0;
             this.Frm_S_Cargar_Button.Text = "Cargar Datos de Simulacion";
-            this.Frm_S_Cargar_Button.UseVisualStyleBackColor = true;
+            this.Frm_S_Cargar_Button.UseVisualStyleBackColor = false;
             this.Frm_S_Cargar_Button.Click += new System.EventHandler(this.Frm_S_Cargar_Button_Click);
             // 
             // Frm_S_Start_Button
             // 
+            this.Frm_S_Start_Button.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(30)))), ((int)(((byte)(80)))));
+            this.Frm_S_Start_Button.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.Frm_S_Start_Button.FlatAppearance.BorderSize = 2;
+            this.Frm_S_Start_Button.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(30)))), ((int)(((byte)(80)))));
+            this.Frm_S_Start_Button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Frm_S_Start_Button.Location = new System.Drawing.Point(158, 7);
             this.Frm_S_Start_Button.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Frm_S_Start_Button.Name = "Frm_S_Start_Button";
-            this.Frm_S_Start_Button.Size = new System.Drawing.Size(145, 55);
+            this.Frm_S_Start_Button.Size = new System.Drawing.Size(155, 55);
             this.Frm_S_Start_Button.TabIndex = 1;
             this.Frm_S_Start_Button.Text = "Iniciar Simulacion";
-            this.Frm_S_Start_Button.UseVisualStyleBackColor = true;
+            this.Frm_S_Start_Button.UseVisualStyleBackColor = false;
             this.Frm_S_Start_Button.Click += new System.EventHandler(this.Frm_S_Start_Button_Click);
             // 
             // Frm_S_UnCiclo
             // 
-            this.Frm_S_UnCiclo.Location = new System.Drawing.Point(309, 7);
+            this.Frm_S_UnCiclo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(30)))), ((int)(((byte)(80)))));
+            this.Frm_S_UnCiclo.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.Frm_S_UnCiclo.FlatAppearance.BorderSize = 2;
+            this.Frm_S_UnCiclo.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(30)))), ((int)(((byte)(80)))));
+            this.Frm_S_UnCiclo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Frm_S_UnCiclo.Location = new System.Drawing.Point(319, 7);
             this.Frm_S_UnCiclo.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Frm_S_UnCiclo.Name = "Frm_S_UnCiclo";
             this.Frm_S_UnCiclo.Size = new System.Drawing.Size(157, 55);
             this.Frm_S_UnCiclo.TabIndex = 2;
             this.Frm_S_UnCiclo.Text = "Un Ciclo de simulacion";
-            this.Frm_S_UnCiclo.UseVisualStyleBackColor = true;
+            this.Frm_S_UnCiclo.UseVisualStyleBackColor = false;
             this.Frm_S_UnCiclo.Click += new System.EventHandler(this.Frm_S_UnCiclo_Click);
             // 
             // Frm_S_Restart_Button
             // 
+            this.Frm_S_Restart_Button.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(30)))), ((int)(((byte)(80)))));
+            this.Frm_S_Restart_Button.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.Frm_S_Restart_Button.FlatAppearance.BorderSize = 2;
+            this.Frm_S_Restart_Button.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(30)))), ((int)(((byte)(80)))));
+            this.Frm_S_Restart_Button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Frm_S_Restart_Button.Location = new System.Drawing.Point(3, 66);
             this.Frm_S_Restart_Button.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Frm_S_Restart_Button.Name = "Frm_S_Restart_Button";
-            this.Frm_S_Restart_Button.Size = new System.Drawing.Size(147, 54);
+            this.Frm_S_Restart_Button.Size = new System.Drawing.Size(130, 54);
             this.Frm_S_Restart_Button.TabIndex = 3;
             this.Frm_S_Restart_Button.Text = "Restaurar Simulacion";
-            this.Frm_S_Restart_Button.UseVisualStyleBackColor = true;
+            this.Frm_S_Restart_Button.UseVisualStyleBackColor = false;
             this.Frm_S_Restart_Button.Click += new System.EventHandler(this.Frm_S_Restart_Button_Click);
             // 
             // Frm_S_Stop_Button
             // 
-            this.Frm_S_Stop_Button.Location = new System.Drawing.Point(156, 66);
+            this.Frm_S_Stop_Button.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(30)))), ((int)(((byte)(80)))));
+            this.Frm_S_Stop_Button.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.Frm_S_Stop_Button.FlatAppearance.BorderSize = 2;
+            this.Frm_S_Stop_Button.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(30)))), ((int)(((byte)(80)))));
+            this.Frm_S_Stop_Button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Frm_S_Stop_Button.Location = new System.Drawing.Point(139, 66);
             this.Frm_S_Stop_Button.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Frm_S_Stop_Button.Name = "Frm_S_Stop_Button";
             this.Frm_S_Stop_Button.Size = new System.Drawing.Size(147, 54);
             this.Frm_S_Stop_Button.TabIndex = 4;
             this.Frm_S_Stop_Button.Text = "Detener Simulacion";
-            this.Frm_S_Stop_Button.UseVisualStyleBackColor = true;
+            this.Frm_S_Stop_Button.UseVisualStyleBackColor = false;
             this.Frm_S_Stop_Button.Click += new System.EventHandler(this.Frm_S_Stop_Button_Click);
+            // 
+            // Frm_S_PasoAnterior
+            // 
+            this.Frm_S_PasoAnterior.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(30)))), ((int)(((byte)(80)))));
+            this.Frm_S_PasoAnterior.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.Frm_S_PasoAnterior.FlatAppearance.BorderSize = 2;
+            this.Frm_S_PasoAnterior.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(30)))), ((int)(((byte)(80)))));
+            this.Frm_S_PasoAnterior.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Frm_S_PasoAnterior.Location = new System.Drawing.Point(292, 66);
+            this.Frm_S_PasoAnterior.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.Frm_S_PasoAnterior.Name = "Frm_S_PasoAnterior";
+            this.Frm_S_PasoAnterior.Size = new System.Drawing.Size(157, 55);
+            this.Frm_S_PasoAnterior.TabIndex = 5;
+            this.Frm_S_PasoAnterior.Text = "Deshacer un paso";
+            this.Frm_S_PasoAnterior.UseVisualStyleBackColor = false;
+            this.Frm_S_PasoAnterior.Click += new System.EventHandler(this.Frm_S_PasoAnterior_Click);
+            // 
+            // Frm_S_Download_Button
+            // 
+            this.Frm_S_Download_Button.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(30)))), ((int)(((byte)(80)))));
+            this.Frm_S_Download_Button.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.Frm_S_Download_Button.FlatAppearance.BorderSize = 2;
+            this.Frm_S_Download_Button.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(30)))), ((int)(((byte)(80)))));
+            this.Frm_S_Download_Button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Frm_S_Download_Button.Location = new System.Drawing.Point(455, 66);
+            this.Frm_S_Download_Button.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.Frm_S_Download_Button.Name = "Frm_S_Download_Button";
+            this.Frm_S_Download_Button.Size = new System.Drawing.Size(130, 54);
+            this.Frm_S_Download_Button.TabIndex = 6;
+            this.Frm_S_Download_Button.Text = "Descargar Datos";
+            this.Frm_S_Download_Button.UseVisualStyleBackColor = false;
             // 
             // groupBox2
             // 
@@ -601,7 +662,7 @@
             this.flowLayoutPanel1.Controls.Add(this.Frm_Conf_Save_Button);
             this.flowLayoutPanel1.Controls.Add(this.Frm_Conf_AvionA_Button);
             this.flowLayoutPanel1.Controls.Add(this.Frm_Conf_AvionB_Button);
-            this.flowLayoutPanel1.Controls.Add(this.button4);
+            this.flowLayoutPanel1.Controls.Add(this.Frm_Conf_Save_DS_Button);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 23);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -612,68 +673,99 @@
             // 
             // Frm_Conf_Auto_Button
             // 
+            this.Frm_Conf_Auto_Button.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(30)))), ((int)(((byte)(80)))));
+            this.Frm_Conf_Auto_Button.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.Frm_Conf_Auto_Button.FlatAppearance.BorderSize = 2;
+            this.Frm_Conf_Auto_Button.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(30)))), ((int)(((byte)(80)))));
+            this.Frm_Conf_Auto_Button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Frm_Conf_Auto_Button.Location = new System.Drawing.Point(3, 7);
             this.Frm_Conf_Auto_Button.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Frm_Conf_Auto_Button.Name = "Frm_Conf_Auto_Button";
             this.Frm_Conf_Auto_Button.Size = new System.Drawing.Size(149, 53);
             this.Frm_Conf_Auto_Button.TabIndex = 0;
             this.Frm_Conf_Auto_Button.Text = "Autocompletar";
-            this.Frm_Conf_Auto_Button.UseVisualStyleBackColor = true;
+            this.Frm_Conf_Auto_Button.UseVisualStyleBackColor = false;
             this.Frm_Conf_Auto_Button.Click += new System.EventHandler(this.Frm_Conf_Auto_Button_Click);
             // 
             // Frm_Conf_File_Button
             // 
+            this.Frm_Conf_File_Button.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(30)))), ((int)(((byte)(80)))));
+            this.Frm_Conf_File_Button.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.Frm_Conf_File_Button.FlatAppearance.BorderSize = 2;
+            this.Frm_Conf_File_Button.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(30)))), ((int)(((byte)(80)))));
+            this.Frm_Conf_File_Button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Frm_Conf_File_Button.Location = new System.Drawing.Point(158, 7);
             this.Frm_Conf_File_Button.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Frm_Conf_File_Button.Name = "Frm_Conf_File_Button";
             this.Frm_Conf_File_Button.Size = new System.Drawing.Size(145, 53);
             this.Frm_Conf_File_Button.TabIndex = 1;
             this.Frm_Conf_File_Button.Text = "Introducir Fichero";
-            this.Frm_Conf_File_Button.UseVisualStyleBackColor = true;
+            this.Frm_Conf_File_Button.UseVisualStyleBackColor = false;
             this.Frm_Conf_File_Button.Click += new System.EventHandler(this.Frm_Conf_File_Button_Click);
             // 
             // Frm_Conf_Save_Button
             // 
+            this.Frm_Conf_Save_Button.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(30)))), ((int)(((byte)(80)))));
+            this.Frm_Conf_Save_Button.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.Frm_Conf_Save_Button.FlatAppearance.BorderSize = 2;
+            this.Frm_Conf_Save_Button.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(30)))), ((int)(((byte)(80)))));
+            this.Frm_Conf_Save_Button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Frm_Conf_Save_Button.Location = new System.Drawing.Point(309, 7);
             this.Frm_Conf_Save_Button.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Frm_Conf_Save_Button.Name = "Frm_Conf_Save_Button";
             this.Frm_Conf_Save_Button.Size = new System.Drawing.Size(157, 53);
             this.Frm_Conf_Save_Button.TabIndex = 2;
             this.Frm_Conf_Save_Button.Text = "Guardar avion";
-            this.Frm_Conf_Save_Button.UseVisualStyleBackColor = true;
+            this.Frm_Conf_Save_Button.UseVisualStyleBackColor = false;
             this.Frm_Conf_Save_Button.Click += new System.EventHandler(this.Frm_Conf_Save_Button_Click);
             // 
             // Frm_Conf_AvionA_Button
             // 
+            this.Frm_Conf_AvionA_Button.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(30)))), ((int)(((byte)(80)))));
+            this.Frm_Conf_AvionA_Button.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.Frm_Conf_AvionA_Button.FlatAppearance.BorderSize = 2;
+            this.Frm_Conf_AvionA_Button.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(30)))), ((int)(((byte)(80)))));
+            this.Frm_Conf_AvionA_Button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Frm_Conf_AvionA_Button.Location = new System.Drawing.Point(3, 64);
             this.Frm_Conf_AvionA_Button.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Frm_Conf_AvionA_Button.Name = "Frm_Conf_AvionA_Button";
             this.Frm_Conf_AvionA_Button.Size = new System.Drawing.Size(149, 53);
             this.Frm_Conf_AvionA_Button.TabIndex = 3;
             this.Frm_Conf_AvionA_Button.Text = "Seleccionar Avion A";
-            this.Frm_Conf_AvionA_Button.UseVisualStyleBackColor = true;
+            this.Frm_Conf_AvionA_Button.UseVisualStyleBackColor = false;
             this.Frm_Conf_AvionA_Button.Click += new System.EventHandler(this.Frm_Conf_AvionA_Button_Click);
             // 
             // Frm_Conf_AvionB_Button
             // 
+            this.Frm_Conf_AvionB_Button.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(30)))), ((int)(((byte)(80)))));
+            this.Frm_Conf_AvionB_Button.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.Frm_Conf_AvionB_Button.FlatAppearance.BorderSize = 2;
+            this.Frm_Conf_AvionB_Button.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(30)))), ((int)(((byte)(80)))));
+            this.Frm_Conf_AvionB_Button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Frm_Conf_AvionB_Button.Location = new System.Drawing.Point(158, 64);
             this.Frm_Conf_AvionB_Button.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Frm_Conf_AvionB_Button.Name = "Frm_Conf_AvionB_Button";
             this.Frm_Conf_AvionB_Button.Size = new System.Drawing.Size(145, 53);
             this.Frm_Conf_AvionB_Button.TabIndex = 4;
             this.Frm_Conf_AvionB_Button.Text = "Seleccionar Avion B";
-            this.Frm_Conf_AvionB_Button.UseVisualStyleBackColor = true;
+            this.Frm_Conf_AvionB_Button.UseVisualStyleBackColor = false;
             this.Frm_Conf_AvionB_Button.Click += new System.EventHandler(this.Frm_Conf_AvionB_Button_Click);
             // 
-            // button4
+            // Frm_Conf_Save_DS_Button
             // 
-            this.button4.Location = new System.Drawing.Point(309, 64);
-            this.button4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(157, 53);
-            this.button4.TabIndex = 5;
-            this.button4.Text = "Guardar datos de simulacion";
-            this.button4.UseVisualStyleBackColor = true;
+            this.Frm_Conf_Save_DS_Button.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(30)))), ((int)(((byte)(80)))));
+            this.Frm_Conf_Save_DS_Button.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.Frm_Conf_Save_DS_Button.FlatAppearance.BorderSize = 2;
+            this.Frm_Conf_Save_DS_Button.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(30)))), ((int)(((byte)(80)))));
+            this.Frm_Conf_Save_DS_Button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Frm_Conf_Save_DS_Button.Location = new System.Drawing.Point(309, 64);
+            this.Frm_Conf_Save_DS_Button.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.Frm_Conf_Save_DS_Button.Name = "Frm_Conf_Save_DS_Button";
+            this.Frm_Conf_Save_DS_Button.Size = new System.Drawing.Size(157, 53);
+            this.Frm_Conf_Save_DS_Button.TabIndex = 5;
+            this.Frm_Conf_Save_DS_Button.Text = "Guardar datos de simulacion";
+            this.Frm_Conf_Save_DS_Button.UseVisualStyleBackColor = false;
+            this.Frm_Conf_Save_DS_Button.Click += new System.EventHandler(this.Frm_Conf_Save_DS_Button_Click);
             // 
             // pictureBox2
             // 
@@ -708,7 +800,7 @@
             this.Frm_Editor_Button.Image = global::GUI_VOLAR.Properties.Resources.icono_datos_avion;
             this.Frm_Editor_Button.Location = new System.Drawing.Point(3, 3);
             this.Frm_Editor_Button.Name = "Frm_Editor_Button";
-            this.Frm_Editor_Button.Size = new System.Drawing.Size(31, 32);
+            this.Frm_Editor_Button.Size = new System.Drawing.Size(40, 40);
             this.Frm_Editor_Button.TabIndex = 0;
             this.Frm_Editor_Button.TabStop = false;
             this.Frm_Editor_Button.Click += new System.EventHandler(this.Frm_Editor_Button_Click);
@@ -716,9 +808,9 @@
             // Frm_Config_Button
             // 
             this.Frm_Config_Button.Image = global::GUI_VOLAR.Properties.Resources.icono_simulacion;
-            this.Frm_Config_Button.Location = new System.Drawing.Point(3, 41);
+            this.Frm_Config_Button.Location = new System.Drawing.Point(3, 49);
             this.Frm_Config_Button.Name = "Frm_Config_Button";
-            this.Frm_Config_Button.Size = new System.Drawing.Size(31, 32);
+            this.Frm_Config_Button.Size = new System.Drawing.Size(40, 40);
             this.Frm_Config_Button.TabIndex = 1;
             this.Frm_Config_Button.TabStop = false;
             this.Frm_Config_Button.Click += new System.EventHandler(this.Frm_Config_Button_Click);
@@ -726,9 +818,9 @@
             // Frm_Help
             // 
             this.Frm_Help.Image = global::GUI_VOLAR.Properties.Resources.icono_guia;
-            this.Frm_Help.Location = new System.Drawing.Point(3, 79);
+            this.Frm_Help.Location = new System.Drawing.Point(3, 95);
             this.Frm_Help.Name = "Frm_Help";
-            this.Frm_Help.Size = new System.Drawing.Size(31, 32);
+            this.Frm_Help.Size = new System.Drawing.Size(40, 40);
             this.Frm_Help.TabIndex = 2;
             this.Frm_Help.TabStop = false;
             this.Frm_Help.Click += new System.EventHandler(this.Frm_Help_Click);
@@ -862,6 +954,8 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "FrmDashboard";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.tableLayoutPanel2.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.Frm_Editor_Aviones.ResumeLayout(false);
@@ -942,7 +1036,7 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button Frm_Conf_Save_DS_Button;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel4;
         private System.Windows.Forms.PictureBox Frm_Editor_Button;
         private System.Windows.Forms.PictureBox Frm_Config_Button;
@@ -951,5 +1045,7 @@
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.TextBox Frm_Dist_Text;
         private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Button Frm_S_PasoAnterior;
+        private System.Windows.Forms.Button Frm_S_Download_Button;
     }
 }
