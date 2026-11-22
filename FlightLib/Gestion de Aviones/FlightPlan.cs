@@ -21,7 +21,8 @@ namespace FlightLib
         Position finalPosition;                                                                
         double velocidad;                                                                       
         double angulo;
-        
+        double velocidadInicial;
+
 
         //////////////////////////////////////////////////////////////    Constructor   ///////////////////////////////////////////////////////////////////
         public FlightPlan(string id, double cpx, double cpy, double fpx, double fpy, double velocidad)
@@ -32,6 +33,7 @@ namespace FlightLib
             this.finalPosition = new Position(fpx, fpy);                                        //  Inicializamos la pos Final
             this.velocidad = velocidad;                                                         //  Inicializamos la velocidad
             angulo = Math.Atan((fpy - cpy) / (fpx - cpx));
+            this.velocidadInicial = velocidad;
         }
         ////////////////////////////////////////////////////////////////    Metodos GET   /////////////////////////////////////////////////////////////////////
 
@@ -51,6 +53,8 @@ namespace FlightLib
         { return velocidad * Math.Cos(angulo); }
         public double GetVelocidadY() 
         { return velocidad * Math.Sin(angulo); }
+        public double GetVelocidadInicial()                                                       //  Metodo Get para la velocidad inicial del avion
+        { return this.velocidadInicial; }
 
         ////////////////////////////////////////////////////////////////    Metodos SET   //////////////////////////////////////////////////////////////////////
         public void Setid(string id)                                                            //  Metodo Set para el Identificador del Avion 
