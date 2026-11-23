@@ -121,6 +121,10 @@
     <Compile Include="Forms\06_Form_TablaVuelos.Designer.cs">
       <DependentUpon>06_Form_TablaVuelos.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\AvisoConflictoDetectado.cs" />
+    <Compile Include="Forms\AvisoConflictoDetectado.Designer.cs">
+      <DependentUpon>AvisoConflictoDetectado.cs</DependentUpon>
+    </Compile>
     <Compile Include="Resources\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Forms\07_FormConflictes.resx">
@@ -146,6 +150,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\06_Form_TablaVuelos.resx">
       <DependentUpon>06_Form_TablaVuelos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AvisoConflictoDetectado.resx">
+      <DependentUpon>AvisoConflictoDetectado.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

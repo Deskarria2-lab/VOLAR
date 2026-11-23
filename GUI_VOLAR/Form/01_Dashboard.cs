@@ -136,17 +136,17 @@ namespace GUI_VOLAR
                 if (checker.check_id(id) != "0")                                        //  Si el checker del Id no devuelve un okey
                 {                                                                       //
                     av = new _03_Avisos(checker.check_id(id));                           //  Crea la ventana de avisos con los datos del checker
-                    av.Show(this);                                                      //  Abre la ventana de avisos
+                    av.ShowDialog(this);                                                      //  Abre la ventana de avisos
                 }                                                                       //
                 else if (checker.check_vel(vel) != "0")                                 //  Si el checker de la velocidad no devuelve un okey
                 {                                                                       //
-                    av = new _03_Avisos(checker.check_vel(vel));                         //  Crea la ventana de avisos con los datos del checker;
-                    av.Show(this);                                                      //  Abre la ventana de avisos
+                    av = new _03_Avisos(checker.check_vel(vel));                        //  Crea la ventana de avisos con los datos del checker;
+                    av.ShowDialog(this);                                                      //  Abre la ventana de avisos
                 }                                                                       //
                 else if (checker.check_pos(xo, yo, xf, yf) != "0")                      //  Si el checker de las posiciones no devuelve un okey
                 {                                                                       //
-                    av = new _03_Avisos(checker.check_pos(xo, yo, xf, yf));              //  Crea la ventana de avisos con los datos del checker
-                    av.Show(this);                                                      //  Abre la ventana de avisos
+                    av = new _03_Avisos(checker.check_pos(xo, yo, xf, yf));             //  Crea la ventana de avisos con los datos del checker
+                    av.ShowDialog(this);                                                //  Abre la ventana de avisos
                 }                                                                       //
                 else                                                                    //  Si todo esta en orden
                 {                                                                       //  
@@ -170,7 +170,7 @@ namespace GUI_VOLAR
                             vel);                                                       //  Su yf
                         planList.AddFlightPlan(vueloA);
                         av = new _03_Avisos("El Vuelo A esta creado!");                  //  Crea la ventana de avisando del vuelo creado
-                        av.Show(this);                                                  //  Abre la ventana de avisos
+                        av.ShowDialog(this);                                                  //  Abre la ventana de avisos
                         aviones_cargados = true;
                     }                                                                   //
                     else if (cont == 2)                                                 //  Si el contador esta en 2
@@ -193,7 +193,7 @@ namespace GUI_VOLAR
                             vel);                                                       //  Su yf
                         planList.AddFlightPlan(vueloB);
                         av = new _03_Avisos("El Vuelo B esta creado!");                  //  Crea la ventana de avisando del vuelo creado
-                        av.Show(this);                                                  //  Abre la ventana de avisos
+                        av.ShowDialog(this);                                                  //  Abre la ventana de avisos
                         aviones_cargados = true;
                     }
                     if (conf_cargada && aviones_cargados)
@@ -212,7 +212,7 @@ namespace GUI_VOLAR
             {
                 av = new _03_Avisos(                                                    //  Crea la ventana avisando
                     "No se han introducido los datos con su formato correcto!");        //  Que los datos introducidos no son correctos
-                av.Show(this);                                                          //  Muestra esta ventana//
+                av.ShowDialog(this);                                                          //  Muestra esta ventana//
             }
         }
 
@@ -226,17 +226,17 @@ namespace GUI_VOLAR
                 if (checker.check_dseg(dSeg) != "0")                                    //  En caso que no tengamos un okey con el checker dist seguridad
                 {                                                                       //
                     av = new _03_Avisos(checker.check_dseg(dSeg));                       //  Crea la ventana de avisos con los datos del checker
-                    av.Show(this);                                                      //  Abre la ventana de avisos
+                    av.ShowDialog(this);                                                      //  Abre la ventana de avisos
                 }                                                                       //
                 else if (checker.check_tcicl(tCicl) != "0")                             //  En caso que no tengamos un okey con el checker tiempo de ciclo
                 {                                                                       //
                     av = new _03_Avisos(checker.check_tcicl(tCicl));                     //  Crea la ventana de avisos con los datos del checker
-                    av.Show(this);                                                      //  Abre la ventana de avisos
+                    av.ShowDialog(this);                                                      //  Abre la ventana de avisos
                 }                                                                       //
                 else                                                                    //  Si todo esta bien
                 {                                                                       //
                     av = new _03_Avisos("Datos de simulacion Guardados!");              //  Crea la ventana de avisos indicando que los datos para la simulacion estan bien guardados
-                    av.Show(this);                                                      //  Abre la ventana de avisos
+                    av.ShowDialog(this);                                                      //  Abre la ventana de avisos
                     conf_cargada = true;
                     Frm_Radar_Panel.DistanciaSeguridad = dSeg;
                 }
@@ -249,7 +249,7 @@ namespace GUI_VOLAR
             {
                 av = new _03_Avisos(                                                    //  Crea la ventana avisando
                     "No se han introducido los datos con su formato correcto!");        //  Que los datos introducidos no son correctos
-                av.Show(this);
+                av.ShowDialog(this);
             }
 
         }
@@ -304,7 +304,7 @@ namespace GUI_VOLAR
                     Frm_S_PasoAnterior.Enabled = true;
                     Frm_S_Download_Button.Enabled = true;
                 }
-                av.Show(this);
+                av.ShowDialog(this);
             }
         }
         ///////////////////////////////////////////// Simulation Control, funciones para dibujar aviones /////////////////////////////////////
@@ -479,6 +479,10 @@ namespace GUI_VOLAR
 
             // Colorear filas
             PintarConflictos(vuelosEnConflicto);
+            if(vuelosEnConflicto != null) 
+            {
+
+            }
         }
 
         public void ActualizarGrid() 
@@ -646,7 +650,7 @@ namespace GUI_VOLAR
             if (lista.Count == 0)
             {
                 av = new _03_Avisos("No hay vuelos que guardar.");
-                av.Show(this);
+                av.ShowDialog(this);
                 return;
             }
 
@@ -672,7 +676,7 @@ namespace GUI_VOLAR
                 {
                     av = new _03_Avisos("No tienes permiso para guardar en esa carpeta.");
                 }
-                av.Show(this);
+                av.ShowDialog(this);
             }
         }
     }
