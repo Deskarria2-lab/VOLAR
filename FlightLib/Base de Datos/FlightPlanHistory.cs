@@ -17,13 +17,11 @@ namespace FlightLib.Base_de_Datos
             historial = new Stack<List<FlightPlanData>>();
         }
 
-        // Retorna el nombre d'estats guardats.
         public int Count
         {
             get { return historial.Count; }
         }
 
-        // Inicialitza l'historial amb l'estat inicial dels avions.
         public void Iniciar(FlightPlanList lista)
         {
             historial.Clear();
@@ -41,7 +39,7 @@ namespace FlightLib.Base_de_Datos
             historial.Push(nouEstat);
         }
 
-        // Crea una còpia de l'estat actual de tots els avions.
+        // Retorna una còpia de l'estat actual de tots els avions
         private List<FlightPlanData> CrearEstat(FlightPlanList lista)
         {
             List<FlightPlanData> estat = new List<FlightPlanData>();
@@ -75,7 +73,7 @@ namespace FlightLib.Base_de_Datos
             return estat;
         }
 
-        // Retorna l'estat més recent de la simulació.
+        // Retorna l'estat més recent de la simulació
         public List<FlightPlanData> ObtenerEstadoActual()
         {
             if (historial.Count == 0)
@@ -86,13 +84,13 @@ namespace FlightLib.Base_de_Datos
             return historial.Peek();
         }
 
-        // Retorna tots els estats ordenats del més antic al més recent.
+        // Retorna tots els estats ordenats del més antic al més recent
         public List<List<FlightPlanData>> ObtenerEstadosPerGuardar()
         {
             return historial.Reverse().ToList();
         }
 
-        // Carrega a l'Stack els estats recuperats de la base de dades.
+        // Carrega a l'Stack els estats recuperats de la base de dades
         public void CargarHistorial(List<List<FlightPlanData>> estados)
         {
             historial.Clear();
@@ -102,15 +100,13 @@ namespace FlightLib.Base_de_Datos
                 return;
             }
 
-            // Els estats s'han de reintroduir en ordre cronològic.
-            // Així, l'estat més recent quedarà a dalt de l'Stack.
             foreach (List<FlightPlanData> estado in estados)
             {
                 historial.Push(estado);
             }
         }
 
-        // Reconstrueix la llista d'avions a partir d'un estat.
+        // Retorna la llista d'avions a partir d'un estat per poder reconstruir l'última simulació
         public FlightPlanList ReconstruirPlanes(List<FlightPlanData> estado)
         {
             FlightPlanList lista = new FlightPlanList();
@@ -132,19 +128,15 @@ namespace FlightLib.Base_de_Datos
                 );
 
                 // Recuperem la posició i la velocitat de l'últim estat.
-                avio.SetcurrentPosition(
-                    new Position(dades.CurrentX, dades.CurrentY)
-                );
-
+                avio.SetcurrentPosition(new Position(dades.CurrentX, dades.CurrentY));
                 avio.SetVelocidad(dades.Speed);
-
                 lista.AddFlightPlan(avio);
             }
 
             return lista;
         }
 
-
+        // Desfa l'últim pas de la simulació --> recupera l'estat anterior
         public FlightPlanList DesferPas()
         {
             if (historial.Count <= 1)

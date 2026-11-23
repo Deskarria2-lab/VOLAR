@@ -17,7 +17,7 @@ namespace FlightLib.Base_de_Datos
             this.database = database;
         }
 
-        // Crea la taula on es guardarà l'historial de la simulació.
+        // Crea la taula on es guardarà l'historial de la simulació
         public void CrearTabla()
         {
             string consulta = @"
@@ -36,57 +36,42 @@ namespace FlightLib.Base_de_Datos
                     CurrentY REAL NOT NULL
                 );";
 
-            using (SQLiteCommand comando =
-                new SQLiteCommand(consulta, database.Connection))
+            using (SQLiteCommand comando = new SQLiteCommand(consulta, database.Connection))
             {
                 comando.ExecuteNonQuery();
             }
         }
 
-        // Guarda tot l'historial d'un usuari.
-        // Els estats han d'arribar ordenats del més antic al més recent.
-        public void GuardarHistorial(
-            string email,
-            List<List<FlightPlanData>> estados)
+        // Guarda tot l'historial d'un usuari
+        // Els estats han d'arribar ordenats del més antic al més recent
+        public void GuardarHistorial(string email, List<List<FlightPlanData>> estados)
         {
             if (string.IsNullOrWhiteSpace(email))
             {
-                throw new ArgumentException(
-                    "El correu de l'usuari no és vàlid."
-                );
+                throw new ArgumentException("El correu de l'usuari no és vàlid.");
             }
 
             if (estados == null || estados.Count == 0)
             {
-                throw new ArgumentException(
-                    "No hi ha cap estat per guardar."
-                );
+                throw new ArgumentException("No hi ha cap estat per guardar.");
             }
 
-            using (SQLiteTransaction transaccion =
-                database.Connection.BeginTransaction())
+            using (SQLiteTransaction transaccion = database.Connection.BeginTransaction())
             {
                 try
                 {
-                    // Eliminem l'historial anterior d'aquest usuari.
+                    // Eliminem l'historial anterior d'aquest usuari per evitar duplicats
                     string eliminar = @"
                         DELETE FROM FlightPlanHistory
                         WHERE UserEmail = @email;";
 
-                    using (SQLiteCommand comandoEliminar =
-                        new SQLiteCommand(
-                            eliminar,
-                            database.Connection,
-                            transaccion))
+                    using (SQLiteCommand comandoEliminar = new SQLiteCommand(eliminar,database.Connection,transaccion))
                     {
-                        comandoEliminar.Parameters.AddWithValue(
-                            "@email", email
-                        );
-
+                        comandoEliminar.Parameters.AddWithValue("@email", email);
                         comandoEliminar.ExecuteNonQuery();
                     }
 
-                    // Inserim tots els estats de la simulació.
+                    // Inserim tots els estats de la simulació
                     string insertar = @"
                         INSERT INTO FlightPlanHistory
                         (
@@ -129,50 +114,17 @@ namespace FlightLib.Base_de_Datos
                                     database.Connection,
                                     transaccion))
                             {
-                                comandoInsertar.Parameters.AddWithValue(
-                                    "@email", email
-                                );
-
-                                comandoInsertar.Parameters.AddWithValue(
-                                    "@flightId", dades.FlightId
-                                );
-
-                                comandoInsertar.Parameters.AddWithValue(
-                                    "@stepNumber", i
-                                );
-
-                                comandoInsertar.Parameters.AddWithValue(
-                                    "@speed", dades.Speed
-                                );
-
-                                comandoInsertar.Parameters.AddWithValue(
-                                    "@initialSpeed", dades.InitialSpeed
-                                );
-
-                                comandoInsertar.Parameters.AddWithValue(
-                                    "@initialX", dades.InitialX
-                                );
-
-                                comandoInsertar.Parameters.AddWithValue(
-                                    "@initialY", dades.InitialY
-                                );
-
-                                comandoInsertar.Parameters.AddWithValue(
-                                    "@finalX", dades.FinalX
-                                );
-
-                                comandoInsertar.Parameters.AddWithValue(
-                                    "@finalY", dades.FinalY
-                                );
-
-                                comandoInsertar.Parameters.AddWithValue(
-                                    "@currentX", dades.CurrentX
-                                );
-
-                                comandoInsertar.Parameters.AddWithValue(
-                                    "@currentY", dades.CurrentY
-                                );
-
+                                comandoInsertar.Parameters.AddWithValue("@email", email);
+                                comandoInsertar.Parameters.AddWithValue("@flightId", dades.FlightId);
+                                comandoInsertar.Parameters.AddWithValue("@stepNumber", i);
+                                comandoInsertar.Parameters.AddWithValue("@speed", dades.Speed);
+                                comandoInsertar.Parameters.AddWithValue("@initialSpeed", dades.InitialSpeed);
+                                comandoInsertar.Parameters.AddWithValue("@initialX", dades.InitialX);
+                                comandoInsertar.Parameters.AddWithValue("@initialY", dades.InitialY);
+                                comandoInsertar.Parameters.AddWithValue("@finalX", dades.FinalX);
+                                comandoInsertar.Parameters.AddWithValue("@finalY", dades.FinalY);
+                                comandoInsertar.Parameters.AddWithValue("@currentX", dades.CurrentX);
+                                comandoInsertar.Parameters.AddWithValue("@currentY", dades.CurrentY);
                                 comandoInsertar.ExecuteNonQuery();
                             }
                         }
@@ -188,7 +140,7 @@ namespace FlightLib.Base_de_Datos
             }
         }
 
-        // Recupera tots els estats d'un usuari en ordre cronològic.
+        // Recupera tots els estats d'un usuari en ordre cronològic per reconstruir la simulació
         public List<List<FlightPlanData>> CargarHistorial(string email)
         {
             List<List<FlightPlanData>> estados =
@@ -210,8 +162,7 @@ namespace FlightLib.Base_de_Datos
                 WHERE UserEmail = @email
                 ORDER BY StepNumber ASC, FlightId ASC;";
 
-            using (SQLiteCommand comando =
-                new SQLiteCommand(consulta, database.Connection))
+            using (SQLiteCommand comando = new SQLiteCommand(consulta, database.Connection))
             {
                 comando.Parameters.AddWithValue("@email", email);
 
@@ -222,11 +173,9 @@ namespace FlightLib.Base_de_Datos
 
                     while (lector.Read())
                     {
-                        int numeroPaso = Convert.ToInt32(
-                            lector["StepNumber"]
-                        );
+                        int numeroPaso = Convert.ToInt32(lector["StepNumber"]);
 
-                        // Quan canviem de pas, comencem un estat nou.
+                        // Quan canviem de pas, comencem un estat nou
                         if (numeroPaso != pasoActual)
                         {
                             estadoActual = new List<FlightPlanData>();
@@ -236,41 +185,15 @@ namespace FlightLib.Base_de_Datos
 
                         FlightPlanData dades = new FlightPlanData();
 
-                        dades.FlightId = Convert.ToString(
-                            lector["FlightId"]
-                        );
-
-                        dades.Speed = Convert.ToDouble(
-                            lector["Speed"]
-                        );
-
-                        dades.InitialSpeed = Convert.ToDouble(
-                            lector["InitialSpeed"]
-                        );
-
-                        dades.InitialX = Convert.ToDouble(
-                            lector["InitialX"]
-                        );
-
-                        dades.InitialY = Convert.ToDouble(
-                            lector["InitialY"]
-                        );
-
-                        dades.FinalX = Convert.ToDouble(
-                            lector["FinalX"]
-                        );
-
-                        dades.FinalY = Convert.ToDouble(
-                            lector["FinalY"]
-                        );
-
-                        dades.CurrentX = Convert.ToDouble(
-                            lector["CurrentX"]
-                        );
-
-                        dades.CurrentY = Convert.ToDouble(
-                            lector["CurrentY"]
-                        );
+                        dades.FlightId = Convert.ToString(lector["FlightId"]);
+                        dades.Speed = Convert.ToDouble(lector["Speed"]);
+                        dades.InitialSpeed = Convert.ToDouble(lector["InitialSpeed"]);
+                        dades.InitialX = Convert.ToDouble(lector["InitialX"]);
+                        dades.InitialY = Convert.ToDouble(lector["InitialY"]);
+                        dades.FinalX = Convert.ToDouble(lector["FinalX"]);
+                        dades.FinalY = Convert.ToDouble(lector["FinalY"]);
+                        dades.CurrentX = Convert.ToDouble(lector["CurrentX"]);
+                        dades.CurrentY = Convert.ToDouble(lector["CurrentY"]);
 
                         estadoActual.Add(dades);
                     }

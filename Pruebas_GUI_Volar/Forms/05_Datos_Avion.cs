@@ -10,6 +10,7 @@ using System.Windows.Forms;
 
 namespace Pruebas_GUI_Volar
 {
+    // Formulari que mostra l'identificador, la velocitat i la posició actual d'un avió.
     public partial class _05_Datos_Avion : Form
     {
         public _05_Datos_Avion(string id, string vel, string px, string py)

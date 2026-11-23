@@ -28,6 +28,7 @@ namespace Pruebas_GUI_Volar
         FlightPlanHistory historial;
         bool historialIniciado = false;
 
+        // Inicialitza la pantalla, els serveis de dades i els esdeveniments de simulació.
         public _03_Espacio_Aereo(Options menu)
         {
             InitializeComponent();
@@ -51,6 +52,7 @@ namespace Pruebas_GUI_Volar
             EspAereo.Paint += new PaintEventHandler(EspAereo_Paint);
         }
 
+        // Carrega els plans de vol a la pantalla i inicia l'historial de la simulació.
         private void LoadBut_Click(object sender, EventArgs e)
         {
             
@@ -73,6 +75,7 @@ namespace Pruebas_GUI_Volar
             detectarConflicto(sender, e);
         }
 
+        // Avança un cicle de simulació i comprova arribades i conflictes.
         private void CicloBut_Click(object sender, EventArgs e)
         {
             foreach (FlightPlan plan in volsCarregats)
@@ -120,6 +123,7 @@ namespace Pruebas_GUI_Volar
             simulacionTimer.Stop();
         }
 
+        // Dibuixa els avions, les seves rutes i les zones de conflicte.
         private void EspAereo_Paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
@@ -172,8 +176,10 @@ namespace Pruebas_GUI_Volar
             }
         }
 
-        int ComprovarConflictes_Cont = 0;
+        // Detecta conflictes entre avions i mostra el formulari de resolució
+        // Utilitzem un contador per assegurar-nos que només es mostra un formulari de conflicte una vegada
 
+        int ComprovarConflictes_Cont = 0;
         private void ComprovarConflictes()
         {
 
@@ -207,6 +213,7 @@ namespace Pruebas_GUI_Volar
         }
 
 
+        // Mostra les dades de l'avió seleccionat amb un clic al mapa.
         private void EspAereo_MouseClick(object sender, MouseEventArgs e)
         {
             for (int i = 0; i < 10; i++)
@@ -233,6 +240,8 @@ namespace Pruebas_GUI_Volar
                 }
             }
         }
+
+        // Obre la taula amb els dos primers plans de vol.
         private void DataGridBut_Click(object sender, EventArgs e)
         {
             FlightPlan primerAvio = menu.planList.GetFlightPlan(0);
@@ -243,24 +252,26 @@ namespace Pruebas_GUI_Volar
             ventanaTabla.ShowDialog();
         }
 
+        // Detecta els conflictes actuals i, si n'hi ha, n'obre el formulari.
         private void detectarConflicto(object sender, EventArgs e)
         {
 
             // Creem l'objecte detector passant-li la llista i la distància de seguretat
             ConflictDetector detector = new ConflictDetector(menu.planList, menu.dSeg);
 
-            // Cridem al mètode ConflictosDetectados(), que retorna una llista de textos amb els IDs
-            List<string> llistaConfliges = detector.ConflictosDetectados();
+            // Cridem al mètode ConflictosDetectados(), que retorna una llista de plans de vol
+            List<FlightPlan> llistaConfliges = detector.ConflictosDetectados();
 
             // Comprovem si la llista té elements (si conté algun conflicte)
             if (llistaConfliges.Count > 0)
             {
-                string avions = string.Join(", ", llistaConfliges);
+                string avions = string.Join(", ", llistaConfliges.Select(avio => avio.Getid()));
                 finestraConflictes finestraConflictes = new finestraConflictes(menu.planList, menu.dSeg, avions);
                 finestraConflictes.ShowDialog();
             }
         }
 
+        // Comprova si tots els avions han arribat i atura la simulació.
         private void ComprovarDestino()
         {
             int totalAvions = 0;
@@ -303,6 +314,8 @@ namespace Pruebas_GUI_Volar
 
         }
 
+        // Reinicia la simulació amb els parametres inicials introduïts a la pantalla de plans de vol
+        // Per tant, reinicia posicions i velocitats
         private void Restartbut_Click_1(object sender, EventArgs e)
         {
             simulacionTimer.Stop();
@@ -324,14 +337,18 @@ namespace Pruebas_GUI_Volar
             detectarConflicto(sender, e);
         }
 
+        // Simplement et mostra un missatge amb instruccions per canviar la velocitat d'un avió 
         private void CanviVelocitat_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Canvia la velocitat de l'avió clicant i introduint un nou valor a la casella de velocitat");
             DataGridBut_Click(sender, e);
         }
 
+        // Desa a la base de dades l'historial de la simulació de l'usuari.
         private void GuardarSimulación_Click(object sender, EventArgs e)
         {
+            bool conexionIniciada = false;
+
             try
             {
                 if (string.IsNullOrWhiteSpace(emailUsuarioActual))
@@ -347,6 +364,7 @@ namespace Pruebas_GUI_Volar
                 }
 
                 database.Iniciar();
+                conexionIniciada = true;
 
                 // Ens assegurem que la taula existeix.
                 repository.CrearTabla();
@@ -366,10 +384,14 @@ namespace Pruebas_GUI_Volar
             }
             finally
             {
-                database.Cerrar();
+                if (conexionIniciada)
+                {
+                    database.Cerrar();
+                }
             }
         }
 
+        // Recupera el pas anterior de l'historial i actualitza la pantalla
         private void Retrocedir_Click(object sender, EventArgs e)
         {
             // Aturem la simulació automàtica

@@ -1,4 +1,5 @@
-﻿
+﻿// FlightPlanData emmagatzema una còpia de les dades d'un avió en un instant concret.
+// Permet conservar les posicions i velocitats de cada avió al llarg de la simulació.
 namespace FlightLib.Base_de_Datos
 {
     public class FlightPlanData

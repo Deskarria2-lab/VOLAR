@@ -13,6 +13,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Pruebas_GUI_Volar
 {
+    // Forms que avisa de conflicte i et permet resoldre o no el conflicte entre avions
     public partial class finestraConflictes : Form
     {
         private FlightPlanList llistaVols;
@@ -39,14 +40,18 @@ namespace Pruebas_GUI_Volar
             // Creem el detector amb les dades que tenim guardades als atributs
             ConflictDetector detector = new ConflictDetector(llistaVols, distanciaSeguretat);
 
+            // Tornem els avions en conflicte a les posicions inicials abans de provar les velocitats.
+            foreach (FlightPlan vuelo in detector.ConflictosDetectados())
+            {
+                vuelo.Restart();
+            }
+
             // Executem el mètode que modifica les velocitats per evitar els xocs
             detector.ResolverConflictos();
 
             // Informem a l'usuari i tanquem la finestra
             MessageBox.Show("S'han aplicat canvis de velocitat per resoldre els conflictes.");
             this.Close();
-
-
         }
 
         private void noSolucionarConflicte_Click(object sender, EventArgs e)

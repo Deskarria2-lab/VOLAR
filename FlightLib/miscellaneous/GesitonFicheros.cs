@@ -6,6 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+// Aquesta classe s'encarrega de gestionar la lectura i escriptura de fitxers
+// Proporciona mètodes per carregar els vols des d'un fitxer
+// També manté un estat intern que indica l'èxit o el fracàs de l'última operació amb el fitxer
 
 namespace FlightLib
 {
@@ -16,6 +19,7 @@ namespace FlightLib
         string file;
         int i;
 
+        // Inicialitza el gestor amb la ruta del fitxer que s'utilitzarà.
         public void GestionarFicheros(string file)
         {
             this.checker = new MethodChecker();
@@ -23,6 +27,7 @@ namespace FlightLib
             i = 0;
         }
         
+        // Llegeix els vols del fitxer, valida les dades i els retorna en una llista.
         public FlightPlanList CargarVuelosDesdeFichero()
         {
             using (StreamReader lector = new StreamReader(file))
@@ -78,6 +83,7 @@ namespace FlightLib
             }
         }
 
+        // Desa al fitxer els plans de vol rebuts.
         public void GuardarVuelos(string ruta, IEnumerable<FlightPlan> plan) 
         {
             try 
@@ -100,6 +106,7 @@ namespace FlightLib
             }
         }
 
+        // Retorna un missatge que descriu l'estat de l'última operació amb el fitxer.
         public string EstadoFichero() 
         {
             if (i == -1) return "El fitxer està buit.";

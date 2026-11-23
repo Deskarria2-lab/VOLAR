@@ -3,10 +3,13 @@ using System.Collections.Generic;
 
 namespace FlightLib
 {
+    //  Clase para detectar conflictos entre vuelos
+    //  y resolverlos cambiando la velocidad de los vuelos en conflicto
+
     public class ConflictDetector
     {
-        FlightPlanList lista; //llista de vuelos 
-        double distanciaSeguridad;  //distancia minima
+        FlightPlanList lista;
+        double distanciaSeguridad; 
 
         public ConflictDetector(FlightPlanList lista, double distanciaSeguridad)
         {
@@ -73,7 +76,7 @@ namespace FlightLib
             return false;
         }
 
-        //llista de parells de avions en conflicte, id's
+        // Retorna llista de parells de avions en conflicte (id's)
         public List<FlightPlan> ConflictosDetectados()
         {
             List<FlightPlan> res = new List<FlightPlan>();
@@ -96,7 +99,7 @@ namespace FlightLib
             return res;
         }
 
-        //comprova si un vol esta en conflict amb alguno de los demas
+        //comprova si un vol esta en conflicte amb algun altre
         private bool ConflictoConAlguno(FlightPlan p)
         {
             int n = NumVuelos();
@@ -145,5 +148,3 @@ namespace FlightLib
         }
     }
 }
-
-//prova
