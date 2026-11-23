@@ -46,6 +46,9 @@ namespace GUI_VOLAR
         bool conf_cargada;
         bool datos_cargados;
         ConflictDetector conflictDetector;
+        bool conflicto;
+        List<FlightPlan> vuelosEnConflicto;
+        public FlightPlanList vuelosSolucionados { get; set; }
         public FrmDashboard(FrmLogin login)
         {
             InitializeComponent();
@@ -67,6 +70,8 @@ namespace GUI_VOLAR
             aviones_cargados = false;
             conf_cargada = false;
             datos_cargados = false;
+            conflicto = false;
+            vuelosEnConflicto = new List<FlightPlan>();
 
             Frm_S_Cargar_Button.Enabled = false;
             Frm_S_Start_Button.Enabled = false;
@@ -135,17 +140,17 @@ namespace GUI_VOLAR
 
                 if (checker.check_id(id) != "0")                                        //  Si el checker del Id no devuelve un okey
                 {                                                                       //
-                    av = new _03_Avisos(checker.check_id(id));                           //  Crea la ventana de avisos con los datos del checker
+                    av = new _03_Avisos(checker.check_id(id), conflicto, vuelosEnConflicto, dSeg);                           //  Crea la ventana de avisos con los datos del checker
                     av.ShowDialog(this);                                                      //  Abre la ventana de avisos
                 }                                                                       //
                 else if (checker.check_vel(vel) != "0")                                 //  Si el checker de la velocidad no devuelve un okey
                 {                                                                       //
-                    av = new _03_Avisos(checker.check_vel(vel));                        //  Crea la ventana de avisos con los datos del checker;
+                    av = new _03_Avisos(checker.check_vel(vel), conflicto, vuelosEnConflicto, dSeg);                        //  Crea la ventana de avisos con los datos del checker;
                     av.ShowDialog(this);                                                      //  Abre la ventana de avisos
                 }                                                                       //
                 else if (checker.check_pos(xo, yo, xf, yf) != "0")                      //  Si el checker de las posiciones no devuelve un okey
                 {                                                                       //
-                    av = new _03_Avisos(checker.check_pos(xo, yo, xf, yf));             //  Crea la ventana de avisos con los datos del checker
+                    av = new _03_Avisos(checker.check_pos(xo, yo, xf, yf), conflicto, vuelosEnConflicto, dSeg);  //  Crea la ventana de avisos con los datos del checker
                     av.ShowDialog(this);                                                //  Abre la ventana de avisos
                 }                                                                       //
                 else                                                                    //  Si todo esta en orden
@@ -169,7 +174,7 @@ namespace GUI_VOLAR
                             yf,                                                         //  Su xf
                             vel);                                                       //  Su yf
                         planList.AddFlightPlan(vueloA);
-                        av = new _03_Avisos("El Vuelo A esta creado!");                  //  Crea la ventana de avisando del vuelo creado
+                        av = new _03_Avisos("El Vuelo A esta creado!", conflicto, vuelosEnConflicto, dSeg);                  //  Crea la ventana de avisando del vuelo creado
                         av.ShowDialog(this);                                                  //  Abre la ventana de avisos
                         aviones_cargados = true;
                     }                                                                   //
@@ -192,7 +197,7 @@ namespace GUI_VOLAR
                             yf,                                                         //  Su xf
                             vel);                                                       //  Su yf
                         planList.AddFlightPlan(vueloB);
-                        av = new _03_Avisos("El Vuelo B esta creado!");                  //  Crea la ventana de avisando del vuelo creado
+                        av = new _03_Avisos("El Vuelo B esta creado!", conflicto, vuelosEnConflicto, dSeg);                  //  Crea la ventana de avisando del vuelo creado
                         av.ShowDialog(this);                                                  //  Abre la ventana de avisos
                         aviones_cargados = true;
                     }
@@ -211,7 +216,7 @@ namespace GUI_VOLAR
             catch (FormatException)                                                    //  En Caso de error de formato
             {
                 av = new _03_Avisos(                                                    //  Crea la ventana avisando
-                    "No se han introducido los datos con su formato correcto!");        //  Que los datos introducidos no son correctos
+                    "No se han introducido los datos con su formato correcto!", conflicto, vuelosEnConflicto, dSeg);        //  Que los datos introducidos no son correctos
                 av.ShowDialog(this);                                                          //  Muestra esta ventana//
             }
         }
@@ -225,17 +230,17 @@ namespace GUI_VOLAR
                                                                                               //
                 if (checker.check_dseg(dSeg) != "0")                                    //  En caso que no tengamos un okey con el checker dist seguridad
                 {                                                                       //
-                    av = new _03_Avisos(checker.check_dseg(dSeg));                       //  Crea la ventana de avisos con los datos del checker
+                    av = new _03_Avisos(checker.check_dseg(dSeg), conflicto, vuelosEnConflicto, dSeg);                       //  Crea la ventana de avisos con los datos del checker
                     av.ShowDialog(this);                                                      //  Abre la ventana de avisos
                 }                                                                       //
                 else if (checker.check_tcicl(tCicl) != "0")                             //  En caso que no tengamos un okey con el checker tiempo de ciclo
                 {                                                                       //
-                    av = new _03_Avisos(checker.check_tcicl(tCicl));                     //  Crea la ventana de avisos con los datos del checker
+                    av = new _03_Avisos(checker.check_tcicl(tCicl), conflicto, vuelosEnConflicto, dSeg);                     //  Crea la ventana de avisos con los datos del checker
                     av.ShowDialog(this);                                                      //  Abre la ventana de avisos
                 }                                                                       //
                 else                                                                    //  Si todo esta bien
                 {                                                                       //
-                    av = new _03_Avisos("Datos de simulacion Guardados!");              //  Crea la ventana de avisos indicando que los datos para la simulacion estan bien guardados
+                    av = new _03_Avisos("Datos de simulacion Guardados!", conflicto, vuelosEnConflicto, dSeg);              //  Crea la ventana de avisos indicando que los datos para la simulacion estan bien guardados
                     av.ShowDialog(this);                                                      //  Abre la ventana de avisos
                     conf_cargada = true;
                     Frm_Radar_Panel.DistanciaSeguridad = dSeg;
@@ -248,7 +253,7 @@ namespace GUI_VOLAR
             catch 
             {
                 av = new _03_Avisos(                                                    //  Crea la ventana avisando
-                    "No se han introducido los datos con su formato correcto!");        //  Que los datos introducidos no son correctos
+                    "No se han introducido los datos con su formato correcto!", conflicto, vuelosEnConflicto, dSeg);        //  Que los datos introducidos no son correctos
                 av.ShowDialog(this);
             }
 
@@ -292,7 +297,7 @@ namespace GUI_VOLAR
                 }
                 reader.GestionarFicheros(selector.FileName);
                 planList = reader.CargarVuelosDesdeFichero();
-                av = new _03_Avisos(reader.EstadoFichero());
+                av = new _03_Avisos(reader.EstadoFichero(), conflicto, vuelosEnConflicto, dSeg);
                 aviones_cargados = true;
                 if (conf_cargada && aviones_cargados)
                 {
@@ -426,6 +431,73 @@ namespace GUI_VOLAR
             SeleccionarEnGrid(plan);
         }
 
+        public void RefrescarVista()
+        {
+            ActualizarGrid();
+            Frm_Radar_Panel.Invalidate();
+        }
+
+
+        public void AplicarVelocidades(List<FlightPlan> vuelosModificados)
+        {
+            if (vuelosModificados == null) return;
+
+            // Actualizamos los vuelos que están cargados en la simulación
+            foreach (FlightPlan original in volsCarregats)
+            {
+                FlightPlan modificado = vuelosModificados.FirstOrDefault(
+                    v => v.Getid() == original.Getid()
+                );
+
+                if (modificado != null)
+                {
+                    original.SetVelocidad(modificado.GetVelocidad());
+                }
+            }
+
+            // Actualizamos también los vuelos de la lista principal
+            for (int i = 0; i < 10; i++)
+            {
+                FlightPlan original = planList.GetFlightPlan(i);
+
+                if (original == null) continue;
+
+                FlightPlan modificado = vuelosModificados.FirstOrDefault(
+                    v => v.Getid() == original.Getid()
+                );
+
+                if (modificado != null)
+                {
+                    original.SetVelocidad(modificado.GetVelocidad());
+                }
+            }
+
+            // Actualizamos la interfaz
+            RefrescarVista();
+        }
+
+        public List<FlightPlan> ResolverConflictos()
+        {
+            if (conflictDetector == null)
+                return new List<FlightPlan>();
+
+            List<FlightPlan> cambiados = conflictDetector.ResolverConflictos();
+
+            // Actualizamos la tabla y el radar
+            ActualizarGrid();
+
+            // Volvemos a comprobar los conflictos
+            vuelosEnConflicto = conflictDetector.ConflictosDetectados();
+            vuelosEnConflicto = conflictDetector.ConflictosDetectados();
+
+            conflicto = vuelosEnConflicto.Count > 0;
+
+            PintarConflictos(vuelosEnConflicto);
+
+            Frm_Radar_Panel.Invalidate();
+
+            return cambiados;
+        }
 
         ///////////////////////////////////////////// DATA GRID ////////////////////////////////////
         public void ConfigurarGrid() 
@@ -472,20 +544,26 @@ namespace GUI_VOLAR
                 fila.Cells["colIni"].Value = $"({ini.GetX():0}, {ini.GetY():0})";
                 fila.Cells["colFin"].Value = $"({fin.GetX():0}, {fin.GetY():0})";
                 fila.Cells["colVel"].Value =plan.GetVelocidad().ToString("0");
+                if (!fila.Cells["colVel"].IsInEditMode)
+                {
+                    fila.Cells["colVel"].Value = plan.GetVelocidad().ToString("0");
+                }
             }
             ActualizarGrid();
 
-            List<FlightPlan> vuelosEnConflicto = conflictDetector.ConflictosDetectados();
+            vuelosEnConflicto = conflictDetector.ConflictosDetectados();
 
             // Colorear filas
             PintarConflictos(vuelosEnConflicto);
             if(vuelosEnConflicto != null) 
             {
-
+                conflicto = true;
+                av = new _03_Avisos("Hay conflictos! Desea intentar solucionar los conflictos?", conflicto, vuelosEnConflicto, dSeg);
+                av.ShowDialog(this);
             }
         }
 
-        public void ActualizarGrid() 
+        public void ActualizarGrid()
         {
             foreach (DataGridViewRow fila in Frm_DataGrid.Rows)
             {
@@ -493,8 +571,17 @@ namespace GUI_VOLAR
                 if (plan == null) continue;
 
                 Position act = plan.GetcurrentPosition();
-                fila.Cells["colAct"].Value = $"({act.GetX():0.0}, {act.GetY():0.0})";
-                //fila.Cells["colEst"].Value = plan.HasArrived() ? "Llegado" : "En vuelo";
+
+                // Actualizar posición actual
+                fila.Cells["colAct"].Value =
+                    $"({act.GetX():0.0}, {act.GetY():0.0})";
+
+                // Actualizar velocidad
+                if (!fila.Cells["colVel"].IsInEditMode)
+                {
+                    fila.Cells["colVel"].Value =
+                        plan.GetVelocidad().ToString("0.##");
+                }
             }
 
             ActualizarConflictosGrid();
@@ -649,7 +736,7 @@ namespace GUI_VOLAR
 
             if (lista.Count == 0)
             {
-                av = new _03_Avisos("No hay vuelos que guardar.");
+                av = new _03_Avisos("No hay vuelos que guardar.", conflicto, vuelosEnConflicto, dSeg);
                 av.ShowDialog(this);
                 return;
             }
@@ -666,15 +753,15 @@ namespace GUI_VOLAR
                 try
                 {
                     reader.GuardarVuelos(selector.FileName, lista);
-                    av = new _03_Avisos("Vuelos guardados: " + lista.Count);
+                    av = new _03_Avisos("Vuelos guardados: " + lista.Count, conflicto, vuelosEnConflicto, dSeg);
                 }
                 catch (IOException)
                 {
-                    av = new _03_Avisos("No se pudo escribir el fichero (¿está abierto en otro programa?).");
+                    av = new _03_Avisos("No se pudo escribir el fichero (¿está abierto en otro programa?).", conflicto, vuelosEnConflicto, dSeg);
                 }
                 catch (UnauthorizedAccessException)
                 {
-                    av = new _03_Avisos("No tienes permiso para guardar en esa carpeta.");
+                    av = new _03_Avisos("No tienes permiso para guardar en esa carpeta.", conflicto, vuelosEnConflicto, dSeg);
                 }
                 av.ShowDialog(this);
             }

@@ -3,13 +3,10 @@ using System.Collections.Generic;
 
 namespace FlightLib
 {
-    //  Clase para detectar conflictos entre vuelos
-    //  y resolverlos cambiando la velocidad de los vuelos en conflicto
-
     public class ConflictDetector
     {
-        FlightPlanList lista;
-        double distanciaSeguridad; 
+        FlightPlanList lista; //llista de vuelos 
+        double distanciaSeguridad;  //distancia minima
 
         public ConflictDetector(FlightPlanList lista, double distanciaSeguridad)
         {
@@ -76,7 +73,7 @@ namespace FlightLib
             return false;
         }
 
-        // Retorna llista de parells de avions en conflicte (id's)
+        //llista de parells de avions en conflicte, id's
         public List<FlightPlan> ConflictosDetectados()
         {
             List<FlightPlan> res = new List<FlightPlan>();
@@ -99,7 +96,7 @@ namespace FlightLib
             return res;
         }
 
-        //comprova si un vol esta en conflicte amb algun altre
+        //comprova si un vol esta en conflict amb alguno de los demas
         private bool ConflictoConAlguno(FlightPlan p)
         {
             int n = NumVuelos();
@@ -131,20 +128,56 @@ namespace FlightLib
         }
 
         //  Resuelve todos los conflictos cambiando la velocidad de un vuelo de cada par. Devuelve true si no queda ninguno
-        public bool ResolverConflictos()
+        public List<FlightPlan> ResolverConflictos()
         {
-            int n = NumVuelos();
-            for (int i = 0; i < n; i++)
-                for (int j = i + 1; j < n; j++)
+            List<FlightPlan> cambiados = new List<FlightPlan>();     // aviones modificados, sin repetidos
+            const int MaxPasadas = 50;                               // evita un bucle infinito si no converge
+
+            for (int pasada = 0; pasada < MaxPasadas; pasada++)
+            {
+                bool hubo = false;           // ¿había algún conflicto en esta pasada?
+                bool progreso = false;       // ¿se ha arreglado alguno?
+                int n = NumVuelos();
+
+                for (int i = 0; i < n; i++)
                 {
-                    FlightPlan a = lista.GetFlightPlan(i);
-                    FlightPlan b = lista.GetFlightPlan(j);
-                    if (HayConflicto(a, b))
+                    FlightPlan a = lista.GetFlightPlan(i);           // se pide una sola vez por fila
+                    for (int j = i + 1; j < n; j++)
                     {
-                        if (!CambiarVelocidad(b)) CambiarVelocidad(a);   //  Primero probamos con b, si no con a
+                        FlightPlan b = lista.GetFlightPlan(j);
+                        if (!HayConflicto(a, b)) continue;
+
+                        hubo = true;
+                        // Primero se prueba con b; si no sirve, con a
+                        if (Intentar(b, a, cambiados) || Intentar(a, b, cambiados))
+                            progreso = true;
+                        // si ninguno puede, esa pareja se deja como está
                     }
                 }
-            return false;
+
+                if (!hubo || !progreso) break;    // no quedan conflictos, o los que quedan no tienen arreglo
+            }
+
+            return cambiados;
+        }
+
+        // Cambia la velocidad de x y comprueba que con ello deja de haber conflicto con 'otro'
+        bool Intentar(FlightPlan x, FlightPlan otro, List<FlightPlan> cambiados)
+        {
+            double velAntes = x.GetVelocidad();
+
+            if (!CambiarVelocidad(x)) return false;      // no se pudo cambiar
+
+            if (HayConflicto(x, otro))                   // se cambió, pero no sirvió
+            {
+                x.SetVelocidad(velAntes);                // se deshace el cambio
+                return false;
+            }
+
+            if (!cambiados.Contains(x)) cambiados.Add(x);
+            return true;
         }
     }
 }
+
+//prova

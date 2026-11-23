@@ -32,7 +32,8 @@
             this.av_text = new System.Windows.Forms.Label();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.Frm_S_Start_Button = new System.Windows.Forms.Button();
+            this.Frm_A_CambioVel_Button = new System.Windows.Forms.Button();
+            this.Frm_A_11S_Button = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
@@ -70,9 +71,9 @@
             // tableLayoutPanel2
             // 
             this.tableLayoutPanel2.ColumnCount = 3;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15.90414F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 69.93464F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.16122F));
             this.tableLayoutPanel2.Controls.Add(this.flowLayoutPanel1, 1, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 145);
@@ -84,29 +85,49 @@
             // 
             // flowLayoutPanel1
             // 
-            this.flowLayoutPanel1.Controls.Add(this.Frm_S_Start_Button);
+            this.flowLayoutPanel1.Controls.Add(this.Frm_A_CambioVel_Button);
+            this.flowLayoutPanel1.Controls.Add(this.Frm_A_11S_Button);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(94, 3);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(76, 3);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(269, 138);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(315, 138);
             this.flowLayoutPanel1.TabIndex = 0;
             // 
-            // Frm_S_Start_Button
+            // Frm_A_CambioVel_Button
             // 
-            this.Frm_S_Start_Button.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(30)))), ((int)(((byte)(80)))));
-            this.Frm_S_Start_Button.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.Frm_S_Start_Button.FlatAppearance.BorderSize = 2;
-            this.Frm_S_Start_Button.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(30)))), ((int)(((byte)(80)))));
-            this.Frm_S_Start_Button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Frm_S_Start_Button.Font = new System.Drawing.Font("Lucida Sans", 10.2F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Frm_S_Start_Button.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.Frm_S_Start_Button.Location = new System.Drawing.Point(3, 2);
-            this.Frm_S_Start_Button.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.Frm_S_Start_Button.Name = "Frm_S_Start_Button";
-            this.Frm_S_Start_Button.Size = new System.Drawing.Size(266, 131);
-            this.Frm_S_Start_Button.TabIndex = 2;
-            this.Frm_S_Start_Button.Text = "Iniciar Simulacion";
-            this.Frm_S_Start_Button.UseVisualStyleBackColor = false;
+            this.Frm_A_CambioVel_Button.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(30)))), ((int)(((byte)(80)))));
+            this.Frm_A_CambioVel_Button.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.Frm_A_CambioVel_Button.FlatAppearance.BorderSize = 2;
+            this.Frm_A_CambioVel_Button.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(30)))), ((int)(((byte)(80)))));
+            this.Frm_A_CambioVel_Button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Frm_A_CambioVel_Button.Font = new System.Drawing.Font("Lucida Sans", 10.2F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Frm_A_CambioVel_Button.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.Frm_A_CambioVel_Button.Location = new System.Drawing.Point(3, 2);
+            this.Frm_A_CambioVel_Button.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.Frm_A_CambioVel_Button.Name = "Frm_A_CambioVel_Button";
+            this.Frm_A_CambioVel_Button.Size = new System.Drawing.Size(151, 131);
+            this.Frm_A_CambioVel_Button.TabIndex = 2;
+            this.Frm_A_CambioVel_Button.Text = "Solucionar Conflictos";
+            this.Frm_A_CambioVel_Button.UseVisualStyleBackColor = false;
+            this.Frm_A_CambioVel_Button.Click += new System.EventHandler(this.Frm_A_CambioVel_Button_Click);
+            // 
+            // Frm_A_11S_Button
+            // 
+            this.Frm_A_11S_Button.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(30)))), ((int)(((byte)(80)))));
+            this.Frm_A_11S_Button.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.Frm_A_11S_Button.FlatAppearance.BorderSize = 2;
+            this.Frm_A_11S_Button.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(30)))), ((int)(((byte)(80)))));
+            this.Frm_A_11S_Button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Frm_A_11S_Button.Font = new System.Drawing.Font("Lucida Sans", 10.2F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Frm_A_11S_Button.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.Frm_A_11S_Button.Location = new System.Drawing.Point(160, 2);
+            this.Frm_A_11S_Button.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.Frm_A_11S_Button.Name = "Frm_A_11S_Button";
+            this.Frm_A_11S_Button.Size = new System.Drawing.Size(149, 131);
+            this.Frm_A_11S_Button.TabIndex = 3;
+            this.Frm_A_11S_Button.Text = "Mantener Conflictos";
+            this.Frm_A_11S_Button.UseVisualStyleBackColor = false;
+            this.Frm_A_11S_Button.Click += new System.EventHandler(this.Frm_A_11S_Button_Click);
             // 
             // _03_Avisos
             // 
@@ -135,6 +156,7 @@
         private System.Windows.Forms.Label av_text;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-        private System.Windows.Forms.Button Frm_S_Start_Button;
+        private System.Windows.Forms.Button Frm_A_CambioVel_Button;
+        private System.Windows.Forms.Button Frm_A_11S_Button;
     }
 }

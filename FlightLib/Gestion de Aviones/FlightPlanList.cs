@@ -20,7 +20,7 @@ namespace FlightLib
         //////////////////////////////////////////////////////////////    Constructor   ///////////////////////////////////////////////////////////////////
         public FlightPlanList()                                                             //  Creamos el constructor de la clase
         {
-            this.v_lenght = 300;
+            this.v_lenght = 10;
             this.PlaneList = new FlightPlan[v_lenght];                                      //  El vector tiene una capacidad de v_lenght aviones
             this.n_planes = 0;                                                              //  El numero inicial de aviones almacenados es 0
         }
