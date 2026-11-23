@@ -78,11 +78,22 @@ namespace FlightLib
             }
         }
 
-        public void GuardarVuelosEnFicher(FlightPlanList plan) 
+        public void GuardarVuelos(string ruta, IEnumerable<FlightPlan> plan) 
         {
             try 
             {
-                using (StreamReader escritor = new StreamReader(file)) { }
+                using (StreamWriter escritor = new StreamWriter(file)) 
+                {
+                    foreach (FlightPlan vuelo in plan) 
+                    {
+
+                        escritor.WriteLine(string.Join(" ",
+                            vuelo.Getid(),
+                            vuelo.GetVelocidad(),
+                            vuelo.GetcurrentPosition(),
+                            vuelo.GetfinalPosition()));
+                    }
+                }
             }
             catch
             {

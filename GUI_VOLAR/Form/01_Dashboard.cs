@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Runtime.Remoting.Messaging;
 using System.Text;
@@ -630,6 +631,49 @@ namespace GUI_VOLAR
                 }
             }
             Frm_Radar_Panel.Invalidate();
+        }
+
+        private void Frm_S_Download_Button_Click(object sender, EventArgs e)
+        {
+            // Se juntan los vuelos de planList en una lista
+            List<FlightPlan> lista = new List<FlightPlan>();
+            for (int i = 0; i < 10; i++)       // si aún tienes el límite de 10: i < 10
+            {
+                FlightPlan p = planList.GetFlightPlan(i);
+                if (p != null) lista.Add(p);
+            }
+
+            if (lista.Count == 0)
+            {
+                av = new _03_Avisos("No hay vuelos que guardar.");
+                av.Show(this);
+                return;
+            }
+
+            using (SaveFileDialog selector = new SaveFileDialog())
+            {
+                selector.Title = "Guardar vuelos";
+                selector.Filter = "Ficheros de texto (*.txt)|*.txt";
+                selector.FileName = "vuelos.txt";
+                selector.DefaultExt = "txt";
+
+                if (selector.ShowDialog() != DialogResult.OK) return;   // el usuario canceló
+
+                try
+                {
+                    reader.GuardarVuelos(selector.FileName, lista);
+                    av = new _03_Avisos("Vuelos guardados: " + lista.Count);
+                }
+                catch (IOException)
+                {
+                    av = new _03_Avisos("No se pudo escribir el fichero (¿está abierto en otro programa?).");
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    av = new _03_Avisos("No tienes permiso para guardar en esa carpeta.");
+                }
+                av.Show(this);
+            }
         }
     }
 }
