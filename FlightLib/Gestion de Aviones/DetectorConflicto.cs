@@ -66,7 +66,7 @@ namespace FlightLib
             double mx = rx + wx * tm; //quan es tallen trobes la posició
             double my = ry + wy * tm;
 
-            if (Math.Sqrt(mx * mx + my * my) <= distanciaSeguridad)
+            if (Math.Sqrt(mx * mx + my * my) <= distanciaSeguridad*2)
             {
                 return true;
             }
@@ -112,18 +112,29 @@ namespace FlightLib
         //  hasta encontrar una que no genere conflicto. Se queda con la de menor cambio.
         private bool CambiarVelocidad(FlightPlan p)
         {
+            // Guarda la velocitat actual per calcular les reduccions.
             double original = p.GetVelocidad();
-            for (int k = 1; k <= 40; k++)
+
+            // Defineix 20 passos del 5%, que arriben fins a velocitat zero.
+            const int pasos = 20;
+
+            // Prova cada velocitat reduïda, de més propera a l'original fins a zero.
+            for (int k = 1; k <= pasos; k++)
             {
-                double[] candidatas = { original * (1 - 0.05 * k), original * (1 + 0.05 * k) };
-                foreach (double v in candidatas)
-                {
-                    if (v <= original * 0.1) continue;          //  No bajamos de un 10% de la velocidad original
-                    p.SetVelocidad(v);
-                    if (!ConflictoConAlguno(p)) return true;
-                }
+                // Calcula la velocitat del pas actual.
+                double candidata = original * (1.0 - k / (double)pasos);
+
+                // Aplica temporalment la velocitat candidata a l'avió.
+                p.SetVelocidad(candidata);
+
+                // Acaba si aquesta velocitat elimina els conflictes de l'avió.
+                if (!ConflictoConAlguno(p)) return true;
             }
-            p.SetVelocidad(original);                           //  Sin solucion: dejamos la velocidad como estaba
+
+            // Manté l'avió aturat si cap velocitat provada ha eliminat els conflictes.
+            p.SetVelocidad(0);
+
+            // Indica que no s'ha trobat una velocitat que resolgui els conflictes.
             return false;
         }
 

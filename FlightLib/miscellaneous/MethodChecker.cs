@@ -34,7 +34,6 @@ namespace FlightLib
         public string check_vel(double vel)                                                                             //  Metodo para comprobar la velocidad del avion
         {
             if (vel < 0) return "La velocidad no puede ser negativa";                                                   //  Si el usuario consigue introducir vel negativa, error
-            else if (vel == 0) return "La velocidad no puede ser nula";                                                 //  Si el usuario introduce una velocidad 0, error
             else return "0";                                                                                            //  Si todo esta bien devuelve el string "0"
         }
         public string check_pos(double xo, double yo, double xf, double yf)                                             //  Metodo para introducir las cordenadas del avion
