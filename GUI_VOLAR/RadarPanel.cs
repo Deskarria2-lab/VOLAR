@@ -158,6 +158,10 @@ namespace GUI_VOLAR
                 g.DrawEllipse(_penAnillo, c.X - 17, c.Y - 17, 34, 34);
                 g.DrawString("ID: " + Seleccionado.Getid(), _fuente, _pincelSel, c.X + 19, c.Y - 20);
                 g.DrawString("Speed: " + Convert.ToString(Seleccionado.GetVelocidad()), _fuente, _pincelSel, c.X + 19, c.Y);
+                g.DrawString("Posicion Actual: " + "(" + 
+                    Convert.ToString(Math.Round(Seleccionado.GetcurrentPosition().GetX(), 2)) + " , " + 
+                    Convert.ToString(Math.Round(Seleccionado.GetcurrentPosition().GetY(), 2)) + ")", _fuente, _pincelSel, c.X + 19, c.Y + 20);
+                
             }
         }
 

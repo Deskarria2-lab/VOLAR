@@ -9,6 +9,7 @@ using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ScrollBar;
 
@@ -42,6 +43,8 @@ namespace GUI_VOLAR
         readonly Stack<Position[]> positions;
         bool aviones_cargados;
         bool conf_cargada;
+        bool datos_cargados;
+        ConflictDetector conflictDetector;
         public FrmDashboard(FrmLogin login)
         {
             InitializeComponent();
@@ -55,9 +58,14 @@ namespace GUI_VOLAR
             cont = 1;
             Frm_Editor_Aviones.Visible = true;
             Frm_Radar_Panel.VueloSeleccionado += Radar_VueloSeleccionado;
+            Frm_DataGrid.CellEndEdit += Frm_DataGrid_CellEndEdit;
             Frm_Dist_Text.Text = "50";
             Frm_Time_Text.Text = "5";
             reloj.Tick += Reloj_Tick;
+
+            aviones_cargados = false;
+            conf_cargada = false;
+            datos_cargados = false;
 
             Frm_S_Cargar_Button.Enabled = false;
             Frm_S_Start_Button.Enabled = false;
@@ -234,12 +242,6 @@ namespace GUI_VOLAR
                 if(conf_cargada && aviones_cargados) 
                 {
                     Frm_S_Cargar_Button.Enabled = true;
-                    Frm_S_Start_Button.Enabled = true;
-                    Frm_S_UnCiclo.Enabled = true;
-                    Frm_S_Restart_Button.Enabled = true;
-                    Frm_S_Stop_Button.Enabled = true;
-                    Frm_S_PasoAnterior.Enabled = true;
-                    Frm_S_Download_Button.Enabled = true;
                 }
             }
             catch 
@@ -355,7 +357,7 @@ namespace GUI_VOLAR
             Frm_Radar_Panel.Vuelos.Clear();
             volsCarregats.Clear();
             positions.Clear();
-            for (int i = 0; i < 300; i++) 
+            for (int i = 0; i < 10; i++) 
             {
                 FlightPlan plan = planList.GetFlightPlan(i);
                 if (planList.GetFlightPlan(i) != null) 
@@ -365,9 +367,20 @@ namespace GUI_VOLAR
                     Frm_Radar_Panel.Vuelos.Add(plan);
                 }
             }
+            conflictDetector = new ConflictDetector(planList, dSeg);
             Frm_Radar_Panel.Invalidate();
             GuardarPosiciones();
             CargarGrid();
+            datos_cargados = true;
+            if (datos_cargados) 
+            {
+                Frm_S_Start_Button.Enabled = true;
+                Frm_S_UnCiclo.Enabled = true;
+                Frm_S_Restart_Button.Enabled = true;
+                Frm_S_Stop_Button.Enabled = true;
+                Frm_S_PasoAnterior.Enabled = true;
+                Frm_S_Download_Button.Enabled = true;
+            }
         }
 
         private void Frm_S_UnCiclo_Click(object sender, EventArgs e)
@@ -408,7 +421,8 @@ namespace GUI_VOLAR
 
         private void Radar_VueloSeleccionado(object sender, FlightPlan plan) 
         {
-            vueloSelecionado = plan;   
+            vueloSelecionado = plan;
+            SeleccionarEnGrid(plan);
         }
 
 
@@ -422,10 +436,20 @@ namespace GUI_VOLAR
             Frm_DataGrid.Columns.Add("ColAct", "Pos. Actual");
             Frm_DataGrid.Columns.Add("colVel", "Velocidad");
 
-            Frm_DataGrid.ReadOnly = true;
+            foreach (DataGridViewColumn columna in Frm_DataGrid.Columns)
+            {
+                columna.ReadOnly = true;
+            }
+
+            // Solo velocidad editable
+            Frm_DataGrid.Columns["colVel"].ReadOnly = false;
             Frm_DataGrid.AllowUserToAddRows = false;
             Frm_DataGrid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             Frm_DataGrid.MultiSelect = false;
+            Frm_DataGrid.DefaultCellStyle.SelectionBackColor = Color.Orange;
+            Frm_DataGrid.DefaultCellStyle.SelectionForeColor = Color.FromArgb(10, 20, 40);
+            Frm_DataGrid.AlternatingRowsDefaultCellStyle.SelectionBackColor = Color.Orange;
+            Frm_DataGrid.AlternatingRowsDefaultCellStyle.SelectionForeColor = Color.FromArgb(10, 20, 40);
 
             typeof(DataGridView).GetProperty("DoubleBuffered",
                 System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)
@@ -449,6 +473,11 @@ namespace GUI_VOLAR
                 fila.Cells["colVel"].Value =plan.GetVelocidad().ToString("0");
             }
             ActualizarGrid();
+
+            List<FlightPlan> vuelosEnConflicto = conflictDetector.ConflictosDetectados();
+
+            // Colorear filas
+            PintarConflictos(vuelosEnConflicto);
         }
 
         public void ActualizarGrid() 
@@ -462,22 +491,145 @@ namespace GUI_VOLAR
                 fila.Cells["colAct"].Value = $"({act.GetX():0.0}, {act.GetY():0.0})";
                 //fila.Cells["colEst"].Value = plan.HasArrived() ? "Llegado" : "En vuelo";
             }
+
+            ActualizarConflictosGrid();
         }
 
-        public void SeleccionarEnGrid(FlightPlan plan) 
+        public void SeleccionarEnGrid(FlightPlan plan)
         {
             Frm_DataGrid.ClearSelection();
-            if(plan == null) return;
 
-            foreach (DataGridViewRow fila in Frm_DataGrid.Rows) 
+            if (plan == null) return;
+
+            foreach (DataGridViewRow fila in Frm_DataGrid.Rows)
             {
-                if(ReferenceEquals(fila.Tag, plan)) 
+                if (ReferenceEquals(fila.Tag, plan))
                 {
-                    Frm_DataGrid.CurrentCell = fila.Cells[0];
                     fila.Selected = true;
+                    Frm_DataGrid.CurrentCell = fila.Cells[0];
+
+                    vueloSelecionado = plan;
+                    Frm_Radar_Panel.Seleccionado = plan;
+
+                    // Mostrar la fila seleccionada
+                    Frm_DataGrid.FirstDisplayedScrollingRowIndex = fila.Index;
+
                     return;
                 }
             }
+        }
+
+        private void Frm_DataGrid_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            FlightPlan avion = Frm_DataGrid.Rows[e.RowIndex].Tag as FlightPlan;
+            vueloSelecionado = avion;
+            Frm_Radar_Panel.Seleccionado = avion;
+            
+            DataGridViewRow filaSeleccionada = Frm_DataGrid.Rows[e.RowIndex];
+            filaSeleccionada.DefaultCellStyle.SelectionBackColor = Color.Orange;
+            filaSeleccionada.DefaultCellStyle.SelectionForeColor = Color.FromArgb(10, 20, 40);
+        }
+
+        private void PintarConflictos(IEnumerable<FlightPlan> vuelosEnConflicto)
+        {
+            // Primero restauramos el color normal de todas las filas
+            foreach (DataGridViewRow fila in Frm_DataGrid.Rows)
+            {
+                fila.DefaultCellStyle.SelectionBackColor = Color.Orange;
+                fila.DefaultCellStyle.SelectionForeColor = Color.FromArgb(10, 20, 40);
+            }
+
+            // Pintamos de rojo los aviones implicados en conflictos
+            foreach (DataGridViewRow fila in Frm_DataGrid.Rows)
+            {
+                FlightPlan plan = fila.Tag as FlightPlan;
+
+                if (plan == null) continue;
+
+                if (vuelosEnConflicto.Any(v => ReferenceEquals(v, plan)))
+                {
+                    fila.DefaultCellStyle.BackColor = Color.Red;
+                    fila.DefaultCellStyle.ForeColor = Color.White;
+
+                    // Conservamos el naranja cuando el usuario selecciona la fila
+                    fila.DefaultCellStyle.SelectionBackColor = Color.Orange;
+                    fila.DefaultCellStyle.SelectionForeColor = Color.FromArgb(10, 20, 40);
+                }
+            }
+        }
+
+        private void Frm_DataGrid_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            if (Frm_DataGrid.Columns[e.ColumnIndex].Name == "colVel")
+            {
+                DataGridViewRow fila = Frm_DataGrid.Rows[e.RowIndex];
+
+                FlightPlan plan = fila.Tag as FlightPlan;
+
+                if (plan == null) return;
+
+                double velocidad;
+
+                if (double.TryParse(
+                    Convert.ToString(fila.Cells["colVel"].Value),
+                    out velocidad))
+                {
+                    if (checker.check_vel(velocidad) == "0")
+                    {
+                        // Actualizamos la velocidad del avión
+                        plan.SetVelocidad(velocidad);
+
+                        // Actualizamos el valor visual
+                        fila.Cells["colVel"].Value = velocidad.ToString("0");
+
+                        // Comprobamos nuevamente los conflictos
+                        ActualizarConflictosGrid();
+                    }
+                    else
+                    {
+                        MessageBox.Show("La velocidad introducida no es válida.");
+
+                        fila.Cells["colVel"].Value =
+                            plan.GetVelocidad().ToString("0");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Introduce una velocidad numérica.");
+
+                    fila.Cells["colVel"].Value =
+                        plan.GetVelocidad().ToString("0");
+                }
+            }
+        }
+
+        private void ActualizarConflictosGrid()
+        {
+            List<FlightPlan> conflictos =
+                conflictDetector.ConflictosDetectados();
+
+            foreach (DataGridViewRow fila in Frm_DataGrid.Rows)
+            {
+                FlightPlan plan = fila.Tag as FlightPlan;
+
+                if (plan == null) continue;
+
+                if (conflictos.Contains(plan))
+                {
+                    fila.DefaultCellStyle.BackColor = Color.Red;
+                    fila.DefaultCellStyle.ForeColor = Color.White;
+                }
+                else
+                {
+                    fila.DefaultCellStyle.BackColor = Color.FromArgb(10, 20, 40);
+                    fila.DefaultCellStyle.ForeColor = Color.Orange;
+                }
+            }
+            Frm_Radar_Panel.Invalidate();
         }
     }
 }

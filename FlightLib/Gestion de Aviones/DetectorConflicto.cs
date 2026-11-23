@@ -30,7 +30,7 @@ namespace FlightLib
             double adx = a.GetfinalPosition().GetX() - ax;
             double ady = a.GetfinalPosition().GetY() - ay;
             double adist = Math.Sqrt(adx * adx + ady * ady);
-            double av = a.GetVelocidad() / 60.0;
+            double av = a.GetVelocidad();
             double avx = adx / adist * av;
             double avy = ady / adist * av;
             double ta = adist / av;
@@ -40,7 +40,7 @@ namespace FlightLib
             double bdx = b.GetfinalPosition().GetX() - bx;
             double bdy = b.GetfinalPosition().GetY() - by;
             double bdist = Math.Sqrt(bdx * bdx + bdy * bdy);
-            double bv = b.GetVelocidad() / 60.0;
+            double bv = b.GetVelocidad();
             double bvx = bdx / bdist * bv;
             double bvy = bdy / bdist * bv;
             double tb = bdist / bv;
@@ -52,13 +52,21 @@ namespace FlightLib
             double wx = bvx - avx;    //velocitat relativa
             double wy = bvy - avy;
 
-            double ww = wx * wx + wy * wy; //v relativa al quadrat
-            double tm = Math.Max(0, Math.Min(dt, -(rx * wx + ry * wy) / ww)); //el temps en el que es tallen les trajectories 
+            double ww = wx * wx + wy * wy;
+
+            double tm = 0;
+
+            if (ww > 1e-12)
+            {
+                tm = -(rx * wx + ry * wy) / ww;
+
+                tm = Math.Max(0, Math.Min(dt, tm));
+            }
 
             double mx = rx + wx * tm; //quan es tallen trobes la posició
             double my = ry + wy * tm;
 
-            if (Math.Sqrt(mx * mx + my * my) < distanciaSeguridad)
+            if (Math.Sqrt(mx * mx + my * my) <= distanciaSeguridad)
             {
                 return true;
             }
@@ -66,18 +74,25 @@ namespace FlightLib
         }
 
         //llista de parells de avions en conflicte, id's
-        public List<string> ConflictosDetectados()
+        public List<FlightPlan> ConflictosDetectados()
         {
-            List<string> res = new List<string>();
+            List<FlightPlan> res = new List<FlightPlan>();
             int n = NumVuelos();
-            for (int i = 0; i < n; i++)
+            for (int i = 0; i < n; i++) 
+            {
                 for (int j = i + 1; j < n; j++)
                 {
                     FlightPlan a = lista.GetFlightPlan(i);
                     FlightPlan b = lista.GetFlightPlan(j);
                     if (HayConflicto(a, b))
-                        res.Add(a.Getid() + " - " + b.Getid());
+                    {
+                        res.Add(a);
+                        res.Add(b);
+                    }
+
                 }
+
+            }
             return res;
         }
 
